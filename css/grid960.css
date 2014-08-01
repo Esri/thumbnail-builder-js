@@ -11,14 +11,14 @@
         color: #686868;
       }
 
-      ul.gallery a {
+      ul.gallery div {
         display:none;
         -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, .25);
         -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, .25);
       }
       div.tooltip {
-         font-family:verdana,tahoma,helvetica,sans-serif;
-         font-size:10px;
+        font-family:verdana,tahoma,helvetica,sans-serif;
+        font-size:10px;
         display: none;
         position: absolute;
         top:0;
@@ -41,13 +41,14 @@
         position:relative;
 
       }
-      ul.gallery a {
+
+      ul.gallery div {
         background: #f3f3f3;
         position:relative;
         display: inline;
         float: left;
         margin: 0 0 27px 30px;
-        padding: 10px 10px 15px;
+        padding: 10px 10px 25px;
         text-align: center;
         font-family:"Marker Felt", sans-serif;
         text-decoration: none;
@@ -66,20 +67,42 @@
         margin-bottom: 12px;
       }
 
-       ul.gallery li a:hover {
+       ul.gallery li div:hover {
         -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
         -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
         z-index: 5;
       }
 
     .navButton{
-        position: absolute;
-        top:150px;
+		position: absolute;
+        top:300px;
         z-index:99;
+        left:250px;
       }
+
+      #thumbnailName{
+      	margin-bottom: 30px;
+      }
+
+      #sidebar{
+      	font-family: Helvetica;
+      	color:#777;
+      }
+
+      hr{
+      	height: 12px;
+      	border: 0;
+      	box-shadow: inset 0 12px 12px -12px rgba(0,0,0,0.25);
+      }
+
+      button{
+      	text-align: center;
+      	margin: 0 50%;
+      }
+
 /*Navigation button styling options*/
 .leftbutton, .leftbutton:visited {
-   font-size:70%;
+	font-size:70%;
 	background: #222 url(../images/overlay.png) repeat-x; 
 	display: inline-block; 
 	padding: 5px 10px 6px; 
@@ -150,6 +173,7 @@
 
 body {
   min-width: 992px;
+  margin: 3% 10%;
 }
 
 /* Containers
@@ -184,7 +208,7 @@ body {
 	float: left;
 	position: relative;
 	margin-left: 10px;
-	margin-right: 10px;
+	margin-right: 0px;
 }
 
 
@@ -552,8 +576,6 @@ body {
 .container_16 .pull_15 {
 	left:-930px;
 }
-
-
 
 
 /* `Clear Floated Elements

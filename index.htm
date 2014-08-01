@@ -8,15 +8,16 @@
     <title>Grid Layout</title>
 
     <link rel="stylesheet" href="css/grid960.css">
-    <link rel="stylesheet" href="http://js.arcgis.com/3.8/js/esri/css/esri.css">
+    <link rel="stylesheet" href="http://js.arcgis.com/3.10/js/esri/css/esri.css">
      
     <script>var dojoConfig = { parseOnLoad: true };</script>
-    <script src="http://js.arcgis.com/3.8/"></script>
+    <script src="http://js.arcgis.com/3.10/">//This was originally 3.8. I've updated it but it would be easy to revert.</script> 
     <script>
     dojo.require('esri.arcgis.Portal');
     dojo.require("esri.IdentityManager");
     dojo.require("dojox.lang.aspect");
     dojo.require("dijit.form.RadioButton");
+    dojo.require("dojo/ready");
 
     var displayOptions = {
       templateUrl: 'http://www.arcgis.com/apps/OnePane/basicviewer/profile.html',
@@ -65,7 +66,7 @@
             }, dojo.byId('groupThumbnail'));
           }
 
-          dojo.byId('groupTitle').innerHTML = group.title;
+          dojo.byId('groupTitle').innerHTML = group.title + "<br /><hr />";
           dojo.byId('sidebar').innerHTML = group.snippet;
           
           //Retrieve the web maps and applications from the group and display 
@@ -83,8 +84,8 @@
         
       var galleryList = dojo.byId('galleryList');
       dojo.empty(galleryList);  //empty the gallery to remove existing items
-      
-      //navigation buttons 
+     
+       //navigation buttons 
       (queryResponse.results.length < 6) ? esri.hide(dojo.byId('next')) : esri.show(dojo.byId('next'));
       (queryResponse.queryParams.start > 1) ? esri.show(dojo.byId('prev')) : esri.hide(dojo.byId('prev'));
       
@@ -97,11 +98,11 @@
             item.itemDataUrl;
           
           var li = dojo.create('li', {}, frag);
-          var a = dojo.create('a', {
-            href: url,
+          var a = dojo.create('div', {
+            //href: url,
             target: '_blank',
-            //innerHTML: '<div class="tooltip"><p>' + item.tags.toString() + '</p></div><img src="' + item.thumbnailUrl + '"/><div>' + item.title + '</div><div><input type="radio" name="rdoThumbBG"/> <label for="radioOne">Use this?</label></div>'
-            innerHTML: '<img src="' + item.thumbnailUrl + '"/><div>' + item.title + '</div><div><input type="radio" name="rdoThumbBG" value="' + item.itemDataUrl + '"/> <label for="radioOne">Use this?</label></div>'
+            //innerHTML: '<div class="tooltip"><p>' + item.tags.toString() + '</p></div><img src="' + item.thumbnailUrl + '"/><div>' + item.title + '</div><div><input type="radio" name="rdoThumbBG"/> <label for="radioOne">Use this.</label></div>'
+            innerHTML: '<img src="' + item.thumbnailUrl + '"/><span id="thumbnailName">' + item.title + '</span><br /><span><input type="radio" name="rdoThumbBG" value="' + item.itemDataUrl + '"/> <label for="radioOne"></label></span>'
           }, li);
         }
       });
@@ -112,7 +113,7 @@
     function getNext() {
       if (nextQueryParams.start > -1) {
         group.queryItems(nextQueryParams).then(updateGrid);
-      }
+      } //I can't figure out why this isn't working. The requests are going to my local machine instead of the ArcGIS Online server.
     }
 
     function getPrevious() {
@@ -144,17 +145,20 @@
           <div id='sidebar'></div>
         </div>
         <div class="grid_13">
-          <a id='prev' style='left:-8px;' class="large leftbutton gray navButton"
-          href='javascript:getPrevious();'>&#9668; Prev</a>
+         
           <form id="myform">
-          <ul id='galleryList' class='gallery'></ul>
+          <ul id='galleryList' class='gallery'><!-- This fills with the thumbnail options when the javascript runs --></ul>
           </form>
-          <a id='next' style='right:20px;' class="large rightbutton gray navButton"
-          href='javascript:getNext();'>Next &#9658;</a>
+          
         </div>
+
       </div>
     </div>
-    <button onclick="with(dojo.byId('myform'))with(elements[0])with(elements[checked?0:1])alert(name+'='+value);return false">Show form submit value</button>
+      <div>
+          <a id='prev' class="large leftbutton gray navButton" href='javascript:getPrevious();'>&#9668; Prev</a>
+          <a id='next' class="large rightbutton gray navButton" href='javascript:getNext();'>Next &#9658;</a>
+      </div>
+    <button class="gray" onclick="with(dojo.byId('myform'))with(elements[0])with(elements[checked?0:1])alert(name+'='+value);return false">Submit</button>
   </body>
 
 </html>
