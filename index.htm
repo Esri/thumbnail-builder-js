@@ -45,7 +45,7 @@
             <table>
             <tr>
               <td>Upload your own image:</td>
-              <td><input title="Upload your own image" type="file" name="imagePath"></td>
+              <td><input id="backgroundUpload" title="Upload your own image" type="file" name="imagePath"></td>
             </tr>
             </table>
           </div>
@@ -57,7 +57,7 @@
             <table>
             <tr>
               <td>Upload your own image:</td>
-              <td><input title="Upload your own image" type="file" name="imagePath"></td>
+              <td><input id="foregroundUpload" title="Upload your own image" type="file" name="imagePath"></td>
             </tr>
             </table>
           </div>
@@ -78,6 +78,12 @@
                 </td>
               </tr>
               <tr>
+                <td>Font Size:</td>
+                <td>
+                  <input type="text">
+                </td>
+              </tr>
+              <tr>
                 <td>Color:</td>
                 <td>
                   <input type="text" id="colorPicker">
@@ -91,6 +97,17 @@
                     <option value="Right">Right</option>
                     <option value="Center">Center</option>
                   </select>  
+                </td>
+              </tr>
+              <tr>
+                <td>Bounding Box:</td>
+                <td>
+                  <select name="bounding">
+                    <option value="UpperLeft">Upper Left</option>
+                    <option value="UpperRight">Upper Right</option>
+                    <option value="BottomLeft">Bottom Left</option>
+                    <option value="BottomRight">Bottom Right</option>
+                  </select>
                 </td>
               </tr>
             </table>

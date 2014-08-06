@@ -31,6 +31,15 @@
           });
         }
       });
+    make_upload_buttons_clear_corresponding_radio_buttons();
+    //  hilight_selected_thumbnail();
+    }
+
+    function hilight_selected_thumbnail(){
+    	$(".gallery").on("click", function(event){
+    		console.log("this is " + this);
+    		jQuery(this, "div").addClass('active');
+    	});
     }
 
     function loadPortal() {
@@ -105,6 +114,13 @@
       currentStepNumber++;
     }
 
+    function make_upload_buttons_clear_corresponding_radio_buttons(){
+    	$("#foregroundUpload").on("change", function(){
+    		console.log("It's getting this far.");
+    		$("input:radio.foregroundGrid").prop("checked", false);
+    	});
+    }
+
 
     function make_submit_button_take_user_to_the_next_page(){
       var submitButton=$("#submitButton");
@@ -115,14 +131,12 @@
         //galleryListForSecondImageParts.toggle("slide");
     }
 
-    function updateGrid(queryResponse) {
+    function updateGrid(queryResponse) { //for backgrounds
       //update the gallery to get the next page of items
         
       var galleryList = dojo.byId('galleryList');
       dojo.empty(galleryList);  //empty the gallery to remove existing items
-      $("#galleryList").on("click", function(){
-      	$(".gallery").css({"background":"#0df"});
-      });
+     
        //navigation buttons 
       (queryResponse.results.length < 6) ? esri.hide(dojo.byId('next')) : esri.show(dojo.byId('next'));
       (queryResponse.queryParams.start > 1) ? esri.show(dojo.byId('prev')) : esri.hide(dojo.byId('prev'));
@@ -136,11 +150,12 @@
             item.itemDataUrl;
           
           var li = dojo.create('li', {}, frag);
-          var a = dojo.create('div', {
+          var a = dojo.create('label', {
             //href: url,
+            class: "backgroundGrid",
             target: '_blank',
             //innerHTML: '<div class="tooltip"><p>' + item.tags.toString() + '</p></div><img src="' + item.thumbnailUrl + '"/><div>' + item.title + '</div><div><input type="radio" name="rdoThumbBG"/> <label for="radioOne">Use this.</label></div>'
-            innerHTML: '<label><img src="' + item.thumbnailUrl + '"/><span id="thumbnailName">' + item.title + '</span><br /><span><input type="radio" name="rdoThumbBG" value="' + item.itemDataUrl + '"/> <label for="radioOne"></label></span></label>'
+            innerHTML: '<div class="imageOption"><img src="' + item.thumbnailUrl + '"/><span id="thumbnailName">' + item.title + '</span><br /><span><input type="radio" name="rdoThumbBG" value="' + item.itemDataUrl + '"/> <label for="radioOne"></label></span></div>'
           }, li);
         }
       });
@@ -167,11 +182,12 @@
             item.itemDataUrl;
           
           var li = dojo.create('li', {}, frag);
-          var a = dojo.create('div', {
+          var a = dojo.create('label', {
             //href: url,
+            class: "foregroundGrid",
             target: '_blank',
             //innerHTML: '<div class="tooltip"><p>' + item.tags.toString() + '</p></div><img src="' + item.thumbnailUrl + '"/><div>' + item.title + '</div><div><input type="radio" name="rdoThumbBG"/> <label for="radioOne">Use this.</label></div>'
-            innerHTML: '<label><img src="' + item.thumbnailUrl + '"/><span id="thumbnailName">' + item.title + '</span><br /><span><input type="radio" name="rdoThumbBG" value="' + item.itemDataUrl + '"/> <label for="radioOne"></label></span></label>'
+            innerHTML: '<div class="imageOption"><img src="' + item.thumbnailUrl + '"/><span id="thumbnailName">' + item.title + '</span><br /><span><input type="radio" name="rdoThumbBG" value="' + item.itemDataUrl + '"/> <label for="radioOne"></label></span></div>'
           }, li);
         }
       });
@@ -197,10 +213,4 @@
         color: "#fff",
     });
     */
-    $("#header").html("");
-    if ($("#colorPicker")){
-      console.log("It's finding it.");
-   // $("#colorPicker").html("colorssss");
-    }
-
     dojo.ready(init);

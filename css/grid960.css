@@ -12,10 +12,12 @@
       }
 
       ul.gallery div {
+        z-index:49;
         display:none;
         -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, .25);
         -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, .25);
       }
+
       div.tooltip {
         font-family:helvetica,verdana,tahoma,sans-serif;
         font-size:10px;
@@ -76,6 +78,10 @@
 
       }
 
+      .imageOptions{
+      	background: #000;
+      }
+
       ul.gallery div {
         background: #f3f3f3;
         position:relative;
@@ -83,7 +89,7 @@
         float: left;
         margin: 0 0 27px 15px;
         padding: 10px 10px 25px;
-        text-align: center;
+        text-align :center;
         font-family:"Helvetica", sans-serif;
         text-decoration: none;
         color: #333;
@@ -109,6 +115,29 @@
         -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
         -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
         z-index: 5;
+        background: #ffa;
+      }
+
+      ul.gallery li div:active {
+        -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
+        -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
+        z-index: 5;
+        background: #ff5;
+      }
+
+      ul.gallery li div.active {
+        -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
+        -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
+        z-index: 5;
+        background: #ff5;
+
+    }
+
+      .clicked{
+      	-webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
+        -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
+        z-index: 5;
+      	background:#ff4;
       }
 
       #next{
