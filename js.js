@@ -32,21 +32,20 @@
         }
       });
     make_upload_buttons_clear_corresponding_radio_buttons();
-    //  hilight_selected_thumbnail();
+    //hilight_selected_thumbnail();
     }
 
     function hilight_selected_thumbnail(){
     	$(".gallery").on("click", function(event){
     		console.log("this is " + this);
-    		jQuery(this, "div").addClass('active');
+    		jQuery("div", this).addClass('active');
     	});
     }
 
     function loadPortal() {
         var params = {
           //q: 'title: ' + displayOptions.group.title + ' AND owner:' + displayOptions.group.owner
-          q: 'id: 67fb524bd2e24c80bf2b972b4ce5aa95'
-          //q: 'id:f8836a4c1ca6438a89c5b39dfbd41d42'// <=== this is the 'Organization Thumbnail Overlays' group id for foregrounds
+          q: 'id: 67fb524bd2e24c80bf2b972b4ce5aa95' //insert group id for background images here
         };
         portal.queryGroups(params).then(function(groups){
         //get group title and thumbnail url 
@@ -81,7 +80,7 @@
     function loadForegrounds() {
         var params = {
           //q: 'title: ' + displayOptions.group.title + ' AND owner:' + displayOptions.group.owner
-          q: 'id: f8836a4c1ca6438a89c5b39dfbd41d42'
+          q: 'id: f8836a4c1ca6438a89c5b39dfbd41d42' //insert group id for foreground images here
         };
         portal.queryGroups(params).then(function(groups){
         //get group title and thumbnail url 
@@ -115,9 +114,14 @@
     }
 
     function make_upload_buttons_clear_corresponding_radio_buttons(){
+    	$("#backgroundUpload").on("change", function(){
+    		console.log("It's getting this far.");
+    		$(".backgroundGrid").find("input:radio").prop("checked", false);
+    	});
+
     	$("#foregroundUpload").on("change", function(){
     		console.log("It's getting this far.");
-    		$("input:radio.foregroundGrid").prop("checked", false);
+    		$(".foregroundGrid").find("input:radio").prop("checked", false);
     	});
     }
 
@@ -155,7 +159,7 @@
             class: "backgroundGrid",
             target: '_blank',
             //innerHTML: '<div class="tooltip"><p>' + item.tags.toString() + '</p></div><img src="' + item.thumbnailUrl + '"/><div>' + item.title + '</div><div><input type="radio" name="rdoThumbBG"/> <label for="radioOne">Use this.</label></div>'
-            innerHTML: '<div class="imageOption"><img src="' + item.thumbnailUrl + '"/><span id="thumbnailName">' + item.title + '</span><br /><span><input type="radio" name="rdoThumbBG" value="' + item.itemDataUrl + '"/> <label for="radioOne"></label></span></div>'
+            innerHTML: '<div class="imageOption"><img src="' + item.thumbnailUrl + '"/><span id="thumbnailName">' + item.title + '</span><br /><span><input type="radio" name="rdoThumbBG" value="' + item.itemDataUrl + '"/></span></div>'
           }, li);
         }
       });

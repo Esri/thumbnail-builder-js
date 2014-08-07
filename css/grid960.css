@@ -1,7 +1,7 @@
 /*Custom app css*/
 
       #header {
-        height:100px;
+        height:50px;
       }
 
       h1 {
@@ -62,7 +62,7 @@
 	.fileUpload{
 		font-family: "Helvetica";
 		color: #777;
-		margin-left:10%;
+		
 	}
 
     li:hover .tooltip{
@@ -80,6 +80,19 @@
 
       .imageOptions{
       	background: #000;
+      }
+
+      div#backgroundForm{
+      	overflow:hidden;
+      }
+
+      div#foregroundForm{
+      	overflow:hidden;
+      }
+
+      div.fileUpload{
+      	display:inline-block;
+      	margin-left:24%;
       }
 
       ul.gallery div {
@@ -142,13 +155,13 @@
 
       #next{
       	position:absolute;
-      	top:330px;
+      	top:280px;
       	left:974px;
       }
 
       #prev{
       	position:absolute;
-      	top:330px;
+      	top:280px;
       	left:340px;
       }
 
