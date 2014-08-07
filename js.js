@@ -23,6 +23,7 @@
       portal = new esri.arcgis.Portal(displayOptions.portalUrl);
       make_submit_button_take_user_to_the_next_page();
       dojo.connect(portal, 'onLoad', loadPortal);
+      dojo.connect(portal, 'onLoad', loadForegrounds);
       dojox.lang.aspect.advise(portal, "queryItems", {
         afterReturning: function (queryItemsPromise) {
           queryItemsPromise.then(function (result) {
@@ -69,7 +70,7 @@
             num: displayOptions.numItemsPerPage
           };
           group.queryItems(params).then(updateGrid);
-          loadForegrounds();
+          //loadForegrounds();
           $("#colorPicker").spectrum({
           	color:"#fff"
           });
