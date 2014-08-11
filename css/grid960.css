@@ -162,7 +162,19 @@
       #prev{
       	position:absolute;
       	top:280px;
-      	left:340px;
+      	left:330px;
+      }
+
+      #nextForegroundButton{
+      	position:absolute;
+      	top:770px;
+      	left:974px;
+      }
+
+      #prevForegroundButton{
+      	position:absolute;
+      	top:770px;
+      	left:330px;
       }
 
     .navButton{

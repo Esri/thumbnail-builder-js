@@ -1,0 +1,611 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"margin",
+				"margin-right"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"foregrou",
+				"foregroundGrid"
+			],
+			[
+				"inline",
+				"inline-block"
+			],
+			[
+				"gallery",
+				"galleryListForeground"
+			],
+			[
+				"bac",
+				"backgroundGrid"
+			],
+			[
+				"image",
+				"imageOption"
+			],
+			[
+				"hi",
+				"hilight_selected_thumbnail"
+			],
+			[
+				"color",
+				"colorPicker"
+			],
+			[
+				"select",
+				"select	Tag"
+			],
+			[
+				"text",
+				"text-align"
+			],
+			[
+				"margi",
+				"margin-top"
+			],
+			[
+				"backr",
+				"background_or_foreground"
+			],
+			[
+				"he",
+				"helvetica"
+			],
+			[
+				"div",
+				"div	Tag"
+			],
+			[
+				"thumbnail",
+				"thumbnailOptions"
+			],
+			[
+				"make",
+				"make_submit_button_take_user_to_the_next_page"
+			],
+			[
+				"submit",
+				"submitButton"
+			],
+			[
+				"font",
+				"font-family"
+			],
+			[
+				"next",
+				"nextQueryParams"
+			],
+			[
+				"padding",
+				"padding"
+			],
+			[
+				"map",
+				"mapDiv"
+			],
+			[
+				"o",
+				"on"
+			],
+			[
+				"array",
+				"arrayUtils"
+			],
+			[
+				"time",
+				"timeSlider"
+			],
+			[
+				"Time",
+				"TimeExtent"
+			],
+			[
+				"s",
+				"script"
+			],
+			[
+				"arcgis",
+				"arcgisUtils"
+			],
+			[
+				"list",
+				"list_of_addresses"
+			],
+			[
+				"list_",
+				"list_of_addresses"
+			],
+			[
+				"border-s",
+				"border-style"
+			],
+			[
+				"border",
+				"border-color"
+			],
+			[
+				"background",
+				"background-color"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/C/Users/greg0003/Desktop/Project/archive.html",
+			"settings":
+			{
+				"buffer_size": 1216,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/greg0003/Desktop/Project/js/js.js",
+			"settings":
+			{
+				"buffer_size": 611,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/greg0003/Desktop/Project/js/archive.js",
+			"settings":
+			{
+				"buffer_size": 620,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/greg0003/Desktop/Project/css/archive.css",
+			"settings":
+			{
+				"buffer_size": 679,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 311.0,
+		"selected_items":
+		[
+			[
+				"",
+				"Indentation: Reindent Lines"
+			]
+		],
+		"width": 421.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/greg0003/Desktop/Project/js/indexjs.js",
+		"/C/Users/greg0003/Desktop/Project/index.html",
+		"/C/Users/greg0003/Desktop/Project/archive.html",
+		"/C/Users/greg0003/Desktop/Project/js/archive.js",
+		"/C/Users/greg0003/Desktop/ThumbnailBuilder/js.js",
+		"/C/Users/greg0003/Desktop/ThumbnailBuilder/css/grid960.css",
+		"/C/Users/greg0003/Desktop/ThumbnailBuilder/index.htm",
+		"/C/Users/greg0003/Desktop/ThumbnailBuilder/favicon.png",
+		"/C/Users/greg0003/Desktop/ThumbnailBuilder/spectrum.js",
+		"/C/Users/greg0003/Desktop/index.html",
+		"/A/ProfessionalServices/index.html",
+		"/C/Users/greg0003/Desktop/ClusterLayer.js",
+		"/C/Users/greg0003/Desktop/1000-photos.json",
+		"/C/Users/greg0003/AppData/Local/Temp/7zEA6A7.tmp/ClusterLayer.js",
+		"/A/Take2/jsapi.html",
+		"/A/Take2/querycopypasta.html",
+		"/C/Users/greg0003/Downloads/InteractiveFilter-master/InteractiveFilter-master/index.html",
+		"/C/Users/greg0003/Downloads/InteractiveFilter-master/InteractiveFilter-master/configurationPanel.js",
+		"/C/Users/greg0003/Downloads/InteractiveFilter-master/InteractiveFilter-master/js/main.js",
+		"/C/Users/greg0003/Documents/Query.html",
+		"/C/Users/greg0003/Desktop/InteractiveFilter-master/index.html",
+		"/C/Users/greg0003/Desktop/InteractiveFilter-master/js/main.js",
+		"/A/ArcGISAPITutorial.html",
+		"/C/Users/greg0003/Documents/webscraper.py",
+		"/A/Test.html",
+		"/A/Mobile.html",
+		"/C/Users/greg0003/AppData/Roaming/Sublime Text 3/Packages/User/HTML.sublime-settings",
+		"/C/Users/greg0003/Documents/beautifulsoup4-4.3.0/README.txt",
+		"/C/Users/greg0003/Documents/beautifulsoup4-4.3.0/TODO.txt",
+		"/S/ShortlistStorymap/css/style.css",
+		"/S/ShortlistStorymap/app/main.js",
+		"/S/ShortlistStorymap/index.html",
+		"/S/DummyMontanaCorrections/index.html",
+		"/C/inetpub/wwwroot/shortlist-storytelling-template-js-master/app/main.js",
+		"/C/inetpub/wwwroot/shortlist-storytelling-template-js-master/css/style.css",
+		"/C/inetpub/wwwroot/shortlist-storytelling-template-js-master/index.html"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"85",
+			"nextQueryParams",
+			"updateGrid",
+			"group",
+			"queryParams",
+			"updateGr",
+			"group",
+			"nextquery",
+			"getPrevious",
+			"getPreviousForeground",
+			"queryItems",
+			"update",
+			"6",
+			"queryParams",
+			"nextQueryParams",
+			"queryItems",
+			"next",
+			"this",
+			"na",
+			"z-",
+			"zz-ax",
+			"z-ax",
+			"<form",
+			"/form",
+			"myform",
+			"foregroundUpload",
+			"make_upload_buttons_clear_corresponding_radio_buttons",
+			"foregroundGrid",
+			"updateGridForForegrounds",
+			"upload your ",
+			"div",
+			"ul.gallery li div",
+			"this is",
+			":hover",
+			"hover",
+			"div",
+			"radio",
+			"\"});\n",
+			"hover",
+			"galleryL",
+			"init",
+			"$",
+			"colorse",
+			"right",
+			"rightbu",
+			"next",
+			"file",
+			"}\n",
+			"webkit-padd",
+			";",
+			"div",
+			"loadForegrounds",
+			"updateGrid",
+			"init",
+			"groupThumbnail",
+			"groupTitle",
+			"gallery",
+			"on(",
+			"gallery",
+			"galleryl",
+			"gallery",
+			"#ga",
+			"make_submit_button_take_user_to_the_next_page",
+			"name",
+			"groups",
+			"loadPortal",
+			"submit",
+			"div",
+			"galleryList",
+			"gallery",
+			"galleryl",
+			"groupt",
+			"grey",
+			"font-family",
+			"sidebar",
+			"prev",
+			"next",
+			"navButton",
+			"right:20",
+			"right: 20",
+			"right",
+			"element.",
+			"grid_13",
+			"13",
+			"queryItems",
+			"get",
+			"getN",
+			"next",
+			"images for",
+			"span",
+			"href",
+			"a h",
+			"'a'",
+			"a",
+			"A",
+			"{\n",
+			"query",
+			"gallery",
+			"li",
+			"WA_F",
+			"button",
+			"ul",
+			"pull",
+			"prev",
+			"nav",
+			"alert",
+			"init",
+			"layerDefinitions",
+			"init",
+			"on(",
+			"query",
+			"on",
+			"_buildFilterDialog",
+			"dom",
+			"mapDiv",
+			"div",
+			"init",
+			"within",
+			"logoImg",
+			"bitlyIcon",
+			"a story map",
+			"woff",
+			"font",
+			"get",
+			"This value is req"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/C/Users/greg0003/Desktop/Project/archive.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1216,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1208,
+								1208
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 135.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 1,
+					"file": "/C/Users/greg0003/Desktop/Project/js/js.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 611,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								108,
+								108
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/C/Users/greg0003/Desktop/Project/js/archive.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 620,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/C/Users/greg0003/Desktop/Project/css/archive.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 679,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								465,
+								465
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 22.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.5,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "ThumbnailBuilder.sublime-project",
+	"replace":
+	{
+		"height": 40.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

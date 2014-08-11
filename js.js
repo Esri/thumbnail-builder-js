@@ -21,7 +21,6 @@
 
     function init() {
       portal = new esri.arcgis.Portal(displayOptions.portalUrl);
-      make_submit_button_take_user_to_the_next_page();
       dojo.connect(portal, 'onLoad', loadPortal);
       dojo.connect(portal, 'onLoad', loadForegrounds);
       dojox.lang.aspect.advise(portal, "queryItems", {
@@ -34,14 +33,10 @@
       });
     make_upload_buttons_clear_corresponding_radio_buttons();
     //hilight_selected_thumbnail();
+    //make_submit_button_take_user_to_the_next_page();
     }
 
-    function hilight_selected_thumbnail(){
-    	$(".gallery").on("click", function(event){
-    		console.log("this is " + this);
-    		jQuery("div", this).addClass('active');
-    	});
-    }
+
 
     function loadPortal() {
         var params = {
@@ -203,7 +198,7 @@
     function getNext() {
       if (nextQueryParams.start > -1) {
         group.queryItems(nextQueryParams).then(updateGrid);
-      } //I can't figure out why this isn't working. The requests are going to my local machine instead of the ArcGIS Online server.
+      }
     }
 
     function getPrevious() {
@@ -213,6 +208,21 @@
         group.queryItems(params).then(updateGrid);
       }
     }
+
+    function getNextForeground() {
+      if (nextQueryParams.start > -1) {
+        group.queryItems(nextQueryParams).then(updateForegroundGrid);
+      }
+    }
+
+    function getPreviousForeground() {
+      if (nextQueryParams.start !== 1) { //we aren't at the beginning keep querying. 
+        var params = queryParams;
+        params.start = params.start - params.num;
+        group.queryItems(params).then(updateForegroundGrid);
+      }
+    }
+
     /*
     $("#colorPicker").spectrum({
         color: "#fff",
