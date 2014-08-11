@@ -4,8 +4,8 @@
     dojo.require("dijit.form.RadioButton");
 
     var displayOptions = {
-      //templateUrl: 'http://www.arcgis.com/apps/OnePane/basicviewer/profile.html',
-      //themeName:'gray',
+      templateUrl: 'http://www.arcgis.com/apps/OnePane/basicviewer/profile.html',
+      themeName:'gray',
       numItemsPerPage: 6,
       group: {
         //"owner": "ScottMoorePNW",
@@ -14,33 +14,20 @@
       },
       portalUrl: 'http://www.arcgis.com'
     };
-    var portalFG;
-	var portalBG;
-    var groupFG;
-	var groupBG;
-    var nextQueryParamsFG;
-    var queryParamsFG;
-	var nextQueryParamsBG;
-    var queryParamsBG;
-	
+    var portal;
+    var group;
+    var nextQueryParams;
+    var queryParams;
+
     function init() {
-      portalFG = new esri.arcgis.Portal(displayOptions.portalUrl);
-	  portalBG = new esri.arcgis.Portal(displayOptions.portalUrl);
-      dojo.connect(portalBG, 'onLoad', loadPortal);
-      dojo.connect(portalFG, 'onLoad', loadForegrounds);
-      dojox.lang.aspect.advise(portalFG, "queryItems", {
+      portal = new esri.arcgis.Portal(displayOptions.portalUrl);
+      dojo.connect(portal, 'onLoad', loadPortal);
+      dojo.connect(portal, 'onLoad', loadForegrounds);
+      dojox.lang.aspect.advise(portal, "queryItems", {
         afterReturning: function (queryItemsPromise) {
           queryItemsPromise.then(function (result) {
-            nextQueryParamsFG = result.nextQueryParams;
-            queryParamsFG = result.queryParams;
-          });
-        }
-      });
-	  dojox.lang.aspect.advise(portalBG, "queryItems", {
-        afterReturning: function (queryItemsPromise) {
-          queryItemsPromise.then(function (result) {
-            nextQueryParamsBG = result.nextQueryParams;
-            queryParamsBG = result.queryParams;
+            nextQueryParams = result.nextQueryParams;
+            queryParams = result.queryParams;
           });
         }
       });
@@ -56,16 +43,16 @@
           //q: 'title: ' + displayOptions.group.title + ' AND owner:' + displayOptions.group.owner
           q: 'id: 67fb524bd2e24c80bf2b972b4ce5aa95' //insert group id for background images here
         };
-        portalBG.queryGroups(params).then(function(groups){
+        portal.queryGroups(params).then(function(groups){
         //get group title and thumbnail url 
         if (groups.results.length == 1) {
-          groupBG = groups.results[0];
-          if (groupBG.thumbnailUrl) {
+          group = groups.results[0];
+          if (group.thumbnailUrl) {
             dojo.create('img', {
-              src: groupBG.thumbnailUrl,
+              src: group.thumbnailUrl,
               width: 64,
               height: 64,
-              alt: groupBG.title
+              alt: group.title
             }, dojo.byId('groupThumbnail'));
           }
 
@@ -77,7 +64,7 @@
             q: ' type: Image',
             num: displayOptions.numItemsPerPage
           };
-          groupBG.queryItems(params).then(updateGrid);
+          group.queryItems(params).then(updateGrid);
           //loadForegrounds();
           $("#colorPicker").spectrum({
           	color:"#fff"
@@ -91,16 +78,16 @@
           //q: 'title: ' + displayOptions.group.title + ' AND owner:' + displayOptions.group.owner
           q: 'id: f8836a4c1ca6438a89c5b39dfbd41d42' //insert group id for foreground images here
         };
-        portalFG.queryGroups(params).then(function(groups){
+        portal.queryGroups(params).then(function(groups){
         //get group title and thumbnail url 
         if (groups.results.length == 1) {
-          groupFG = groups.results[0];
-          if (groupFG.thumbnailUrl) {
+          group = groups.results[0];
+          if (group.thumbnailUrl) {
             dojo.create('img', {
-              src: groupFG.thumbnailUrl,
+              src: group.thumbnailUrl,
               width: 64,
               height: 64,
-              alt: groupFG.title
+              alt: group.title
             }, dojo.byId('groupThumbnailForegrounds'));
           }
           
@@ -109,7 +96,7 @@
             q: ' type: Image',
             num: displayOptions.numItemsPerPage
           };
-          groupFG.queryItems(params).then(updateGridForForegrounds);
+          group.queryItems(params).then(updateGridForForegrounds);
         }
       });
     }
@@ -190,9 +177,9 @@
       var frag = document.createDocumentFragment();
       dojo.forEach(queryResponse.results, function (item) {
         if (item.id) {
-          //var url = (item.type === 'Web Map') ?  
-          //  displayOptions.templateUrl + '?webmap=' + item.id + '&theme=' + displayOptions.themeName : 
-          //  item.itemDataUrl;
+          var url = (item.type === 'Web Map') ?  
+            displayOptions.templateUrl + '?webmap=' + item.id + '&theme=' + displayOptions.themeName : 
+            item.itemDataUrl;
           
           var li = dojo.create('li', {}, frag);
           var a = dojo.create('label', {
@@ -209,30 +196,30 @@
     }
 
     function getNext() {
-      if (nextQueryParamsBG.start > -1) {
-        groupBG.queryItems(nextQueryParamsBG).then(updateGrid);
+      if (nextQueryParams.start > -1) {
+        group.queryItems(nextQueryParams).then(updateGrid);
       }
     }
 
     function getPrevious() {
-      if (nextQueryParamsBG.start !== 1) { //we aren't at the beginning keep querying. 
-        var params = queryParamsBG;
+      if (nextQueryParams.start !== 1) { //we aren't at the beginning keep querying. 
+        var params = queryParams;
         params.start = params.start - params.num;
-        groupBG.queryItems(params).then(updateGrid);
+        group.queryItems(params).then(updateGrid);
       }
     }
 
     function getNextForeground() {
-      if (nextQueryParamsFG.start > -1) {
-        groupFG.queryItems(nextQueryParamsFG).then(updateGridForForegrounds);
+      if (nextQueryParams.start > -1) {
+        group.queryItems(nextQueryParams).then(updateForegroundGrid);
       }
     }
 
     function getPreviousForeground() {
-      if (nextQueryParamsFG.start !== 1) { //we aren't at the beginning keep querying. 
-        var params = queryParamsFG;
+      if (nextQueryParams.start !== 1) { //we aren't at the beginning keep querying. 
+        var params = queryParams;
         params.start = params.start - params.num;
-        groupFG.queryItems(params).then(updateGridForForegrounds);
+        group.queryItems(params).then(updateForegroundGrid);
       }
     }
 
