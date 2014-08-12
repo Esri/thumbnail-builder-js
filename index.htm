@@ -5,13 +5,13 @@
     <!--The viewport meta tag is used to improve the presentation and behavior
     of the samples on iOS devices-->
     <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
-    <title>Thumbnail Maker</title>
+    <title>Thumbnail Builder</title>
 
     <link rel="stylesheet" href="css/grid960.css">
     <link rel="stylesheet" href="http://js.arcgis.com/3.10/js/esri/css/esri.css">
     <link rel="icon" type="image/png" href="favicon.png"> <!-- Travel designed by Elliot Verhaeren from the thenounproject.com -->
 
-    <script>var dojoConfig = { parseOnLoad: true };</script>
+    <script>var dojoConfig = { async: true };</script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">//added jquery because the dojo we're using is depricated and I don't want to overhaul it</script>
     <script src='spectrum.js'></script>
     <link rel='stylesheet' href='spectrum.css' />
@@ -39,25 +39,29 @@
         </div>
         <div class="grid_13">
           <div id="backgroundForm">
-          <form id="myform">
+          <form id="bgForm" method="post" enctype="multipart/form-data">
+		  <input type="hidden" name="f" value="json"/>
           <ul id='galleryList' class='gallery'><!-- This fills with the background thumbnail options when the javascript runs --></ul>
           <div class="fileUpload">
             <table>
             <tr>
               <td>Upload your own image:</td>
-              <td><input id="backgroundUpload" title="Upload your own image" type="file" name="imagePath"></td>
+              <td><input id="backgroundUpload" title="Upload your own image" type="file" name="file"></td>
             </tr>
             </table>
           </div>
+		  </form>
           </div>
           <div id='foregroundForm'>
+		  <form id="fgForm" method="post" enctype="multipart/form-data">
+		  <input type="hidden" name="f" value="json"/>
           <ul id='galleryListForeground' class='gallery'>
           <!-- This fills with the foreground thumbnail options when the javascript runs --></ul>
           <div class="fileUpload">
             <table>
             <tr>
               <td>Upload your own image:</td>
-              <td><input id="foregroundUpload" title="Upload your own image" type="file" name="imagePath"></td>
+              <td><input id="foregroundUpload" title="Upload your own image" type="file" name="file"></td>
             </tr>
             </table>
           </div>
@@ -118,15 +122,15 @@
       </div>
     </div>
       <div id="backgroundNextPrev">
-          <a id='prev' class="large leftbutton gray navButton" href='javascript:getPrevious();'>&#9668;</a>
-          <a id='next' class="large rightbutton gray navButton" href='javascript:getNext();'>&#9658;</a>
+          <a id='prev' class="large leftbutton gray navButton">&#9668;</a>
+          <a id='next' class="large rightbutton gray navButton">&#9658;</a>
       </div>
       <div id="foregroundNextPrev">
-          <a id='prevForegroundButton' class="large leftbutton gray navButton" href='javascript:getPreviousForeground();'>&#9668;</a>
-          <a id='nextForegroundButton' class="large rightbutton gray navButton" href='javascript:getNextForeground();'>&#9658;</a>
+          <a id='prevForegroundButton' class="large leftbutton gray navButton">&#9668;</a>
+          <a id='nextForegroundButton' class="large rightbutton gray navButton">&#9658;</a>
       </div>
     
   </body>
-  <button id="submitButton" class="large button gray" onclick="with(dojo.byId('myform'))with(elements[0])with(elements[checked?0:1])alert(name+'='+value);return false">Submit</button>
+  <button id="submitButton" class="large button gray" onclick="submitForm()">Submit</button>
 
 </html>
