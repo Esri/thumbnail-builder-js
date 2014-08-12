@@ -1,118 +1,149 @@
-dojo.require('esri.arcgis.Portal');
-dojo.require("esri.IdentityManager");
-dojo.require("dojox.lang.aspect");
-dojo.require("dijit.form.RadioButton");
+    var portalFG;
+	var portalBG;
+    var groupFG;
+	var groupBG;
+    var nextQueryParamsFG;
+    var queryParamsFG;
+	var nextQueryParamsBG;
+    var queryParamsBG;
+	    var displayOptions = {
+      numItemsPerPage: 6,
+      group: {
+        "group": "67fb524bd2e24c80bf2b972b4ce5aa95"
+      },
+      portalUrl: 'http://www.arcgis.com'
+    };
 
-var displayOptions = {
-  //templateUrl: 'http://www.arcgis.com/apps/OnePane/basicviewer/profile.html',
-  //themeName:'gray',
-  numItemsPerPage: 6,
-  group: {
-    //"owner": "ScottMoorePNW",
-    //"title": "Thumbnails"
-    "group": "67fb524bd2e24c80bf2b972b4ce5aa95"
-  },
-  portalUrl: 'http://www.arcgis.com'
-};
-var portalFG;
-var portalBG;
-var groupFG;
-var groupBG;
-var nextQueryParamsFG;
-var queryParamsFG;
-var nextQueryParamsBG;
-var queryParamsBG;
+	require([
+	"dojo/parser", 
+	"dojo/ready", 
+	"dojo/dom", 
+	"dojo/dom-construct", 
+	"dojo/_base/array", 
+	"dijit/registry", 
+	"dojo/on", 
+	"esri/arcgis/Portal", 
+	"esri/config",
+	"esri/lang",
+	"esri/IdentityManager",
+	"dijit/form/RadioButton",
+	"dojox/lang/aspect"
+  ],function(
+	parser, 
+	ready, 
+	dom, 
+	domConstruct, 
+	array, 
+	registry, 
+	on, 
+	arcgisPortal,
+	config, 
+	esriLang,
+	IdentityManager,
+	RadioButton,
+	dojoLang
+  ) {
 
-function init() {
-  portalFG = new esri.arcgis.Portal(displayOptions.portalUrl);
-  portalBG = new esri.arcgis.Portal(displayOptions.portalUrl);
-  dojo.connect(portalBG, 'onLoad', loadPortal);
-  dojo.connect(portalFG, 'onLoad', loadForegrounds);
-  dojox.lang.aspect.advise(portalFG, "queryItems", {
-    afterReturning: function (queryItemsPromise) {
-      queryItemsPromise.then(function (result) {
-        nextQueryParamsFG = result.nextQueryParams;
-        queryParamsFG = result.queryParams;
+
+    ready(function() {
+	  parser.parse();
+	  esriConfig.defaults.io.proxyUrl = "/proxy/proxy.ashx"
+	  esriConfig.defaults.io.alwaysUseProxy = false;
+	  
+      portalFG = new arcgisPortal.Portal(displayOptions.portalUrl);
+	  portalBG = new arcgisPortal.Portal(displayOptions.portalUrl);
+	  
+      on(portalBG, 'ready', loadPortal);
+      on(portalFG, 'ready', loadForegrounds);
+	  
+	  on(dom.byId('next'), "click", getNext);
+	  on(dom.byId('prev'), "click", getPrevious);
+	  on(dom.byId('nextForegroundButton'), "click", getNextForeground);
+	  on(dom.byId('prevForegroundButton'), "click", getPreviousForeground);
+	  
+      dojox.lang.aspect.advise(portalFG, "queryItems", {
+        afterReturning: function (queryItemsPromise) {
+          queryItemsPromise.then(function (result) {
+            nextQueryParamsFG = result.nextQueryParams;
+            queryParamsFG = result.queryParams;
+          });
+        }
       });
-    }
-  });
-  dojox.lang.aspect.advise(portalBG, "queryItems", {
-      afterReturning: function (queryItemsPromise) {
-        queryItemsPromise.then(function (result) {
-          nextQueryParamsBG = result.nextQueryParams;
-          queryParamsBG = result.queryParams;
-        });
-      }
+	  dojox.lang.aspect.advise(portalBG, "queryItems", {
+        afterReturning: function (queryItemsPromise) {
+          queryItemsPromise.then(function (result) {
+            nextQueryParamsBG = result.nextQueryParams;
+            queryParamsBG = result.queryParams;
+          });
+        }
+      });
+      make_upload_buttons_clear_corresponding_radio_buttons();
     });
-  make_upload_buttons_clear_corresponding_radio_buttons();
-//hilight_selected_thumbnail();
-//make_submit_button_take_user_to_the_next_page();
-}
 
 
 
-function loadPortal() {
-    var params = {
-      //q: 'title: ' + displayOptions.group.title + ' AND owner:' + displayOptions.group.owner
-      q: 'id: 67fb524bd2e24c80bf2b972b4ce5aa95' //insert group id for background images here
-    };
-    portalBG.queryGroups(params).then(function(groups){
-    //get group title and thumbnail url 
-    if (groups.results.length == 1) {
-      groupBG = groups.results[0];
-      if (groupBG.thumbnailUrl) {
-        dojo.create('img', {
-          src: groupBG.thumbnailUrl,
-          width: 64,
-          height: 64,
-          alt: groupBG.title
-        }, dojo.byId('groupThumbnail'));
-      }
+    function loadPortal() {
+        var params = {
+          q: 'id: 67fb524bd2e24c80bf2b972b4ce5aa95' //insert group id for background images here
+        };
+        portalBG.queryGroups(params).then(function(groups){
+        //get group title and thumbnail url 
+        if (groups.results.length == 1) {
+          groupBG = groups.results[0];
+          if (groupBG.thumbnailUrl) {
+            dojo.create('img', {
+              src: groupBG.thumbnailUrl,
+              width: 64,
+              height: 64,
+              alt: groupBG.title
+            }, dojo.byId('groupThumbnail'));
+          }
 
-      dojo.byId('groupTitle').innerHTML = "Thumbnail Maker";//group.title + "<br /><hr />";
-      dojo.byId('sidebar').innerHTML = "Select two images (a background and foreground) and fill out the form.";//group.snippet;
-      
-      //Retrieve the web maps and applications from the group and display 
-      var params = {
-        q: ' type: Image',
-        num: displayOptions.numItemsPerPage
-      };
-      groupBG.queryItems(params).then(updateGrid);
-      //loadForegrounds();
-      $("#colorPicker").spectrum({
-        color:"#fff"
+          dojo.byId('groupTitle').innerHTML = "Thumbnail Maker";//group.title + "<br /><hr />";
+          dojo.byId('sidebar').innerHTML = "Select two images (a background and foreground) and fill out the form.";//group.snippet;
+          
+          //Retrieve the web maps and applications from the group and display 
+          var params = {
+            q: ' type: Image',
+            num: displayOptions.numItemsPerPage
+          };
+          groupBG.queryItems(params).then(updateGrid);
+          //loadForegrounds();
+          $("#colorPicker").spectrum({
+          	color:"#fff"
+          });
+        }
+      });
+    }
+    
+    function loadForegrounds() {
+        var params = {
+          //q: 'title: ' + displayOptions.group.title + ' AND owner:' + displayOptions.group.owner
+          q: 'id: f8836a4c1ca6438a89c5b39dfbd41d42' //insert group id for foreground images here
+        };
+        portalFG.queryGroups(params).then(function(groups){
+        //get group title and thumbnail url 
+        if (groups.results.length == 1) {
+          groupFG = groups.results[0];
+          if (groupFG.thumbnailUrl) {
+            dojo.create('img', {
+              src: groupFG.thumbnailUrl,
+              width: 64,
+              height: 64,
+              alt: groupFG.title
+            }, dojo.byId('groupThumbnailForegrounds'));
+          }
+          
+          //Retrieve the web maps and applications from the group and display 
+          var params = {
+            q: ' type: Image',
+            num: displayOptions.numItemsPerPage
+          };
+          groupFG.queryItems(params).then(updateGridForForegrounds);
+        }
       });
     }
   });
-}
-
-function loadForegrounds() {
-    var params = {
-      //q: 'title: ' + displayOptions.group.title + ' AND owner:' + displayOptions.group.owner
-      q: 'id: f8836a4c1ca6438a89c5b39dfbd41d42' //insert group id for foreground images here
-    };
-    portalFG.queryGroups(params).then(function(groups){
-    //get group title and thumbnail url 
-    if (groups.results.length == 1) {
-      groupFG = groups.results[0];
-      if (groupFG.thumbnailUrl) {
-        dojo.create('img', {
-          src: groupFG.thumbnailUrl,
-          width: 64,
-          height: 64,
-          alt: groupFG.title
-        }, dojo.byId('groupThumbnailForegrounds'));
-      }
-      
-      //Retrieve the web maps and applications from the group and display 
-      var params = {
-        q: ' type: Image',
-        num: displayOptions.numItemsPerPage
-      };
-      groupFG.queryItems(params).then(updateGridForForegrounds);
-    }
-  });
-}
 
 function make_upload_buttons_clear_corresponding_radio_buttons(){
   $("#backgroundUpload").on("change", function(){
@@ -220,13 +251,51 @@ function getNextForeground() {
   }
 }
 
-function getPreviousForeground() {
-  if (nextQueryParamsFG.start !== 1) { //we aren't at the beginning keep querying. 
-    var params = queryParamsFG;
-    params.start = params.start - params.num;
-    groupFG.queryItems(params).then(updateGridForForegrounds);
-  }
-}
+    function getPreviousForeground() {
+      if (nextQueryParamsFG.start !== 1) { //we aren't at the beginning keep querying. 
+        var params = queryParamsFG;
+        params.start = params.start - params.num;
+        groupFG.queryItems(params).then(updateGridForForegrounds);
+      }
+    }
+	
+	function submitForm() {
+		//with(dojo.byId('myform'))with(elements[0])with(elements[checked?0:1])alert(name+'='+value);
+		if (dojo.byId('backgroundUpload').files.length > 0) {
+			//var theForm = dojo.create("form");
+			var layerUrl = "http://nwdemo1.esri.com/arcgis/rest/services/GP/GenerateThumb/GPServer/uploads/upload";
+			var layersRequestBG = esri.request({
+			  url: layerUrl,
+			  //form: { f: "json", file: dojo.byId('backgroundUpload'), description: "BG Upload" },
+			  form: dojo.byId("bgForm"),
+			  handleAs: "json",
+			  callbackParamName: "callback"
+			},{usePost: true});
+			layersRequestBG.then(
+			  function(response) {
+				console.log("Success: ", response);
+			}, function(error) {
+				console.log("Error: ", error.message);
+			});
+		}
+		if (dojo.byId('foregroundUpload').files.length > 0) {
+			//var theForm = dojo.create("form");
+			var layerUrl = "http://nwdemo1.esri.com/arcgis/rest/services/GP/GenerateThumb/GPServer/uploads/upload";
+			var layersRequestFG = esri.request({
+			  url: layerUrl,
+			  //form: { f: "json", file: dojo.byId('backgroundUpload'), description: "BG Upload" },
+			  form: dojo.byId("fgForm"),
+			  handleAs: "json",
+			  callbackParamName: "callback"
+			},{usePost: true});
+			layersRequestFG.then(
+			  function(response) {
+				console.log("Success: ", response);
+			}, function(error) {
+				console.log("Error: ", error.message);
+			});
+		}
+	}
 
 function moveButtonsUpIfThereAreTooFewThumbnailOptions(queryResponse){
   var bgButtonTop = parseInt($("#prev").css("top"));
@@ -259,26 +328,3 @@ function moveForegroundButtons(queryResponse){
     $("#nextForegroundButton").css("top", bgButtonTop + 385 + "px");
   }
 }
-
-function prepTheSubmitButton(){
-  $("#submitButton").on("click", function(){
-    $.ajax({
-      type: "POST",
-      url: "", //Scott what is this?
-      data: {
-        //all data to be send to the server goes here
-      },
-      success: function(){
-        console.log("Data successfully sent");
-      }
-    });
-  });
-}
-
-
-/*
-$("#colorPicker").spectrum({
-    color: "#fff",
-});
-*/
-dojo.ready(init);
