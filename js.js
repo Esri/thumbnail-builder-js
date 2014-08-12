@@ -6,7 +6,9 @@
     var queryParamsFG;
 	var nextQueryParamsBG;
     var queryParamsBG;
-	    var displayOptions = {
+	
+	var item1, item2;
+	var displayOptions = {
       numItemsPerPage: 6,
       group: {
         "group": "67fb524bd2e24c80bf2b972b4ce5aa95"
@@ -274,6 +276,7 @@ function getNextForeground() {
 			layersRequestBG.then(
 			  function(response) {
 				console.log("Success: ", response);
+				item1 = response.item.itemID;
 			}, function(error) {
 				console.log("Error: ", error.message);
 			});
@@ -291,6 +294,27 @@ function getNextForeground() {
 			layersRequestFG.then(
 			  function(response) {
 				console.log("Success: ", response);
+				item2 = response.item.itemID;
+						require(["esri/tasks/Geoprocessor"], function(Geoprocessor) {
+			var gp = new Geoprocessor("http://nwdemo1.esri.com/arcgis/rest/services/GP/GenerateThumb/GPServer/Generate%20Thumb");
+			require(["esri/tasks/DataFile"], function(DataFile) { 
+			var dataFile1 = new DataFile();
+			var dataFile2 = new DataFile();
+			dataFile1.itemID = item1;
+			dataFile2.itemID = item2;
+			var params = {"ItemText": "The rain in spain", "FontSize": "15", "TextColor": "#FF0000", "Align": "Left", "SelectedFont": "DejaVuSansMono-Bold.ttf", "ULX": "0", "ULY": "90", "LRX": "165", "LRY": "133", "BackgroundImage": dataFile1, "ForegroundImage": dataFile2};
+			gp.submitJob(params, completeCallback, statusCallback);
+			function statusCallback(jobInfo){
+				console.log(jobInfo.jobStatus);
+			}
+			function completeCallback(jobInfo) {
+				console.log(jobInfo);
+				gp.getResultData(jobInfo.jobId, "OutputImage", function(result){
+					console.log(result);
+				});
+			}
+			});
+		});
 			}, function(error) {
 				console.log("Error: ", error.message);
 			});
