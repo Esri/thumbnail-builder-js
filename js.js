@@ -77,7 +77,7 @@
           });
         }
       });
-      make_upload_buttons_clear_corresponding_radio_buttons();
+
     });
 
 
@@ -176,7 +176,6 @@ function updateGrid(queryResponse) { //for backgrounds
    //navigation buttons 
   (queryResponse.results.length < 6) ? esri.hide(dojo.byId('next')) : esri.show(dojo.byId('next'));
   (queryResponse.queryParams.start > 1) ? esri.show(dojo.byId('prev')) : esri.hide(dojo.byId('prev'));
-  
   //Build the thumbnails for each item the thumbnail when clicked will display the web map in a template or the web application 
   var frag = document.createDocumentFragment();
   dojo.forEach(queryResponse.results, function (item) {
@@ -195,7 +194,6 @@ function updateGrid(queryResponse) { //for backgrounds
       }, li);
     }
   });
-  moveButtonsUpIfThereAreTooFewThumbnailOptions(queryResponse);
   dojo.place(frag, galleryList);
 }
 
@@ -227,13 +225,15 @@ function updateGridForForegrounds(queryResponse) {
       }, li);
     }
   });
-  moveForegroundButtons(queryResponse)
   dojo.place(frag, galleryList);
 }
 
 function getNext() {
   if (nextQueryParamsBG.start > -1) {
     groupBG.queryItems(nextQueryParamsBG).then(updateGrid);
+    $("body").on("load", function(){
+        arrangeNextAndPreviousButtonsCorrectly();
+    });
   }
 }
 
@@ -251,80 +251,48 @@ function getNextForeground() {
   }
 }
 
-    function getPreviousForeground() {
-      if (nextQueryParamsFG.start !== 1) { //we aren't at the beginning keep querying. 
-        var params = queryParamsFG;
-        params.start = params.start - params.num;
-        groupFG.queryItems(params).then(updateGridForForegrounds);
-      }
-    }
-	
-	function submitForm() {
-		//with(dojo.byId('myform'))with(elements[0])with(elements[checked?0:1])alert(name+'='+value);
-		if (dojo.byId('backgroundUpload').files.length > 0) {
-			//var theForm = dojo.create("form");
-			var layerUrl = "http://nwdemo1.esri.com/arcgis/rest/services/GP/GenerateThumb/GPServer/uploads/upload";
-			var layersRequestBG = esri.request({
-			  url: layerUrl,
-			  //form: { f: "json", file: dojo.byId('backgroundUpload'), description: "BG Upload" },
-			  form: dojo.byId("bgForm"),
-			  handleAs: "json",
-			  callbackParamName: "callback"
-			},{usePost: true});
-			layersRequestBG.then(
-			  function(response) {
-				console.log("Success: ", response);
-			}, function(error) {
-				console.log("Error: ", error.message);
-			});
-		}
-		if (dojo.byId('foregroundUpload').files.length > 0) {
-			//var theForm = dojo.create("form");
-			var layerUrl = "http://nwdemo1.esri.com/arcgis/rest/services/GP/GenerateThumb/GPServer/uploads/upload";
-			var layersRequestFG = esri.request({
-			  url: layerUrl,
-			  //form: { f: "json", file: dojo.byId('backgroundUpload'), description: "BG Upload" },
-			  form: dojo.byId("fgForm"),
-			  handleAs: "json",
-			  callbackParamName: "callback"
-			},{usePost: true});
-			layersRequestFG.then(
-			  function(response) {
-				console.log("Success: ", response);
-			}, function(error) {
-				console.log("Error: ", error.message);
-			});
-		}
-	}
-
-function moveButtonsUpIfThereAreTooFewThumbnailOptions(queryResponse){
-  var bgButtonTop = parseInt($("#prev").css("top"));
-  if (queryResponse.results.length < 4){
-    $("#prev").css("top", "180px");
-    $("#next").css("top", "180px");
-    bgButtonTop = parseInt($("#prev").css("top"));
-    $("#prevForegroundButton").css("top", bgButtonTop + 385 + "px");
-    $("#nextForegroundButton").css("top", bgButtonTop + 385 + "px");
-  }
-  else{
-    $("#prev").css("top", "280px");
-    $("#next").css("top", "280px");
-    bgButtonTop = parseInt($("#prev").css("top"));
-    $("#prevForegroundButton").css("top", bgButtonTop + 490 + "px");
-    $("#nextForegroundButton").css("top", bgButtonTop + 490 + "px");
+function getPreviousForeground() {
+  if (nextQueryParamsFG.start !== 1) { //we aren't at the beginning keep querying. 
+    var params = queryParamsFG;
+    params.start = params.start - params.num;
+    groupFG.queryItems(params).then(updateGridForForegrounds);
   }
 }
-
-function moveForegroundButtons(queryResponse){
-  var bgButtonTop = parseInt($("#prev").css("top"));
-  if (queryResponse.results.length < 4){
-    bgButtonTop = parseInt($("#prev").css("top"))
-    $("#prevForegroundButton").css("top", bgButtonTop + 385 + "px");
-    $("#nextForegroundButton").css("top", bgButtonTop + 385 + "px");
-  }
-  else{
-    bgButtonTop = parseInt($("#prev").css("top"))
-    $("#prevForegroundButton").css("top", bgButtonTop + 385 + "px");
-    $("#nextForegroundButton").css("top", bgButtonTop + 385 + "px");
-  }
+	
+function submitForm() {
+	//with(dojo.byId('myform'))with(elements[0])with(elements[checked?0:1])alert(name+'='+value);
+	if (dojo.byId('backgroundUpload').files.length > 0) {
+		//var theForm = dojo.create("form");
+		var layerUrl = "http://nwdemo1.esri.com/arcgis/rest/services/GP/GenerateThumb/GPServer/uploads/upload";
+		var layersRequestBG = esri.request({
+		  url: layerUrl,
+		  //form: { f: "json", file: dojo.byId('backgroundUpload'), description: "BG Upload" },
+		  form: dojo.byId("bgForm"),
+		  handleAs: "json",
+		  callbackParamName: "callback"
+		},{usePost: true});
+		layersRequestBG.then(
+		  function(response) {
+			console.log("Success: ", response);
+		}, function(error) {
+			console.log("Error: ", error.message);
+		});
+	}
+	if (dojo.byId('foregroundUpload').files.length > 0) {
+		//var theForm = dojo.create("form");
+		var layerUrl = "http://nwdemo1.esri.com/arcgis/rest/services/GP/GenerateThumb/GPServer/uploads/upload";
+		var layersRequestFG = esri.request({
+		  url: layerUrl,
+		  //form: { f: "json", file: dojo.byId('backgroundUpload'), description: "BG Upload" },
+		  form: dojo.byId("fgForm"),
+		  handleAs: "json",
+		  callbackParamName: "callback"
+		},{usePost: true});
+		layersRequestFG.then(
+		  function(response) {
+			console.log("Success: ", response);
+		}, function(error) {
+			console.log("Error: ", error.message);
+		});
+	}
 }

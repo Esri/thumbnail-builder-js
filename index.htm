@@ -41,6 +41,10 @@
           <div id="backgroundForm">
           <form id="bgForm" method="post" enctype="multipart/form-data">
 		  <input type="hidden" name="f" value="json"/>
+      <div id="backgroundNextPrev">
+          <a id='prev' class="large leftbutton gray navButton">&#9668; Previous</a>
+          <a id='next' class="large rightbutton gray navButton">Next &#9658;</a>
+      </div>
           <ul id='galleryList' class='gallery'><!-- This fills with the background thumbnail options when the javascript runs --></ul>
           <div class="fileUpload">
             <table>
@@ -55,6 +59,10 @@
           <div id='foregroundForm'>
 		  <form id="fgForm" method="post" enctype="multipart/form-data">
 		  <input type="hidden" name="f" value="json"/>
+      <div id="foregroundNextPrev">
+          <a id='prevForegroundButton' class="large leftbutton gray navButton">&#9668; Previous</a>
+          <a id='nextForegroundButton' class="large rightbutton gray navButton">Next &#9658;</a>
+      </div>
           <ul id='galleryListForeground' class='gallery'>
           <!-- This fills with the foreground thumbnail options when the javascript runs --></ul>
           <div class="fileUpload">
@@ -118,19 +126,10 @@
           </div>
           </form>
         </div>
-        
       </div>
     </div>
-      <div id="backgroundNextPrev">
-          <a id='prev' class="large leftbutton gray navButton">&#9668;</a>
-          <a id='next' class="large rightbutton gray navButton">&#9658;</a>
-      </div>
-      <div id="foregroundNextPrev">
-          <a id='prevForegroundButton' class="large leftbutton gray navButton">&#9668;</a>
-          <a id='nextForegroundButton' class="large rightbutton gray navButton">&#9658;</a>
-      </div>
-    
+  <button id="submitButton" class="large button gray" onclick="submitForm()">Submit</button>  
   </body>
-  <button id="submitButton" class="large button gray" onclick="submitForm()">Submit</button>
+  
 
 </html>
