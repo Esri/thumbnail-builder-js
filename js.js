@@ -17,7 +17,7 @@
     };
 
 	require([
-	"dojo/parser", 
+	"dojo/parser",
 	"dojo/ready", 
 	"dojo/dom", 
 	"dojo/dom-construct", 
@@ -31,7 +31,7 @@
 	"dijit/form/RadioButton",
 	"dojox/lang/aspect"
   ],function(
-	parser, 
+	parser,
 	ready, 
 	dom, 
 	domConstruct, 
@@ -263,6 +263,10 @@ function getNextForeground() {
 	
 	function submitForm() {
 		//with(dojo.byId('myform'))with(elements[0])with(elements[checked?0:1])alert(name+'='+value);
+		
+		var imageFG, imageBG;
+		var promises, uploadResults;
+		
 		if (dojo.byId('backgroundUpload').files.length > 0) {
 			//var theForm = dojo.create("form");
 			var layerUrl = "http://nwdemo1.esri.com/arcgis/rest/services/GP/GenerateThumb/GPServer/uploads/upload";
@@ -273,13 +277,14 @@ function getNextForeground() {
 			  handleAs: "json",
 			  callbackParamName: "callback"
 			},{usePost: true});
-			layersRequestBG.then(
-			  function(response) {
-				console.log("Success: ", response);
-				item1 = response.item.itemID;
-			}, function(error) {
-				console.log("Error: ", error.message);
-			});
+			imageBG = layersRequestBG;
+			//imageBG = layersRequestBG.then(
+			//  function(response) {
+			//	console.log("Success: ", response);
+			//	item1 = response.item.itemID;
+			//}, function(error) {
+			//	console.log("Error: ", error.message);
+			//});
 		}
 		if (dojo.byId('foregroundUpload').files.length > 0) {
 			//var theForm = dojo.create("form");
@@ -291,34 +296,45 @@ function getNextForeground() {
 			  handleAs: "json",
 			  callbackParamName: "callback"
 			},{usePost: true});
-			layersRequestFG.then(
-			  function(response) {
-				console.log("Success: ", response);
-				item2 = response.item.itemID;
-						require(["esri/tasks/Geoprocessor"], function(Geoprocessor) {
-			var gp = new Geoprocessor("http://nwdemo1.esri.com/arcgis/rest/services/GP/GenerateThumb/GPServer/Generate%20Thumb");
-			require(["esri/tasks/DataFile"], function(DataFile) { 
-			var dataFile1 = new DataFile();
-			var dataFile2 = new DataFile();
-			dataFile1.itemID = item1;
-			dataFile2.itemID = item2;
-			var params = {"ItemText": "The rain in spain", "FontSize": "15", "TextColor": "#FF0000", "Align": "Left", "SelectedFont": "DejaVuSansMono-Bold.ttf", "ULX": "0", "ULY": "90", "LRX": "165", "LRY": "133", "BackgroundImage": dataFile1, "ForegroundImage": dataFile2};
-			gp.submitJob(params, completeCallback, statusCallback);
-			function statusCallback(jobInfo){
-				console.log(jobInfo.jobStatus);
-			}
-			function completeCallback(jobInfo) {
-				console.log(jobInfo);
-				gp.getResultData(jobInfo.jobId, "OutputImage", function(result){
-					console.log(result);
+			imageFG = layersRequestFG;
+			//imageFG = layersRequestFG.then(
+			//  function(response) {
+			//	console.log("Success: ", response);
+			//	item2 = response.item.itemID;
+			//}, function(error) {
+			//	console.log("Error: ", error.message);
+			//});
+		}
+		
+		require(["dojo/promise/all"], function(all) {
+			promises = new all([imageBG, imageFG]);
+			promises.then(handleQueryResults);
+			
+			function handleQueryResults(results) {
+				console.log(results);
+				uploadResults = results;
+				require(["esri/tasks/Geoprocessor"], function(Geoprocessor) {
+					var gp = new Geoprocessor("http://nwdemo1.esri.com/arcgis/rest/services/GP/GenerateThumb/GPServer/Generate%20Thumb");
+					require(["esri/tasks/DataFile"], function(DataFile) { 
+					var dataFile1 = new DataFile();
+					var dataFile2 = new DataFile();
+					dataFile1.itemID = uploadResults[0].item.itemID;
+					dataFile2.itemID = uploadResults[1].item.itemID;
+					var params = {"ItemText": "The rain in spain", "FontSize": "15", "TextColor": "#FF0000", "Align": "Left", "SelectedFont": "DejaVuSansMono-Bold.ttf", "ULX": "0", "ULY": "90", "LRX": "165", "LRY": "133", "BackgroundImage": dataFile1, "ForegroundImage": dataFile2};
+					gp.submitJob(params, completeCallback, statusCallback);
+					function statusCallback(jobInfo){
+						console.log(jobInfo.jobStatus);
+					}
+					function completeCallback(jobInfo) {
+						console.log(jobInfo);
+						gp.getResultData(jobInfo.jobId, "OutputImage", function(result){
+							console.log(result);
+						});
+					}
+					});
 				});
 			}
-			});
 		});
-			}, function(error) {
-				console.log("Error: ", error.message);
-			});
-		}
 	}
 
 function moveButtonsUpIfThereAreTooFewThumbnailOptions(queryResponse){
