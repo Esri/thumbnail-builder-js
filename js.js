@@ -6,7 +6,9 @@
     var queryParamsFG;
 	var nextQueryParamsBG;
     var queryParamsBG;
-	    var displayOptions = {
+	
+	var item1, item2;
+	var displayOptions = {
       numItemsPerPage: 6,
       group: {
         "group": "67fb524bd2e24c80bf2b972b4ce5aa95"
@@ -15,7 +17,7 @@
     };
 
 	require([
-	"dojo/parser", 
+	"dojo/parser",
 	"dojo/ready", 
 	"dojo/dom", 
 	"dojo/dom-construct", 
@@ -29,7 +31,7 @@
 	"dijit/form/RadioButton",
 	"dojox/lang/aspect"
   ],function(
-	parser, 
+	parser,
 	ready, 
 	dom, 
 	domConstruct, 
@@ -251,11 +253,113 @@ function getNextForeground() {
   }
 }
 
+<<<<<<< HEAD
 function getPreviousForeground() {
   if (nextQueryParamsFG.start !== 1) { //we aren't at the beginning keep querying. 
     var params = queryParamsFG;
     params.start = params.start - params.num;
     groupFG.queryItems(params).then(updateGridForForegrounds);
+=======
+    function getPreviousForeground() {
+      if (nextQueryParamsFG.start !== 1) { //we aren't at the beginning keep querying. 
+        var params = queryParamsFG;
+        params.start = params.start - params.num;
+        groupFG.queryItems(params).then(updateGridForForegrounds);
+      }
+    }
+	
+	function submitForm() {
+		//with(dojo.byId('myform'))with(elements[0])with(elements[checked?0:1])alert(name+'='+value);
+		
+		var imageFG, imageBG;
+		var promises, uploadResults;
+		
+		if (dojo.byId('backgroundUpload').files.length > 0) {
+			//var theForm = dojo.create("form");
+			var layerUrl = "http://nwdemo1.esri.com/arcgis/rest/services/GP/GenerateThumb/GPServer/uploads/upload";
+			var layersRequestBG = esri.request({
+			  url: layerUrl,
+			  //form: { f: "json", file: dojo.byId('backgroundUpload'), description: "BG Upload" },
+			  form: dojo.byId("bgForm"),
+			  handleAs: "json",
+			  callbackParamName: "callback"
+			},{usePost: true});
+			imageBG = layersRequestBG;
+			//imageBG = layersRequestBG.then(
+			//  function(response) {
+			//	console.log("Success: ", response);
+			//	item1 = response.item.itemID;
+			//}, function(error) {
+			//	console.log("Error: ", error.message);
+			//});
+		}
+		if (dojo.byId('foregroundUpload').files.length > 0) {
+			//var theForm = dojo.create("form");
+			var layerUrl = "http://nwdemo1.esri.com/arcgis/rest/services/GP/GenerateThumb/GPServer/uploads/upload";
+			var layersRequestFG = esri.request({
+			  url: layerUrl,
+			  //form: { f: "json", file: dojo.byId('backgroundUpload'), description: "BG Upload" },
+			  form: dojo.byId("fgForm"),
+			  handleAs: "json",
+			  callbackParamName: "callback"
+			},{usePost: true});
+			imageFG = layersRequestFG;
+			//imageFG = layersRequestFG.then(
+			//  function(response) {
+			//	console.log("Success: ", response);
+			//	item2 = response.item.itemID;
+			//}, function(error) {
+			//	console.log("Error: ", error.message);
+			//});
+		}
+		
+		require(["dojo/promise/all"], function(all) {
+			promises = new all([imageBG, imageFG]);
+			promises.then(handleQueryResults);
+			
+			function handleQueryResults(results) {
+				console.log(results);
+				uploadResults = results;
+				require(["esri/tasks/Geoprocessor"], function(Geoprocessor) {
+					var gp = new Geoprocessor("http://nwdemo1.esri.com/arcgis/rest/services/GP/GenerateThumb/GPServer/Generate%20Thumb");
+					require(["esri/tasks/DataFile"], function(DataFile) { 
+					var dataFile1 = new DataFile();
+					var dataFile2 = new DataFile();
+					dataFile1.itemID = uploadResults[0].item.itemID;
+					dataFile2.itemID = uploadResults[1].item.itemID;
+					var params = {"ItemText": "The rain in spain", "FontSize": "15", "TextColor": "#FF0000", "Align": "Left", "SelectedFont": "DejaVuSansMono-Bold.ttf", "ULX": "0", "ULY": "90", "LRX": "165", "LRY": "133", "BackgroundImage": dataFile1, "ForegroundImage": dataFile2};
+					gp.submitJob(params, completeCallback, statusCallback);
+					function statusCallback(jobInfo){
+						console.log(jobInfo.jobStatus);
+					}
+					function completeCallback(jobInfo) {
+						console.log(jobInfo);
+						gp.getResultData(jobInfo.jobId, "OutputImage", function(result){
+							console.log(result);
+						});
+					}
+					});
+				});
+			}
+		});
+	}
+
+function moveButtonsUpIfThereAreTooFewThumbnailOptions(queryResponse){
+  var bgButtonTop = parseInt($("#prev").css("top"));
+  if (queryResponse.results.length < 4){
+    $("#prev").css("top", "180px");
+    $("#next").css("top", "180px");
+    bgButtonTop = parseInt($("#prev").css("top"));
+    $("#prevForegroundButton").css("top", bgButtonTop + 385 + "px");
+    $("#nextForegroundButton").css("top", bgButtonTop + 385 + "px");
+  }
+  else{
+    $("#prev").css("top", "280px");
+    $("#next").css("top", "280px");
+    bgButtonTop = parseInt($("#prev").css("top"));
+    $("#prevForegroundButton").css("top", bgButtonTop + 490 + "px");
+    $("#nextForegroundButton").css("top", bgButtonTop + 490 + "px");
+>>>>>>> origin/master
   }
 }
 	
