@@ -214,7 +214,7 @@ function updateGridForForegrounds(queryResponse) {
         class: "foregroundGrid",
         target: '_blank',
         //innerHTML: '<div class="tooltip"><p>' + item.tags.toString() + '</p></div><img src="' + item.thumbnailUrl + '"/><div>' + item.title + '</div><div><input type="radio" name="rdoThumbBG"/> <label for="radioOne">Use this.</label></div>'
-        innerHTML: '<div class="imageOption"><img src="' + item.thumbnailUrl + '"/><span id="thumbnailName">' + item.title + '</span><br /><span><input type="radio" name="rdoThumbBG" value="' + item.itemDataUrl + '"/> <label for="radioOne"></label></span></div>'
+        innerHTML: '<div class="imageOption"><img src="' + item.thumbnailUrl + '"/><span id="thumbnailName">' + item.title + '</span><br /><span><input type="radio" name="rdoThumbFG" value="' + item.itemDataUrl + '"/> <label for="radioOne"></label></span></div>'
       }, li);
     }
   });
@@ -253,48 +253,35 @@ function getPreviousForeground() {
 }
 	
 	function submitForm() {
-		//with(dojo.byId('myform'))with(elements[0])with(elements[checked?0:1])alert(name+'='+value);
+		require(["dojo/dom"], function(dom){
+			with(dom.byId('fgForm'))with(elements[0])with(elements[checked?0:1])alert(name+'='+value);
+			return false;
+        });
+		with(dojo.byId('bgForm'))with(elements[0])with(elements[checked?0:1])alert(name+'='+value);
+		with(dojo.byId('fgForm'))with(elements[0])with(elements[checked?0:1])alert(name+'='+value);
 		
 		var imageFG, imageBG;
 		var promises, uploadResults;
 		
 		if (dojo.byId('backgroundUpload').files.length > 0) {
-			//var theForm = dojo.create("form");
 			var layerUrl = "http://nwdemo1.esri.com/arcgis/rest/services/GP/GenerateThumb/GPServer/uploads/upload";
 			var layersRequestBG = esri.request({
 			  url: layerUrl,
-			  //form: { f: "json", file: dojo.byId('backgroundUpload'), description: "BG Upload" },
 			  form: dojo.byId("bgForm"),
 			  handleAs: "json",
 			  callbackParamName: "callback"
 			},{usePost: true});
 			imageBG = layersRequestBG;
-			//imageBG = layersRequestBG.then(
-			//  function(response) {
-			//	console.log("Success: ", response);
-			//	item1 = response.item.itemID;
-			//}, function(error) {
-			//	console.log("Error: ", error.message);
-			//});
 		}
 		if (dojo.byId('foregroundUpload').files.length > 0) {
-			//var theForm = dojo.create("form");
 			var layerUrl = "http://nwdemo1.esri.com/arcgis/rest/services/GP/GenerateThumb/GPServer/uploads/upload";
 			var layersRequestFG = esri.request({
 			  url: layerUrl,
-			  //form: { f: "json", file: dojo.byId('backgroundUpload'), description: "BG Upload" },
 			  form: dojo.byId("fgForm"),
 			  handleAs: "json",
 			  callbackParamName: "callback"
 			},{usePost: true});
 			imageFG = layersRequestFG;
-			//imageFG = layersRequestFG.then(
-			//  function(response) {
-			//	console.log("Success: ", response);
-			//	item2 = response.item.itemID;
-			//}, function(error) {
-			//	console.log("Error: ", error.message);
-			//});
 		}
 		
 		require(["dojo/promise/all"], function(all) {
