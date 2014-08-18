@@ -143,7 +143,7 @@
 			"file": "/C/Users/greg0003/Desktop/Project/archive.html",
 			"settings":
 			{
-				"buffer_size": 1216,
+				"buffer_size": 1232,
 				"line_ending": "Windows"
 			}
 		},
@@ -156,10 +156,13 @@
 			}
 		},
 		{
+			"contents": "$(function(){\n	var titleOfContents = $(\".titleOfContents\");\n\n	var textOfContents = $(\".textOfContents\");\n\n	var oneContainerToRuleThemAll = $(\"#oneContainerToRuleThemAll\");\n\n	var arrayOfTitlesThatFitTheSearch, arrayOfContentsThatFitTheSearch;\n\n	$.each(arrayOfTitles,function(index, value){\n		oneContainerToRuleThemAll.append(\"<div class='contents'><h1 class='titleOfContents'>\"+arrayOfTitles[index]+\"</h1><p class='textOfContents'>\"+arrayOfContents[index]+\"</p></div>\");\n	});\n	\n	$(\"#searchForm\").on(\"keyup\", function(){\n		$.each(arrayOfTitles, function(index, value){\n			console.log();\n			console.log($(\"input:text\").val() + \", \" + arrayOfTitles[index]);\n			console.log($.inArray($(\"input:text\").val(),arrayOfTitles));\n		});\n	});\n	/*\n	oneContainerToRuleThemAll.append(\"<div class='contents'><h1 class='titleOfContents'>\"+arrayOfTitles[index]+\"</h1><p class='textOfContents'>\"+arrayOfContents[index]+\"</p></div>\");\n	});\n	*/\n	});\n	//<div class='contents'><h1 class='titleOfContents'>\"+arrayOfTitles[index]+\"</h1><p class='textOfContents'>\"+arrayOfContents[index]+\"</p></div>",
 			"file": "/C/Users/greg0003/Desktop/Project/js/archive.js",
+			"file_size": 1089,
+			"file_write_time": 130522566402277806,
 			"settings":
 			{
-				"buffer_size": 620,
+				"buffer_size": 1071,
 				"line_ending": "Windows"
 			}
 		},
@@ -407,15 +410,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1216,
+						"buffer_size": 1232,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1208,
-								1208
+								1133,
+								1133
 							]
 						],
 						"settings":
@@ -424,16 +427,16 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 135.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 2,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -471,26 +474,28 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 620,
+						"buffer_size": 1071,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								323,
+								323
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false,
+							"word_wrap": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -512,13 +517,14 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/CSS/CSS.tmLanguage"
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]

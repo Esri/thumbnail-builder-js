@@ -62,6 +62,7 @@
 	  on(dom.byId('prev'), "click", getPrevious);
 	  on(dom.byId('nextForegroundButton'), "click", getNextForeground);
 	  on(dom.byId('prevForegroundButton'), "click", getPreviousForeground);
+    load_color_picker();
 	  
       dojox.lang.aspect.advise(portalFG, "queryItems", {
         afterReturning: function (queryItemsPromise) {
@@ -84,7 +85,7 @@
 
 
 
-    function loadPortal() {
+    function loadPortal() { //loads the thumbnails for the backgrounds
         var params = {
           q: 'id: 67fb524bd2e24c80bf2b972b4ce5aa95' //insert group id for background images here
         };
@@ -110,15 +111,11 @@
             num: displayOptions.numItemsPerPage
           };
           groupBG.queryItems(params).then(updateGrid);
-          //loadForegrounds();
-          $("#colorPicker").spectrum({
-          	color:"#fff"
-          });
         }
       });
     }
     
-    function loadForegrounds() {
+    function loadForegrounds() { //loads the thumbnails for the foregrounds
         var params = {
           //q: 'title: ' + displayOptions.group.title + ' AND owner:' + displayOptions.group.owner
           q: 'id: f8836a4c1ca6438a89c5b39dfbd41d42' //insert group id for foreground images here
@@ -149,24 +146,18 @@
 
 function make_upload_buttons_clear_corresponding_radio_buttons(){
   $("#backgroundUpload").on("change", function(){
-    console.log("It's getting this far.");
     $(".backgroundGrid").find("input:radio").prop("checked", false);
   });
 
   $("#foregroundUpload").on("change", function(){
-    console.log("It's getting this far.");
     $(".foregroundGrid").find("input:radio").prop("checked", false);
   });
 }
 
-
-function make_submit_button_take_user_to_the_next_page(){
-  var submitButton=$("#submitButton");
-  submitButton.on("click", function(){
-//submitting the form
+function load_color_picker(){
+  $("#colorPicker").spectrum({
+    color:"#fff"
   });
-    var form = $("#myform");
-    //galleryListForSecondImageParts.toggle("slide");
 }
 
 function updateGrid(queryResponse) { //for backgrounds
@@ -253,20 +244,13 @@ function getNextForeground() {
   }
 }
 
-<<<<<<< HEAD
 function getPreviousForeground() {
   if (nextQueryParamsFG.start !== 1) { //we aren't at the beginning keep querying. 
     var params = queryParamsFG;
     params.start = params.start - params.num;
     groupFG.queryItems(params).then(updateGridForForegrounds);
-=======
-    function getPreviousForeground() {
-      if (nextQueryParamsFG.start !== 1) { //we aren't at the beginning keep querying. 
-        var params = queryParamsFG;
-        params.start = params.start - params.num;
-        groupFG.queryItems(params).then(updateGridForForegrounds);
-      }
-    }
+  }
+}
 	
 	function submitForm() {
 		//with(dojo.byId('myform'))with(elements[0])with(elements[checked?0:1])alert(name+'='+value);
@@ -343,25 +327,6 @@ function getPreviousForeground() {
 			}
 		});
 	}
-
-function moveButtonsUpIfThereAreTooFewThumbnailOptions(queryResponse){
-  var bgButtonTop = parseInt($("#prev").css("top"));
-  if (queryResponse.results.length < 4){
-    $("#prev").css("top", "180px");
-    $("#next").css("top", "180px");
-    bgButtonTop = parseInt($("#prev").css("top"));
-    $("#prevForegroundButton").css("top", bgButtonTop + 385 + "px");
-    $("#nextForegroundButton").css("top", bgButtonTop + 385 + "px");
-  }
-  else{
-    $("#prev").css("top", "280px");
-    $("#next").css("top", "280px");
-    bgButtonTop = parseInt($("#prev").css("top"));
-    $("#prevForegroundButton").css("top", bgButtonTop + 490 + "px");
-    $("#nextForegroundButton").css("top", bgButtonTop + 490 + "px");
->>>>>>> origin/master
-  }
-}
 	
 function submitForm() {
 	//with(dojo.byId('myform'))with(elements[0])with(elements[checked?0:1])alert(name+'='+value);
