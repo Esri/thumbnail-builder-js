@@ -28,6 +28,7 @@
 	"esri/config",
 	"esri/lang",
 	"esri/IdentityManager",
+  "dojox/widget/ColorPicker", //adding color picker from dojo to replace jQuery spectrum
 	"dijit/form/RadioButton",
 	"dojox/lang/aspect"
   ],function(
@@ -42,6 +43,7 @@
 	config, 
 	esriLang,
 	IdentityManager,
+  ColorPicker,
 	RadioButton,
 	dojoLang
   ) {
