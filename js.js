@@ -224,9 +224,6 @@ function updateGridForForegrounds(queryResponse) {
 function getNext() {
   if (nextQueryParamsBG.start > -1) {
     groupBG.queryItems(nextQueryParamsBG).then(updateGrid);
-    $("body").on("load", function(){
-        arrangeNextAndPreviousButtonsCorrectly();
-    });
   }
 }
 
