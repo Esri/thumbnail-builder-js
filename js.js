@@ -64,7 +64,7 @@
 	  on(dom.byId('prev'), "click", getPrevious);
 	  on(dom.byId('nextForegroundButton'), "click", getNextForeground);
 	  on(dom.byId('prevForegroundButton'), "click", getPreviousForeground);
-    load_color_picker();
+    var colorPicker = new ColorPicker({}, "colorPicker");
 	  
       dojox.lang.aspect.advise(portalFG, "queryItems", {
         afterReturning: function (queryItemsPromise) {
