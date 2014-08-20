@@ -24,6 +24,8 @@
 	"dojo/_base/array", 
 	"dijit/registry", 
 	"dojo/on", 
+  "dojo/query",
+  "dojo/dom-prop",
 	"esri/arcgis/Portal", 
 	"esri/config",
 	"esri/lang",
@@ -38,7 +40,9 @@
 	domConstruct, 
 	array, 
 	registry, 
-	on, 
+	on,
+  query,
+  domProp, 
 	arcgisPortal,
 	config, 
 	esriLang,
@@ -65,6 +69,7 @@
 	  on(dom.byId('nextForegroundButton'), "click", getNextForeground);
 	  on(dom.byId('prevForegroundButton'), "click", getPreviousForeground);
     var colorPicker = new ColorPicker({}, "colorPicker");
+    //make_upload_buttons_clear_corresponding_radio_buttons();
 	  
       dojox.lang.aspect.advise(portalFG, "queryItems", {
         afterReturning: function (queryItemsPromise) {
@@ -147,6 +152,14 @@
   });
 
 function make_upload_buttons_clear_corresponding_radio_buttons(){
+  on(dom.byId("backgroundUpload"), "click", function(){
+    console.log("Test test");
+    query(".backgroundGrid").query("input[type=radio]").set("checked", false);
+  });
+  on(dom.byId("foregroundUpload"), "change", function(){
+    query(".foregroundGrid").query("input[type=radio]").set("checked", false);
+  });
+
   $("#backgroundUpload").on("change", function(){
     $(".backgroundGrid").find("input:radio").prop("checked", false);
   });
@@ -154,12 +167,7 @@ function make_upload_buttons_clear_corresponding_radio_buttons(){
   $("#foregroundUpload").on("change", function(){
     $(".foregroundGrid").find("input:radio").prop("checked", false);
   });
-}
 
-function load_color_picker(){
-  $("#colorPicker").spectrum({
-    color:"#fff"
-  });
 }
 
 function updateGrid(queryResponse) { //for backgrounds
