@@ -68,8 +68,16 @@
 	  on(dom.byId('prev'), "click", getPrevious);
 	  on(dom.byId('nextForegroundButton'), "click", getNextForeground);
 	  on(dom.byId('prevForegroundButton'), "click", getPreviousForeground);
-    var colorPicker = new ColorPicker({}, "colorPicker");
-    //make_upload_buttons_clear_corresponding_radio_buttons();
+    
+    var colorPicker = new ColorPicker({}, "colorPicker"); //summon the colorpicker
+
+    
+    on(dom.byId("backgroundUpload"), "change", function(){ //uncheck the radio buttons when an image is uploaded
+      query(".backgroundGrid").query("input[type=radio]").attr("checked", false);
+    });
+    on(dom.byId("foregroundUpload"), "change", function(){
+      query(".foregroundGrid").query("input[type=radio]").attr("checked", false);
+    });
 	  
       dojox.lang.aspect.advise(portalFG, "queryItems", {
         afterReturning: function (queryItemsPromise) {
@@ -150,25 +158,6 @@
       });
     }
   });
-
-function make_upload_buttons_clear_corresponding_radio_buttons(){
-  on(dom.byId("backgroundUpload"), "click", function(){
-    console.log("Test test");
-    query(".backgroundGrid").query("input[type=radio]").set("checked", false);
-  });
-  on(dom.byId("foregroundUpload"), "change", function(){
-    query(".foregroundGrid").query("input[type=radio]").set("checked", false);
-  });
-
-  $("#backgroundUpload").on("change", function(){
-    $(".backgroundGrid").find("input:radio").prop("checked", false);
-  });
-
-  $("#foregroundUpload").on("change", function(){
-    $(".foregroundGrid").find("input:radio").prop("checked", false);
-  });
-
-}
 
 function updateGrid(queryResponse) { //for backgrounds
   //update the gallery to get the next page of items
