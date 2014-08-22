@@ -6,6 +6,7 @@
     var queryParamsFG;
 	var nextQueryParamsBG;
     var queryParamsBG;
+	var thumbnailGeneratorURL = "http://nwdemo1-int.esri.com/arcgis/rest/services/GP/GenerateThumb/GPServer";
 	
 	var item1, item2;
 	var displayOptions = {
@@ -311,40 +312,100 @@ function getPreviousForeground() {
 		});
 	}
 	
-function submitForm() {
-	//with(dojo.byId('myform'))with(elements[0])with(elements[checked?0:1])alert(name+'='+value);
-	if (dojo.byId('backgroundUpload').files.length > 0) {
-		//var theForm = dojo.create("form");
-		var layerUrl = "http://nwdemo1.esri.com/arcgis/rest/services/GP/GenerateThumb/GPServer/uploads/upload";
-		var layersRequestBG = esri.request({
-		  url: layerUrl,
-		  //form: { f: "json", file: dojo.byId('backgroundUpload'), description: "BG Upload" },
-		  form: dojo.byId("bgForm"),
-		  handleAs: "json",
-		  callbackParamName: "callback"
-		},{usePost: true});
-		layersRequestBG.then(
-		  function(response) {
-			console.log("Success: ", response);
-		}, function(error) {
-			console.log("Error: ", error.message);
+	function submitForm() {
+		require(["dojo/dom"], function(dom){
+			with(dom.byId('fgForm'))with(elements[0])with(elements[checked?0:1])alert(name+'='+value);
+			return false;
+        });
+		with(dojo.byId('bgForm'))with(elements[0])with(elements[checked?0:1])alert(name+'='+value);
+		with(dojo.byId('fgForm'))with(elements[0])with(elements[checked?0:1])alert(name+'='+value);
+		
+		var imageFG, imageBG;
+		var promises, uploadResults;
+		var imageFGfromUser = false;
+		var imageBGfromUser = false;
+		
+		if (dojo.byId('backgroundUpload').files.length > 0) {
+			imageBGfromUser = true;
+			var layerUrl = thumbnailGeneratorURL + "/uploads/upload";
+			var layersRequestBG = esri.request({
+			  url: layerUrl,
+			  form: dojo.byId("bgForm"),
+			  handleAs: "json",
+			  callbackParamName: "callback"
+			},{usePost: true});
+			imageBG = layersRequestBG;
+		} else {
+			imageBG = null;
+		}
+		
+		if (dojo.byId('foregroundUpload').files.length > 0) {
+			imageFGfromUser = true;
+			var layerUrl = thumbnailGeneratorURL + "/uploads/upload";
+			var layersRequestFG = esri.request({
+			  url: layerUrl,
+			  form: dojo.byId("fgForm"),
+			  handleAs: "json",
+			  callbackParamName: "callback"
+			},{usePost: true});
+			imageFG = layersRequestFG;
+		} else {
+			imageFG = null;
+		}
+		
+		require(["dojo/promise/all"], function(all) {
+			var images = [];
+			if (imageBG)
+				images.push(imageBG);
+			if (imageFG)
+				images.push(imageFG);
+				
+			if (images.length > 0) {
+				promises = new all(images);
+				promises.then(handleUploadsIfNecessary);
+			} else {
+				require(["esri/tasks/DataFile"], function(DataFile) { 
+					var dataFile1b = new DataFile();
+					var dataFile2b = new DataFile();
+					dataFile1b.url = "http://www.arcgis.com/sharing/rest/content/items/ee46269702be4e6cb18a4bff6309f484/data";
+					dataFile2b.url = "http://www.arcgis.com/sharing/rest/content/items/c6d885522576422aa68bf861df230c3a/data";
+					handleQueryResults([dataFile1b, dataFile2b]);
+				});
+			}
+			
+			function handleUploadsIfNecessary(results) {
+				require(["esri/tasks/DataFile"], function(DataFile) { 
+					var dataFile1a = new DataFile();
+					var dataFile2a = new DataFile();
+					dataFile1a.itemID = results[0].item.itemID;
+					dataFile2a.itemID = results[1].item.itemID;
+					handleQueryResults([dataFile1a, dataFile2a]);
+				});
+			}
+			
+			function handleQueryResults(results) {
+				//console.log(results);
+				//uploadResults = results;
+				require(["esri/tasks/Geoprocessor"], function(Geoprocessor) {
+					var gp = new Geoprocessor(thumbnailGeneratorURL + "/Generate%20Thumb");
+					//require(["esri/tasks/DataFile"], function(DataFile) { 
+					//var dataFile1 = new DataFile();
+					//var dataFile2 = new DataFile();
+					//dataFile1.itemID = uploadResults[0].item.itemID;
+					//dataFile2.itemID = uploadResults[1].item.itemID;
+					var params = {"ItemText": "The rain in spain falls mainly in the plains", "FontSize": "15", "TextColor": "#FF0000", "Align": "Left", "SelectedFont": "DejaVuSansMono-Bold.ttf", "ULX": "0", "ULY": "90", "LRX": "165", "LRY": "133", "BackgroundImage": results[0], "ForegroundImage": results[1]};
+					gp.submitJob(params, completeCallback, statusCallback);
+					function statusCallback(jobInfo){
+						console.log(jobInfo.jobStatus);
+					}
+					function completeCallback(jobInfo) {
+						console.log(jobInfo);
+						gp.getResultData(jobInfo.jobId, "OutputImage", function(result){
+							console.log(result);
+						});
+					}
+					//});
+				});
+			}
 		});
 	}
-	if (dojo.byId('foregroundUpload').files.length > 0) {
-		//var theForm = dojo.create("form");
-		var layerUrl = "http://nwdemo1.esri.com/arcgis/rest/services/GP/GenerateThumb/GPServer/uploads/upload";
-		var layersRequestFG = esri.request({
-		  url: layerUrl,
-		  //form: { f: "json", file: dojo.byId('backgroundUpload'), description: "BG Upload" },
-		  form: dojo.byId("fgForm"),
-		  handleAs: "json",
-		  callbackParamName: "callback"
-		},{usePost: true});
-		layersRequestFG.then(
-		  function(response) {
-			console.log("Success: ", response);
-		}, function(error) {
-			console.log("Error: ", error.message);
-		});
-	}
-}
