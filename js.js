@@ -7,6 +7,7 @@
 	var nextQueryParamsBG;
     var queryParamsBG;
 	var thumbnailGeneratorURL = "http://nwdemo1-int.esri.com/arcgis/rest/services/GP/GenerateThumb/GPServer";
+	var dataFile1b, dataFile2b;
 	
 	var item1, item2;
 	var displayOptions = {
@@ -250,17 +251,12 @@ function getPreviousForeground() {
 }
 	
 	function submitForm() {
-		require(["dojo/dom"], function(dom){
-			with(dom.byId('fgForm'))with(elements[0])with(elements[checked?0:1])alert(name+'='+value);
-			return false;
-        });
-		with(dojo.byId('bgForm'))with(elements[0])with(elements[checked?0:1])alert(name+'='+value);
-		with(dojo.byId('fgForm'))with(elements[0])with(elements[checked?0:1])alert(name+'='+value);
 		
 		var imageFG, imageBG;
 		var promises, uploadResults;
 		var imageFGfromUser = false;
 		var imageBGfromUser = false;
+
 		
 		if (dojo.byId('backgroundUpload').files.length > 0) {
 			imageBGfromUser = true;
@@ -291,22 +287,51 @@ function getPreviousForeground() {
 		}
 		
 		require(["dojo/promise/all"], function(all) {
-			var images = [];
-			if (imageBG)
-				images.push(imageBG);
-			if (imageFG)
-				images.push(imageFG);
+			//var images = [];
+			//if (imageBG)
+			//	images.push(imageBG);
+			//else
+			//	images.push(null);
+			//if (imageFG)
+			//	images.push(imageFG);
+			//else
+			//	images.push(null);
 				
-			if (images.length > 0) {
-				promises = new all(images);
+			if (imageBG || imageFG) {
+				promises = new all([imageBG,imageFG]);
 				promises.then(handleUploadsIfNecessary);
 			} else {
-				require(["esri/tasks/DataFile"], function(DataFile) { 
-					var dataFile1b = new DataFile();
-					var dataFile2b = new DataFile();
-					dataFile1b.url = "http://www.arcgis.com/sharing/rest/content/items/ee46269702be4e6cb18a4bff6309f484/data";
-					dataFile2b.url = "http://www.arcgis.com/sharing/rest/content/items/c6d885522576422aa68bf861df230c3a/data";
+				require(["esri/tasks/DataFile"], function(DataFile) {
+					getSelectedBG();
+					getSelectedFG();
 					handleQueryResults([dataFile1b, dataFile2b]);
+				});
+			}
+			
+			function getSelectedFG() {
+				require(["esri/tasks/DataFile"], function(DataFile) { 
+					dataFile2b = new DataFile();
+					var radioObj = dojo.byId('fgForm');
+					var radioLength = radioObj.length;
+					for (var i=0; i<radioLength; i++){
+					  if(radioObj[i].checked){
+						dataFile2b.url = radioObj[i].value;
+						return dataFile2b;
+					  }
+					}
+				});
+			}	
+
+			function getSelectedBG() {
+				require(["esri/tasks/DataFile"], function(DataFile) { 
+					dataFile1b = new DataFile();
+					var radioObj = dojo.byId('bgForm');
+					var radioLength = radioObj.length;
+					for (var i=0; i<radioLength; i++){
+					  if(radioObj[i].checked){
+						dataFile1b.url = radioObj[i].value;
+					  }
+					}
 				});
 			}
 			
@@ -314,8 +339,16 @@ function getPreviousForeground() {
 				require(["esri/tasks/DataFile"], function(DataFile) { 
 					var dataFile1a = new DataFile();
 					var dataFile2a = new DataFile();
-					dataFile1a.itemID = results[0].item.itemID;
-					dataFile2a.itemID = results[1].item.itemID;
+					if (results[0]) {
+						dataFile1a.itemID = results[0].item.itemID;
+					} else {
+						dataFile1a.url = dataFile1b.url;
+					}
+					if (results[1]) {
+						dataFile2a.itemID = results[1].item.itemID;
+					} else {
+						dataFile2a.url = dataFile2b.url;
+					}
 					handleQueryResults([dataFile1a, dataFile2a]);
 				});
 			}
