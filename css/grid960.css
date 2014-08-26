@@ -64,6 +64,14 @@
 		color: #777;
 		
 	}
+/* thumbnail preview attempt
+  #preview{
+    float:left;
+    height: 133px;
+    width:200px;
+    border: 1px solid #696969;
+  }
+*/
 
     li:hover .tooltip{
    		display:block

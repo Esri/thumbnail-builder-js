@@ -65,11 +65,11 @@
 	  
       on(portalBG, 'ready', loadPortal);
       on(portalFG, 'ready', loadForegrounds);
-	  
 	  on(dom.byId('next'), "click", getNext);
 	  on(dom.byId('prev'), "click", getPrevious);
 	  on(dom.byId('nextForegroundButton'), "click", getNextForeground);
 	  on(dom.byId('prevForegroundButton'), "click", getPreviousForeground);
+    //on(query("div.imageOption"), "div.imageOption:click", console.log("working " + event.target));
     
     var colorPicker = new ColorPicker({}, "colorPicker"); //summon the colorpicker
 
@@ -227,6 +227,21 @@ function getNext() {
     groupBG.queryItems(nextQueryParamsBG).then(updateGrid);
   }
 }
+
+/* //attempt at making a preview of the thumbnail
+function getUrlForImageThatCorrespondsWithClickedRadioButton(event){
+  var clickedRadio = event.target;
+  var img = clickedRadio.parent().siblings("img");
+  var imgUrl = img.attr("src");
+  return imgUrl;
+  console.log(imgUrl);
+}
+
+function previewThumbnail(event){
+  console.log("it's getting this far");
+  dom.byId("preview").innerHTML="<img src='"+ getUrlForImageThatCorrespondsWithClickedRadioButton(event); +"'";
+}
+*/
 
 function getPrevious() {
   if (nextQueryParamsBG.start !== 1) { //we aren't at the beginning keep querying. 
