@@ -14,7 +14,7 @@
     <link rel="icon" type="image/png" href="favicon.png"> <!-- Travel designed by Elliot Verhaeren from the thenounproject.com -->
 
     <script>var dojoConfig = { async: true };</script>
-    <script src="http://js.arcgis.com/3.10/">//This was originally 3.8. I've updated it, but it would be easy to revert if necessary.</script>
+    <script src="http://js.arcgis.com/3.10/"></script>
     <script src="js.js"></script>
   </head>
   
@@ -139,11 +139,10 @@
               <tr>
                 <td>Bounding Box:</td>
                 <td>
-                  <select name="bounding">
-                    <option value="UpperLeft">Upper Left</option>
-                    <option value="UpperRight">Upper Right</option>
-                    <option value="BottomLeft">Bottom Left</option>
-                    <option value="BottomRight">Bottom Right</option>
+                  X1: <input type="number" name="x1" value="0" min="0" max="200"> &nbsp;
+                  Y1: <input type="number" name="y1" value="90" min="0" max="133"> &nbsp;
+                  X2: <input type="number" name="x2" value="165" min="0" max="200"> &nbsp;
+                  Y2: <input type="number" name="y2" value="133" min="0" max="133">
                   </select>
                 </td>
               </tr>
