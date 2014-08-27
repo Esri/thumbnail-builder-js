@@ -387,8 +387,12 @@ function getPreviousForeground() {
 					params.FontSize = dojo.byId("fontSize").value;
 					params.Align = dojo.byId("textAlign").value;
 					params.TextColor = dijit.byId("colorPicker").value;
-					console.log(dojo.byId("thumbText").value);
-					console.log(dojo.byId("selectedFont").value);
+					params.ULX = dojo.byId("ulx").value;
+					params.ULY = dojo.byId("uly").value;
+					params.LRX = dojo.byId("lrx").value;
+					params.LRY = dojo.byId("lry").value;
+					
+					console.log(params);
 					gp.submitJob(params, completeCallback, statusCallback);
 					function statusCallback(jobInfo){
 						console.log(jobInfo.jobStatus);
