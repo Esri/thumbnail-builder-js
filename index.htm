@@ -8,6 +8,7 @@
     <title>Thumbnail Builder</title>
 
     <link rel="stylesheet" href="css/grid960.css">
+	<link rel="stylesheet" href="http://js.arcgis.com/3.10/js/dojo/dijit/themes/claro/claro.css">
     <link rel="stylesheet" href="http://js.arcgis.com/3.10/js/esri/css/esri.css">
      <link rel="stylesheet" href="ColorPicker/ColorPicker.css" />
     <link rel="icon" type="image/png" href="favicon.png"> <!-- Travel designed by Elliot Verhaeren from the thenounproject.com -->
@@ -17,7 +18,7 @@
     <script src="js.js"></script>
   </head>
   
-  <body>
+  <body class="claro">
     <div id='header'>
       <div class='container_16'>
         <div class='grid_2'>
@@ -74,12 +75,12 @@
           <div id="finalForm">
             <table>
               <tr>
-                <td>Text on the image:</td><td><input type="text" name="text_on_image"></td>
+                <td>Text on the image:</td><td><input type="text" name="text_on_image" id="thumbText"></td>
               </tr>
               <tr>
                 <td>Font:</td>
                 <td>
-                  <select name="font">
+                  <select name="font" id="selectedFont">
                     <option value="arial.ttf">Arial</option>
                     <option value="arialbd.ttf">Arial Bold</option>
                     <option value="arialbi.ttf">Arial Bold Italic</option>
@@ -116,7 +117,7 @@
               <tr>
                 <td>Font Size:</td>
                 <td>
-                  <input type="text" size="1">
+                  <input type="text" size="1" id="fontSize" value="15">
                 </td>
               </tr>
               <tr>
@@ -128,7 +129,7 @@
               <tr>
                 <td>Alignment:</td>
                 <td>
-                  <select name="alignment">
+                  <select name="alignment" id="textAlign">
                     <option value="Left">Left</option>
                     <option value="Right">Right</option>
                     <option value="Center">Center</option>
@@ -152,7 +153,12 @@
         </div>
       </div>
     </div>
-  <button id="submitButton" class="large button gray" onclick="submitForm()">Submit</button>  
+  <button id="submitButton" class="large button gray" onclick="submitForm()">Submit</button>
+  <div data-dojo-type="dijit/Dialog" data-dojo-id="dlgThumbnail" title="Here's Your Thumbnail">
+      <div id="info"></div><br/>
+      <div id="download"></div>
+	</div>
+
   </body>
   
 

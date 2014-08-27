@@ -34,7 +34,8 @@
 	"esri/IdentityManager",
 	"dojox/widget/ColorPicker", //adding color picker from dojo to replace jQuery spectrum
 	"dijit/form/RadioButton",
-	"dojox/lang/aspect"
+	"dojox/lang/aspect",
+	"dijit/Dialog"
   ],function(
 	parser,
 	ready, 
@@ -51,7 +52,8 @@
 	IdentityManager,
 	ColorPicker,
 	RadioButton,
-	dojoLang
+	dojoLang,
+	Dialog
   ) {
 
 
@@ -72,7 +74,7 @@
     //on(query("div.imageOption"), "div.imageOption:click", console.log("working " + event.target));
     
     var colorPicker = new ColorPicker({}, "colorPicker"); //summon the colorpicker
-
+	//dlgThumbnail.show();
     
     on(dom.byId("backgroundUpload"), "change", function(){ //uncheck the radio buttons when an image is uploaded
       query(".backgroundGrid").query("input[type=radio]").attr("checked", false);
@@ -311,7 +313,8 @@ function getPreviousForeground() {
 			//	images.push(imageFG);
 			//else
 			//	images.push(null);
-				
+			getSelectedBG();
+			getSelectedFG();
 			if (imageBG || imageFG) {
 				promises = new all([imageBG,imageFG]);
 				promises.then(handleUploadsIfNecessary);
@@ -379,14 +382,30 @@ function getPreviousForeground() {
 					//dataFile1.itemID = uploadResults[0].item.itemID;
 					//dataFile2.itemID = uploadResults[1].item.itemID;
 					var params = {"ItemText": "The rain in spain falls mainly in the plains", "FontSize": "15", "TextColor": "#FF0000", "Align": "Left", "SelectedFont": "DejaVuSansMono-Bold.ttf", "ULX": "0", "ULY": "90", "LRX": "165", "LRY": "133", "BackgroundImage": results[0], "ForegroundImage": results[1]};
+					params.ItemText = dojo.byId("thumbText").value;
+					params.SelectedFont = dojo.byId("selectedFont").value;
+					params.FontSize = dojo.byId("fontSize").value;
+					params.Align = dojo.byId("textAlign").value;
+					params.TextColor = dijit.byId("colorPicker").value;
+					console.log(dojo.byId("thumbText").value);
+					console.log(dojo.byId("selectedFont").value);
 					gp.submitJob(params, completeCallback, statusCallback);
 					function statusCallback(jobInfo){
 						console.log(jobInfo.jobStatus);
 					}
 					function completeCallback(jobInfo) {
 						console.log(jobInfo);
-						gp.getResultData(jobInfo.jobId, "OutputImage", function(result){
-							console.log(result);
+						gp.getResultData(jobInfo.jobId, "OutputImage", function(results){
+							console.log(results);
+							if (results) {
+							  dojo.byId("download").innerHTML = "<a href='" + results.value.url + "' target='_new'>Download image</a>";
+							  dojo.byId("info").innerHTML = "<img src='" + results.value.url + "'></img>";          
+							}
+							//dijit.byId('itemTypeSelect').attr("disabled", false);
+							//dijit.byId('ISOSelect').attr("disabled", false)
+							//dijit.byId('thumbnailText').attr("disabled", false)
+							//dijit.byId("submitbtn").attr("disabled", false);
+							dlgThumbnail.show();
 						});
 					}
 					//});
