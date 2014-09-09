@@ -6,7 +6,7 @@
     var queryParamsFG;
 	var nextQueryParamsBG;
     var queryParamsBG;
-	var thumbnailGeneratorURL = "http://nwdemo1-int.esri.com/arcgis/rest/services/GP/GenerateThumb/GPServer";
+	var thumbnailGeneratorURL = "http://nwdemo1-int.esri.com/arcgis/rest/services/GP/GenerateThumb2/GPServer";
 	var dataFile1b, dataFile2b;
 	
 	var item1, item2;
@@ -381,7 +381,19 @@ function getPreviousForeground() {
 					//var dataFile2 = new DataFile();
 					//dataFile1.itemID = uploadResults[0].item.itemID;
 					//dataFile2.itemID = uploadResults[1].item.itemID;
-					var params = {"ItemText": "The rain in spain falls mainly in the plains", "FontSize": "15", "TextColor": "#FF0000", "Align": "Left", "SelectedFont": "DejaVuSansMono-Bold.ttf", "ULX": "0", "ULY": "90", "LRX": "165", "LRY": "133", "BackgroundImage": results[0], "ForegroundImage": results[1]};
+					var params = {"ItemText": "The rain in spain falls mainly in the plains", "FontSize": "15", "TextColor": "#FF0000", "Align": "Left", "SelectedFont": "DejaVuSansMono-Bold.ttf", "ULX": "0", "ULY": "90", "LRX": "165", "LRY": "133"};
+					if (results[0].url) {
+						params.BackgroundImage = results[0];
+					} else {
+						params.BackgroundImageItemID = results[0];
+					}
+					
+					if (results[1].url) {
+						params.ForegroundImage = results[1];
+					} else {
+						params.ForegroundImageItemID = results[1];
+					}
+
 					params.ItemText = dojo.byId("thumbText").value;
 					params.SelectedFont = dojo.byId("selectedFont").value;
 					params.FontSize = dojo.byId("fontSize").value;
