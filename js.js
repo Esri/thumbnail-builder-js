@@ -6,7 +6,7 @@
     var queryParamsFG;
 	var nextQueryParamsBG;
     var queryParamsBG;
-	var thumbnailGeneratorURL = "http://nwdemo1-int.esri.com/arcgis/rest/services/GP/GenerateThumb2/GPServer";
+	var thumbnailGeneratorURL = "http://nwdemo1.esri.com/arcgis/rest/services/GP/GenerateThumb2/GPServer";
 	var dataFile1b, dataFile2b;
 	
 	var item1, item2;
@@ -375,7 +375,7 @@ function getPreviousForeground() {
 				//console.log(results);
 				//uploadResults = results;
 				require(["esri/tasks/Geoprocessor"], function(Geoprocessor) {
-					var gp = new Geoprocessor(thumbnailGeneratorURL + "/Generate%20Thumb");
+					var gp = new Geoprocessor(thumbnailGeneratorURL + "/Generate%20Thumbnail%20for%20ArcGIS%20Online%20or%20Portal%20for%20ArcGIS%20Items");
 					//require(["esri/tasks/DataFile"], function(DataFile) { 
 					//var dataFile1 = new DataFile();
 					//var dataFile2 = new DataFile();
