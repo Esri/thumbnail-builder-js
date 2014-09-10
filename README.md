@@ -15,4 +15,4 @@ TODO
 
 ### Installing Locally
 
-TODO
+You will need to install the proxy page.  It can be downloaded from here: https://github.com/Esri/resource-proxy/releases
