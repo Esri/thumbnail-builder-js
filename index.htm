@@ -184,29 +184,23 @@
                 </td>
               </tr>
               <tr>
-                <td>Bounding Box:</td>
-                <td>
-                  X1: <input type="number" name="x1" value="0" min="0" max="200" id="ulx"> &nbsp;
-                  Y1: <input type="number" name="y1" value="90" min="0" max="133" id="uly"> &nbsp;
-                  X2: <input type="number" name="x2" value="165" min="0" max="200" id="lrx"> &nbsp;
-                  Y2: <input type="number" name="y2" value="133" min="0" max="133" id="lry">
+                <td>Bounding Box (drag and drop on the image):</td>
+                <td><img class="jCropImage" src="http://www.arcgis.com/sharing/rest/content/items/78a48e5c90a7485a96b59e6cdbcc7289/info/thumbnail/WSDOTOMC_GreenPdf.png" id="target" alt="[Jcrop Example]" />
+                <!-- This is the image we're attaching Jcrop to --><div class="inline-labels">
+          <label>X1 <input type="text" size="4" id="x1" name="x1" /></label>
+          <label>Y1 <input type="text" size="4" id="y1" name="y1" /></label>
+          <label>X2 <input type="text" size="4" id="x2" name="x2" /></label>
+          <label>Y2 <input type="text" size="4" id="y2" name="y2" /></label>
+          <!--<label>W <input type="text" size="4" id="w" name="w" /></label>
+          <label>H <input type="text" size="4" id="h" name="h" /></label>-->
+        </div>
                 </td>
 				
               </tr>
-			  <tr><td><div class="inline-labels">
-					<label>X1 <input type="text" size="4" id="x1" name="x1" /></label>
-					<label>Y1 <input type="text" size="4" id="y1" name="y1" /></label>
-					<label>X2 <input type="text" size="4" id="x2" name="x2" /></label>
-					<label>Y2 <input type="text" size="4" id="y2" name="y2" /></label>
-					<label>W <input type="text" size="4" id="w" name="w" /></label>
-					<label>H <input type="text" size="4" id="h" name="h" /></label>
-				</div>
+			  <tr><td>
+        
 				</td>
 				</tr>
-				<tr><td>
-				  <!-- This is the image we're attaching Jcrop to -->
-				<img src="http://www.arcgis.com/sharing/rest/content/items/78a48e5c90a7485a96b59e6cdbcc7289/info/thumbnail/WSDOTOMC_GreenPdf.png" id="target" alt="[Jcrop Example]" />
-				</td></tr>
             </table>
           </div>
           </form>
