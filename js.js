@@ -6,7 +6,7 @@ var nextQueryParamsFG;
 var queryParamsFG;
 var nextQueryParamsBG;
 var queryParamsBG;
-var thumbnailGeneratorURL = "http://nwdemo1.esri.com/arcgis/rest/services/GP/GenerateThumb2/GPServer";
+var thumbnailGeneratorURL = "http://nwdemo1.esri.com/arcgis/rest/services/GP/GenerateThumb/GPServer";
 var dataFile1b, dataFile2b;
 
 var item1, item2;
