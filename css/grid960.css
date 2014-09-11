@@ -5,8 +5,9 @@
       }
 
       h1 {
-        font-family:"Helvetica", sans-serif;
-        font: bold 2em/1em;
+        font-family: "Helvetica", sans-serif;
+        font-weight: bold;
+        font-size: 2em;
         margin: 0;
         color: #686868;
       }
@@ -31,18 +32,29 @@
         background:#e3e3e3;
    	}
 
+    .sectionTitle {
+      font-family:"Helvetica", sans-serif;
+      text-align: center;
+      color: #686868;
+      margin: 1em 0;
+      font-weight: normal;
+      font-size: 1.25em;
+    }
+
    	#backgroundForm{
-   		border-color: #999;
-   		border-width: 1.5px;
-   		border-style: dotted;
+   		border-color: #eee;
+   		border-width: 1em;
+   		border-style: solid;
    		margin-bottom: 20px;
+      border-radius: 3em;
   	}
 
    	#foregroundForm{
-   		border-color: #999;
-   		border-width: 1.5px;
-   		border-style: dotted;
+   		border-color: #eee;
+   		border-width: 1em;
+   		border-style: solid;
    		margin-bottom: 20px;
+      border-radius: 3em;
    	}
 
    	table{
@@ -51,25 +63,46 @@
    	}
 
    	#finalForm{
-   		font-family: "Helvetica";
+   		font-family: "Helvetica", sans-serif;
    		color: #777;
    		margin-top: 00%;
-   		border-color: #999;
-   		border-width: 1.5px;
-   		border-style: dotted;
+   		border-color: #eee;
+   		border-width: 1em;
+   		border-style: solid;
+      border-radius: 3em;
    	}
+
+    #finalForm table {
+      margin-bottom: 1em;
+    }
     
 	.fileUpload{
-		font-family: "Helvetica";
+		font-family: "Helvetica", sans-serif;
 		color: #777;
-		
+		margin-bottom: 1em;
 	}
 
 
 
+  .fileUpload table {
+    width: 100%;
+  }
+
+  .fileUpload table .firstColumn {
+    text-align: right;
+  }
+
+  .fileUpload table .lastColumn {
+    text-align: left;
+  }
+
+  .guidanceNote {
+    font-size: 0.75em;
+  }
+
     li:hover .tooltip{
    		display:block
-    };
+    }
 
       ul.gallery {
  
@@ -93,8 +126,8 @@
       }
 
       div.fileUpload{
-      	display:inline-block;
-      	margin-left:24%;
+      	/*display:inline-block;*/
+      	/*margin-left:24%;*/
       }
 
       ul.gallery div {
@@ -156,19 +189,23 @@
       }
       
       #backgroundNextPrev{
-        position:relative;
-        top:5px;
+        /*position:relative;*/
+        /*top:5px;*/
+      }
+
+      #submitButtonBar {
+        margin: 0 0 1em 0;
       }
 
       #next{
-        position:relative;
-        left:100px;
-        width:50px;
+        /*position:relative;*/
+        /*left:100px;*/
+        /*width:50px;*/
       }
       #prev{
-        position:relative;
-        width:85px;
-        right:100px;
+        /*position:relative;*/
+        /*width:85px;*/
+        /*right:100px;*/
       }
 
       #foregroundNextPrev{
@@ -177,16 +214,18 @@
       }
 
       #nextForegroundButton{
-        position:relative;
-        left:100px;
-        width:50px;
+        /*position:relative;*/
+        /*left:100px;*/
+        /*width:50px;*/
       }
       #prevForegroundButton{
-        position:relative;
-        width:85px;
-        right:100px;
+        /*position:relative;*/
+        /*width:85px;*/
+        /*right:100px;*/
       }
-
+      .topAlign {
+        vertical-align: top;
+      }
       /*
       #next{
       	position:absolute;

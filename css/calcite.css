@@ -1,0 +1,747 @@
+.btn,
+.esri .dijitDialog .dijitButton,
+.esri .dijitDialog .dijitButton.primary,
+.esri .dijitDialog .dijitButton.secondary,
+.esri .dijitDialog .dijitButton.cancel,
+.esri .dijitDialog .dijitButton.calcite.caution,
+.esri .dijitDialog .dijitButton.calcite,
+.esri .dijitButton.calcite,
+.esri .dijitToggleButton.calcite,
+.esri .dijitDropDownButton.calcite,
+.esri .simpleDirections .esriStopsGetDirections.calcite {
+  border-radius: 4px;
+  background: #a6a6a6;
+  filter:none;
+  font-size: .875em;
+  line-height: 1.71429em;
+  font-family: "Avenir LT W01 65 Medium",Arial,Helvetica,sans-serif;
+  /*padding: .3em 1.25em .3em !important;*/
+  padding:0;
+  border: none;
+  color: #fff;
+  display: inline-block;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  text-shadow: 0 -1px 1px rgba(0,0,0,0.125);
+  letter-spacing: 1px;
+  position: relative;
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.125);
+  -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.125);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.125);
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -webkit-transition: all .05s linear;
+  -moz-transition: all .05s linear;
+  -o-transition: all .05s linear;
+  transition: all .05s linear;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  -webkit-font-smoothing: antialiased;
+}
+.btn {
+  padding: .3em 1.25em .3em !important;
+}
+a.btn.calcite,
+a.btn.calcite:hover,
+a.btn.calcite:active,
+a.btn.calcite:visited  { color: #fff; }
+
+.esri .btn.calcite,
+.esri .calcite .dijitButtonContents,
+.esri .dijitDialog .dijitButton .dijitButtonContents,
+.esri .dijitDialog .dijitButton.primary .dijitButtonContents,
+.esri .dijitDialog .dijitButton.cancel .dijitButtonContents {
+  padding: .3em 1.25em .3em !important;  /*0.3em 1.3em 0.2em 1.3em !important; */
+}
+
+.esri .dijitDialog .dijitButton,
+.esri .dijitButton.calcite,
+.esri .dijitDropDownButton.calcite,
+.esri .dijitToggleButton.calcite  { line-height: normal !important; }
+.esri .dijitDialog .dijitButton .dijitButtonText { font-size: 14px !important; }
+
+.esri .dijitDialog .dijitButtonNode,
+.esri .calcite .dijitButtonNode,
+.esri .dijitButton.calcite .dijitButtonNode,
+.esri .dijitDropDownButton.calcite .dijitButtonNode,
+.esri .dijitToggleButton.calcite .dijitButtonNode {
+  margin:0 !important;
+  padding:0 !important;
+  height:auto;
+  font-size: 14px;
+}
+.esri .dijitDialog .dijitButtonNode,
+.esri .calcite .dijitButtonNode,
+.esri .dijitToolbar.calcite .dijitButtonNode,
+.esri .dijitSelect.calcite .dijitArrowButton {
+  background:none;
+  height: auto;
+  border-width:0;
+  padding:0;
+  border:none;
+  -moz-border-radius:0;
+  -webkit-border-radius:0;
+  border-radius:0;
+}
+.btn:hover,
+.btn:focus,
+.btn.selected,
+.esri .dijitDialog .dijitButton.dijitHover,
+.esri .dijitDialog .dijitButton.calcite.dijitHover,
+.esri .dijitDialog .dijitButton.calcite.dijitButtonHover,
+.esri .dijitButton.calcite:hover,
+.esri .dijitButton.calcite:focus,
+.esri .dijitButton.calcite.selected,
+.esri .dijitDropDownButton.calcite:hover,
+.esri .dijitDropDownButton.calcite:focus,
+.esri .dijitDropDownButton.calcite.selected,
+.esri .dijitToggleButton.calcite:hover,
+.esri .dijitToggleButton.calcite:focus,
+.esri .dijitToggleButton.calcite.selected,
+.esri .dijitToggleButton.calcite.dijitChecked {
+  background: gray;
+  color: #fff;
+}
+
+/* need this to not overwrite what's set in '.esri .dijitToggleButton.calcite.dijitChecked' above */
+.esri .dijitStackController .dijitToggleButtonChecked.calcite .dijitButtonNode {
+  background: none;
+}
+
+.esri .dijitDialog .dijitButton.primary,
+.esri .dijitDialog .dijitButton.secondary,
+.esri .dijitButtonHover.calcite { color:#fff; }
+/*
+.esri .dijitHover .dijitButtonText,
+.esri .dijitButtonHover .dijitButtonText,
+.esri .dijitButton.dijitButtonHover .dijitButtonText { color:#fff; }
+*/
+
+.esri .dijit,
+.esri .dijitReset,
+.esri .dijitInline,
+.esri .dijitTreeLabel,
+.esri .calcite .dijitButtonNode,
+.esri .calcite .dijitButtonContents,
+.esri .calcite .dijitButtonText { outline: none !important; }
+.esri .calcite .dijitButtonText {
+  line-height: 1.71429em;
+  display:inline-block;
+  padding:0 !important;
+  font-size: 1.167em !important; /*1.075em !important;*/
+}
+.esri .dijitToolbar .dijitButtonContents { padding: 0; }
+
+/* Button: Disabled - Start */
+.btn.disabled,
+.esri .dijitButton.calcite.dijitDisabled,
+.esri .dijitButton.calcite.disabled,
+.esri .dijitDialog .dijitButton.dijitButtonDisabled,
+.esri .dijitDropDownButton.calcite.dijitDisabled,
+.esri .dijitDropDownButton.calcite.disabled {
+  opacity: 0.5;
+  background-color: rgb(166, 166, 166);
+  cursor: default !important;
+}
+.esri .calcite.dijitDisabled,
+.esri .dijitDialog .dijitButton.dijitDisabled,
+.esri .calcite.disabled .dijitButtonText,
+.esri .calcite.disabled .dijitButtonNode,
+.esri .calcite.disabled .dijitButtonContents,
+.esri .calcite.disabled .dijitButtonText { cursor:default !important; /* Added 2013-05-29 FG */ }
+/* Button: Disabled - END */
+
+/* Button: Tiny - START */
+.btn.tiny,
+.esri .dijitButton.calcite.tiny,
+.esri .dijitToggleButton.calcite.tiny,
+.esri .dijitDropDownButton.calcite.tiny {
+  border-width: 1px;
+}
+.esri .dijitButton.calcite.tiny .dijitButtonContents,
+.esri .dijitDropDownButton.calcite.tiny .dijitButtonContents,
+.esri .dijitToggleButton.calcite.tiny .dijitButtonContents {
+  padding: 0.1em 0.6em 0.3em 0.6em !important;
+}
+.esri .dijitButton.calcite.tiny .dijitButtonContents {
+  padding: 0.08em 0.6em 0.4em 0.6em !important;
+  margin: 0 !important;
+}
+.esri .dijitButton.calcite.tiny .dijitButtonContents  .dijitButtonText {
+  display: inline-block;
+  overflow:visible;
+}
+.esri #addContent-main-top-input .dijitButton.calcite.tiny .dijitButtonContents .dijitButtonText {
+  display: block;
+  padding-top: 0.1em !important;
+}
+.btn.tiny {
+  font-size: 0.89em !important;
+  line-height: 0.9em !important;
+}
+.esri .dijitButton.calcite.tiny .dijitButtonText,
+.esri .dijitToggleButton.calcite.tiny .dijitButtonText,
+.esri .dijitDropDownButton.calcite.tiny .dijitButtonText {
+  font-size: 0.89em !important;
+  line-height: 1.2em !important;
+}
+/* Button: Tiny - END */
+
+/* Button: Small - START */
+.btn.small,
+.esri .dijitButton.calcite.small,
+.esri .dijitDropDownButton.calcite.small,
+.esri .dijitToggleButton.calcite.small {
+  border-width: 1px;
+}
+.esri .dijitButton.calcite.small .dijitButtonContents,
+.esri .dijitDropDownButton.calcite.small .dijitButtonContents,
+.esri .dijitToggleButton.calcite.small .dijitButtonContents {
+  padding: 0.21em 1.25em .15em !important;
+}
+.btn.small {
+  font-size: .8125em;
+  line-height: 1.84615em;
+  padding: 0.21em 1.25em .15em;
+}
+.esri .dijitButton.calcite.small .dijitButtonText,
+.esri .dijitDropDownButton.calcite.small .dijitButtonText,
+.esri .dijitToggleButton.calcite.small .dijitButtonText {
+  font-size: 1.083em !important;
+  line-height: 1.84615em !important;
+}
+/* Button: Small - END */
+
+/* Button: Large - START */
+.btn.large,
+.esri .dijitButton.calcite.large,
+.esri .dijitDropDownButton.calcite.large,
+.esri .dijitToggleButton.calcite.large {
+  border-width: 1px;
+}
+.esri .dijitButton.calcite.large .dijitButtonContents,
+.esri .dijitDropDownButton.calcite.large .dijitButtonContents,
+.esri .dijitToggleButton.calcite.large .dijitButtonContents {
+  padding: .4125em 1.25em .1875em !important;
+}
+.btn.large {
+  font-size: 1em;
+  line-height: 1.5em;
+}
+.esri .dijitButton.calcite.large .dijitButtonText,
+.esri .dijitDropDownButton.calcite.large .dijitButtonText,
+.esri .dijitToggleButton.calcite.large .dijitButtonText {
+  font-size: 1.333em !important;
+  line-height: 1.84615em!important;
+}
+/* Button: Large - END */
+
+/* Button: X-Large - START */
+.btn.x-large,
+.esri .dijitButton.calcite.x-large,
+.esri .dijitDropDownButton.calcite.x-large,
+.esri .dijitToggleButton.calcite.x-large {
+  border-width: 1px;
+}
+.esri .dijitButton.calcite.large .dijitButtonContents,
+.esri .dijitDropDownButton.calcite.large .dijitButtonContents,
+.esri .dijitToggleButton.calcite.large .dijitButtonContents {
+  padding: .4125em 1.25em .1875em !important;
+}
+.btn.x-large {
+  font-size: 1.5em;
+  line-height: 2em;
+}
+.esri .dijitButton.calcite.x-large .dijitButtonText,
+.esri .dijitDropDownButton.calcite.x-large .dijitButtonText,
+.esri .dijitToggleButton.calcite.x-large .dijitButtonText {
+  font-size: 2.000em !important;
+  line-height: 2em;
+}
+/* Button: X-Large - END */
+
+/* Button: Fill - START */
+.btn.fill,
+.esri .dijitButton.calcite.fill,
+.esri .dijitDropDownButton.calcite.fill,
+.esri .dijitToggleButton.calcite.fill {
+  width: 100% !important;
+  text-align: center !important;
+}
+/* Button: Fill - END */
+
+/* Button: Narrow - START */
+.btn.narrow,
+.btn.narrow1,
+.esri .dijitButton.calcite.narrow .dijitButtonContents,
+.esri .dijitButton.calcite.narrow1 .dijitButtonContents,
+.esri .dijitDropDownButton.calcite.narrow .dijitButtonContents,
+.esri .dijitDropDownButton.calcite.narrow1 .dijitButtonContents,
+.esri .dijitToggleButton.calcite.narrow .dijitButtonContents,
+.esri .dijitToggleButton.calcite.narrow1 .dijitButtonContents {
+  padding-left: 0.8em !important;
+  padding-right: 0.8em !important;
+}
+/* Button: Narrow - END */
+
+/* Button: Orange - START */
+.btn.primary,
+.btn.orange,
+.esri .dijitButton.calcite.primary,
+.esri .dijitButton.calcite.orange,
+.esri .dijitDialog .dijitButton.calcite.orange,
+.esri .dijitDropDownButton.calcite.primary,
+.esri .dijitDropDownButton.calcite.orange,
+.esri .dijitToggleButton.calcite.primary,
+.esri .dijitToggleButton.calcite.orange {
+  background: #e98d32;
+}
+.btn.primary:hover,
+.btn.primary.selected,
+.btn.orange:hover,
+.btn.orange.selected,
+.esri .dijitButton.calcite.primary:hover,
+.esri .dijitButton.calcite.orange:hover,
+.esri .dijitButton.calcite.primary:focus,
+.esri .dijitButton.calcite.orange:focus,
+.esri .dijitButton.calcite.primary.selected,
+.esri .dijitButton.calcite.orange.selected,
+.esri .dijitButton.calcite.orange.dijitButtonHover,
+.esri .dijitButton.calcite.orange.dijitButtonHover,
+.esri .dijitDialog .dijitButton.dijitButtonHover.calcite.orange,
+.esri .dijitDropDownButton.calcite.primary:hover,
+.esri .dijitDropDownButton.calcite.orange:hover,
+.esri .dijitDropDownButton.calcite.primary:focus,
+.esri .dijitDropDownButton.calcite.orange:focus,
+.esri .dijitDropDownButton.calcite.primary.selected,
+.esri .dijitDropDownButton.calcite.orange.selected {
+  background: #e16b17;
+}
+.btn.primary.disabled,
+.btn.orange.disabled
+.esri .dijitButton.calcite.primary.dijitDisabled,
+.esri .dijitButton.calcite.orange.dijitDisabled,
+.esri .dijitButton.calcite.primary.disabled,
+.esri .dijitButton.calcite.orange.disabled,
+.esri .dijitDialog .dijitButton.dijitDisabled.calcite.orange,
+.esri .dijitDropDownButton.calcite.primary.dijitDisabled,
+.esri .dijitDropDownButton.calcite.orange.dijitDisabled,
+.esri .dijitDropDownButton.calcite.primary.disabled,
+.esri .dijitDropDownButton.calcite.orange.disabled,
+.esri .dijitToggleButton.calcite.primary.dijitDisabled,
+.esri .dijitToggleButton.calcite.orange.dijitDisabled,
+.esri .dijitToggleButton.calcite.primary.disabled,
+.esri .dijitToggleButton.calcite.orange.disabled  {
+  background-color: rgb(233, 141, 50);
+}
+.esri .dijitButton.calcite.primary.dijitButtonHover .dijitButtonNode,
+.esri .dijitButton.calcite.orange.dijitButtonHover .dijitButtonNode,
+.esri .dijitDialog .dijitButtonHover.calcite.orange .dijitButtonNode,
+.esri .dijitDialog .dijitButtonHover.calcite.orange .dijitButtonText { color: #fff !important; }
+/* Button: Orange - END */
+
+/* Button: Blue - START */
+.btn.secondary,
+.btn.blue,
+.esri .dijitButton.calcite.secondary,
+.esri .dijitButton.calcite.blue,
+.esri .dijitDialog .dijitButton.primary,
+.esri .dijitDropDownButton.calcite.secondary,
+.esri .dijitDropDownButton.calcite.blue,
+.esri .dijitToggleButton.calcite.secondary,
+.esri .dijitToggleButton.calcite.blue,
+.esri .simpleDirections .esriStopsGetDirections.calcite.blue {
+  background-color: #5daddd;
+  background: #5daddd;
+}
+.btn.secondary:hover,
+.btn.secondary:focus,
+.btn.secondary.selected,
+.btn.blue:hover,
+.btn.blue:focus,
+.btn.blue.selected,
+.esri .dijitButton.calcite.secondary:hover,
+.esri .dijitButton.calcite.blue:hover,
+.esri .dijitButton.calcite.secondary:focus,
+.esri .dijitButton.calcite.blue:focus,
+.esri .dijitButton.calcite.secondary.selected,
+.esri .dijitButton.calcite.blue.selected,
+.esri .dijitDialog .dijitButton.primary:hover,
+.esri .dijitDialog .dijitButton.primary:focus,
+.esri .dijitDialog .dijitButton.dijitButtonHover.primary,
+.esri .dijitDropDownButton.calcite.secondary:hover,
+.esri .dijitDropDownButton.calcite.blue:hover,
+.esri .dijitDropDownButton.calcite.secondary:focus,
+.esri .dijitDropDownButton.calcite.blue:focus,
+.esri .dijitDropDownButton.calcite.secondary.selected,
+.esri .dijitDropDownButton.calcite.blue.selected,
+.esri .dijitToggleButton.calcite.secondary:hover,
+.esri .dijitToggleButton.calcite.blue:hover,
+.esri .dijitToggleButton.calcite.secondary:focus,
+.esri .dijitToggleButton.calcite.blue:focus,
+.esri .dijitToggleButton.calcite.secondary.selected,
+.esri .dijitToggleButton.calcite.blue.selected,
+.esri .simpleDirections .esriStopsGetDirections.calcite.blue:hover,
+.esri .simpleDirections .esriStopsGetDirections.calcite.blue:focus {
+  background: #4997d2;
+}
+.btn.secondary.disabled,
+.btn.blue.disabled,
+.esri .dijitButton.calcite.dijitDisabled.secondary,
+.esri .dijitButton.calcite.dijitDisabled.blue,
+.esri .dijitButton.calcite.secondary.disabled,
+.esri .dijitButton.calcite.blue.disabled,
+.esri .dijitDropDownButton.calcite.dijitDisabled.secondary,
+.esri .dijitDropDownButton.calcite.dijitDisabled.blue,
+.esri .dijitDropDownButton.calcite.secondary.disabled,
+.esri .dijitDropDownButton.calcite.blue.disabled,
+.esri .dijitDialog .dijitButton.primary.disabled,
+.esri .dijitDialog .dijitButton.dijitButtonDisabled.primary,
+.esri .dijitToggleButton.calcite.secondary.disabled,
+.esri .dijitToggleButton.calcite.blue.disabled
+.esri .dijitToggleButton.calcite.secondary.dijitDisabled,
+.esri .dijitToggleButton.calcite.blue.dijitDisabled,
+.esri .simpleDirections .esriStopsGetDirections.calcite.blue.disabled {
+  background-color: rgb(93, 173, 221);
+}
+.esri .dijitButton.calcite.secondary.dijitButtonHover .dijitButtonNode,
+.esri .dijitButton.calcite.blue.dijitButtonHover .dijitButtonNode,
+.esri .dijitDialog .dijitButtonHover.primary .dijitButtonNode,
+.esri .dijitDialog .dijitButtonHover.primary .dijitButtonText,
+.esri .dijitDropDownButton.calcite.secondary .dijitButtonNode,
+.esri .dijitDropDownButton.calcite.blue .dijitButtonNode { color: #fff !important; }
+
+.esri .dijitDropDownButton.calcite.secondary .dijitDownArrowButton .dijitArrowButtonInner,
+.esri .dijitDropDownButton.calcite.blue .dijitDownArrowButton .dijitArrowButtonInner  {
+  background-image: url(./images/ago_sprite.png) !important;
+  background-position: -50px -34px;
+}
+.esri .dijitDropDownButton.calcite.secondary.dijitHover .dijitDownArrowButton .dijitArrowButtonInner,
+.esri .dijitDropDownButton.calcite.blue.dijitHover .dijitDownArrowButton .dijitArrowButtonInner {
+  background-image: url(./images/ago_sprite.png) !important;
+  background-position: -50px -50px;
+}
+/* Button: Blue - END */
+
+/* Button: Blue1 - START */
+.btn.blue1,
+.esri .dijitButton.calcite.blue1,
+.esri .dijitDropDownButton.calcite.blue1,
+.esri .dijitToggleButton.calcite.blue1 {
+  background: #E1F0FB;
+  color:#57585A;
+  text-shadow:none;
+}
+.btn.blue1:hover,
+.btn.blue1:focus,
+.btn.blue1.selected,
+.esri .dijitButton.calcite.blue1:hover,
+.esri .dijitButton.calcite.blue1:focus,
+.esri .dijitButton.calcite.blue1.selected,
+.esri .dijitDropDownButton.calcite.blue1:hover,
+.esri .dijitDropDownButton.calcite.blue1:focus,
+.esri .dijitDropDownButton.calcite.blue1.selected,
+.esri .dijitToggleButton.calcite.blue1:hover,
+.esri .dijitToggleButton.calcite.blue1:focus,
+.esri .dijitToggleButton.calcite.blue1.selected {
+  background: #D1E9F9;
+}
+.btn.blue1.disabled,
+.esri .dijitButton.calcite.dijitDisabled.blue1,
+.esri .dijitButton.calcite.blue1.disabled,
+.esri .dijitToggleButton.calcite.blue1.disabled
+.esri .dijitToggleButton.calcite.blue1.dijitDisabled {
+  background-color: rgb(240, 248, 253);
+  color:#7F8183;
+}
+.esri .dijitButton.calcite.blue1.dijitButtonHover .dijitButtonNode,
+.esri .dijitDialog .dijitButtonHover.calcite.blue1 .dijitButtonNode,
+.esri .dijitDialog .dijitButtonHover.calcite.blue1 .dijitButtonText { color: #fff !important; }
+/* Button: Blue1 - END */
+
+/* Button: Blue2 - START */
+.btn.blue2,
+.esri .dijitButton.calcite.blue2,
+.esri .dijitDropDownButton.calcite.blue2,
+.esri .dijitToggleButton.calcite.blue2 {
+  background: #D1E9F9;
+  color:#57585A;
+  text-shadow:none;
+}
+.btn.blue2:hover,
+.btn.blue2:focus,
+.btn.blue2.selected,
+.esri .dijitButton.calcite.blue2:hover,
+.esri .dijitButton.calcite.blue2:focus,
+.esri .dijitButton.calcite.blue2.selected,
+.esri .dijitDropDownButton.calcite.blue2:hover,
+.esri .dijitDropDownButton.calcite.blue2:focus,
+.esri .dijitDropDownButton.calcite.blue2.selected,
+.esri .dijitToggleButton.calcite.blue2:hover,
+.esri .dijitToggleButton.calcite.blue2:focus,
+.esri .dijitToggleButton.calcite.blue2.selected {
+  background: #7FBBDF;
+}
+.btn.blue2.disabled,
+.esri .dijitButton.calcite.dijitDisabled.blue2,
+.esri .dijitButton.calcite.blue2.disabled,
+.esri .dijitToggleButton.calcite.blue2.disabled
+.esri .dijitToggleButton.calcite.blue2.dijitDisabled {
+  background-color: rgb(232, 244, 252);
+  color:#7F8183;
+}
+.esri .dijitButton.calcite.blue2.dijitButtonHover .dijitButtonNode,
+.esri .dijitDialog .dijitButtonHover.calcite.blue2 .dijitButtonNode,
+.esri .dijitDialog .dijitButtonHover.calcite.blue2 .dijitButtonText { color: #fff !important; }
+/* Button: Blue2 - END */
+
+/* Button: Green - START */
+.btn.tertiary,
+.btn.green,
+.esri .dijitButton.calcite.tertiary,
+.esri .dijitButton.calcite.green,
+.esri .dijitDialog .dijitButton.secondary,
+.esri .dijitDropDownButton.calcite.tertiary,
+.esri .dijitDropDownButton.calcite.green {
+  background: #6aa23f;
+}
+.btn.tertiary:hover,
+.btn.tertiary:focus,
+.btn.tertiary.selected,
+.btn.green:hover,
+.btn.green:focus,
+.btn.green.selected,
+.esri .dijitButton.calcite.tertiary:hover,
+.esri .dijitButton.calcite.green:hover,
+.esri .dijitButton.calcite.tertiary.dijitHover,
+.esri .dijitButton.calcite.green.dijitHover,
+.esri .dijitButton.calcite.tertiary.selected,
+.esri .dijitButton.calcite.green.selected,
+.esri .dijitButton.calcite.green.dijitHover,
+.esri .dijitDialog .dijitButton.dijitHover.secondary,
+.esri .dijitDialog .dijitButtonHover.secondary,
+.esri .dijitDropDownButton.calcite.tertiary:hover,
+.esri .dijitDropDownButton.calcite.green:hover,
+.esri .dijitDropDownButton.calcite.tertiary:focus,
+.esri .dijitDropDownButton.calcite.green:focus,
+.esri .dijitDropDownButton.calcite.tertiary.selected,
+.esri .dijitDropDownButton.calcite.green.selected {
+  background: #4b8d2c;
+}
+.btn.tertiary.disabled,
+.btn.green.disabled,
+.esri .dijitButton.calcite.dijitDisabled.tertiary,
+.esri .dijitButton.calcite.dijitDisabled.green,
+.esri .dijitButton.calcite.tertiary.disabled,
+.esri .dijitButton.calcite.green.disabled,
+.esri .dijitDialog .dijitButton.dijitDisabled.secondary,
+.esri .dijitDropDownButton.calcite.dijitDisabled.tertiary,
+.esri .dijitDropDownButton.calcite.dijitDisabled.green,
+.esri .dijitDropDownButton.calcite.tertiary.disabled,
+.esri .dijitDropDownButton.calcite.green.disabled  {
+  background-color: rgb(106, 162, 63);
+}
+.esri .dijitButton.calcite.tertiary.dijitButtonHover .dijitButtonNode,
+.esri .dijitButton.calcite.green.dijitButtonHover .dijitButtonNode,
+.esri .dijitDialog .dijitButtonHover.secondary .dijitButtonNode,
+.esri .dijitDialog .dijitButtonHover.secondary .dijitButtonText,
+.esri .dijitDropDownButton.calcite.tertiary .dijitButtonNode,
+.esri .dijitDropDownButton.calcite.green .dijitButtonNode { color: #fff !important; }
+
+.esri .dijitDropDownButton.calcite.tertiary .dijitDownArrowButton .dijitArrowButtonInner,
+.esri .dijitDropDownButton.calcite.green .dijitDownArrowButton .dijitArrowButtonInner  {
+  background-image: url(./images/ago_sprite.png) !important;
+  background-position: -50px -34px;
+}
+.esri .dijitDropDownButton.calcite.tertiary.dijitHover .dijitDownArrowButton .dijitArrowButtonInner,
+.esri .dijitDropDownButton.calcite.green.dijitHover .dijitDownArrowButton .dijitArrowButtonInner {
+  background-image: url(./images/ago_sprite.png) !important;
+  background-position: -50px -50px;
+}
+/* Button: Green - END */
+
+/* Button: Light - START */
+.btn.light,
+.esri .dijitButton.calcite.light,
+.esri .dijitDialog .dijitButton,
+.esri .dijitDropDownButton.calcite.light,
+.esri .simpleDirections .esriStopsGetDirections.calcite.light {
+  background: #ededed;
+  color: gray;
+  text-shadow: none;
+}
+
+.btn.light:hover,
+.btn.light:focus,
+.btn.light.selected,
+.esri .dijitButton.calcite.light:hover,
+.esri .dijitButton.calcite.light:focus,
+.esri .dijitButton.calcite.light.selected,
+.esri .dijitDialog .dijitButton.dijitHover,
+.esri .dijitDropDownButton.calcite.light:hover,
+.esri .dijitDropDownButton.calcite.light:focus,
+.esri .dijitDropDownButton.calcite.light.selected,
+.esri .simpleDirections .esriStopsGetDirections.calcite.light:hover,
+.esri .simpleDirections .esriStopsGetDirections.calcite.light:focus {
+  background: #cccccc;
+}
+.btn.light.disabled,
+.esri .dijitButton.calcite.light.disabled,
+.esri .dijitButton.calcite.dijitDisabled.light,
+.esri .dijitDialog .dijitButton.dijitDisabled,
+.esri .dijitDropDownButton.calcite.dijitDisabled.light,
+.esri .dijitDropDownButton.calcite.light.disabled,
+.esri .simpleDirections .esriStopsGetDirections.calcite.light.disabled {
+  background-color: rgb(237, 237, 237);
+}
+.esri .dijitButton.calcite.light.dijitButtonHover .dijitButtonNode,
+.esri .dijitDialog .dijitButtonHover.light .dijitButtonNode,
+.esri .dijitDialog .dijitButtonHover.light .dijitButtonText,
+.esri .dijitDropDownButton.calcite.light .dijitButtonNode,
+.esri .dijitDropDownButton.calcite.light .dijitButtonText { color: gray !important; }
+
+/* Button: Light - END */
+
+/* Button: Medium - START */
+.btn.medium,
+.esri .dijitButton.calcite.medium,
+.esri .dijitDropDownButton.calcite.medium {
+  background: #E0E0DF;
+  color: gray;
+  text-shadow: none;
+}
+.btn.medium:hover,
+.btn.medium:focus,
+.btn.medium.selected,
+.esri .dijitButton.calcite.medium:hover,
+.esri .dijitButton.calcite.medium:focus,
+.esri .dijitButton.calcite.medium.selected,
+.esri .dijitDropDownButton.calcite.medium:hover,
+.esri .dijitDropDownButton.calcite.medium:focus,
+.esri .dijitDropDownButton.calcite.medium.selected {
+  background: #A6A8AB;
+  color:#57585A;
+}
+.btn.medium.disabled,
+.esri .dijitButton.calcite.dijitDisabled.medium,
+.esri .dijitButton.calcite.medium.disabled,
+.esri .dijitDropDownButton.calcite.dijitDisabled.medium,
+.esri .dijitDropDownButton.calcite.medium.disabled {
+  background-color: rgb(237, 237, 237);
+}
+/* Button: Medium - END */
+
+/* Button: Caution/Red - START */
+.btn.caution,
+.btn.red,
+.esri .dijitButton.caution,
+.esri .dijitButton.red,
+.esri .dijitDialog .dijitButton.calcite.caution,
+.esri .dijitDropDownButton.calcite.caution,
+.esri .dijitDropDownButton.calcite.red  {
+  background: #b9392f;
+}
+.btn.caution:hover,
+.btn.caution:focus,
+.btn.caution.selected,
+.btn.red:hover,
+.btn.red:focus,
+.btn.red.selected,
+.esri .dijitButton.calcite.caution:hover,
+.esri .dijitButton.calcite.caution:focus,
+.esri .dijitButton.calcite.caution.selected,
+.esri .dijitButton.calcite.red:hover,
+.esri .dijitButton.calcite.red:focus,
+.esri .dijitButton.calcite.red.selected,
+.esri .dijitDialog .dijitButton.calcite.caution.dijitHover,
+.esri .dijitDropDownButton.calcite.caution,
+.esri .dijitDropDownButton.calcite.caution,
+.esri .dijitDropDownButton.calcite.caution,
+.esri .dijitDropDownButton.calcite.red:hover,
+.esri .dijitDropDownButton.calcite.red:focus,
+.esri .dijitDropDownButton.calcite.red.selected {
+  background: #d6564d;
+}
+.btn.caution.disabled,
+.btn.red.disabled,
+.esri .dijitButton.calcite.dijitDisabled.caution,
+.esri .dijitButton.calcite.dijitDisabled.red,
+.esri .dijitButton.calcite.caution.disabled,
+.esri .dijitButton.calcite.red.disabled,
+.esri .dijitDialog .dijitButton.calcite.caution.dijitDisabled {
+  background-color: rgb(185, 57, 47);
+}
+.esri .dijitDialog .dijitButtonHover.calcite.caution,
+.esri .dijitDialog .dijitButtonHover.calcite.caution .dijitButtonNode,
+.esri .dijitDialog .dijitButtonHover.calcite.caution .dijitButtonText { color: #fff !important; }
+/* Button: Caution/Red - END */
+
+/* Button: Transparent - START */
+.btn.transparent,
+.esri .dijitButton.calcite.transparent,
+.esri .dijitDropDownButton.calcite.transparent,
+.esri .dijitToggleButton.calcite.transparent,
+.esri .dijitDialog .dijitButton.cancel,
+.esri .dijitDialog .dijitButton.calcite.transparent,
+.esri .dijitDialog .btn.calcite.transparent,
+.esri .simpleDirections .esriStopsGetDirections.calcite.transparent {
+  background: none;
+  color: #007ac2;
+  text-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+.esri .dijitButton.calcite.transparent  .dijitButtonText,
+.esri .dijitDropDownButton.calcite.transparent  .dijitButtonText,
+.esri .dijitToggleButton.calcite.transparent .dijitButtonText { color: #007ac2; }
+.btn.transparent:hover,
+.btn.transparent:focus,
+.btn.transparent.selected,
+.esri .dijitButton.calcite.transparent:hover,
+.esri .dijitButton.calcite.transparent:focus,
+.esri .dijitButton.calcite.transparent.selected,
+.esri .dijitDialog .dijitButton.cancel:hover,
+.esri .dijitDialog .dijitButton.cancel:focus,
+.esri .dijitDialog .dijitButton.dijitButtonHover.cancel,
+.esri .dijitDialog .dijitButton.dijitButtonHover.calcite.transparent,
+.esri .dijitDialog .btn.calcite.transparent,
+.esri .dijitDropDownButton.calcite.transparent:hover,
+.esri .dijitDropDownButton.calcite.transparent:focus,
+.esri .dijitDropDownButton.calcite.transparent.selected,
+.esri .dijitToggleButton.calcite.transparent:hover,
+.esri .dijitToggleButton.calcite.transparent:focus,
+.esri .dijitToggleButton.calcite.transparent.selected,
+.esri .dijitButton.dijitHover.calcite.transparent .dijitButtonText,
+.esri .simpleDirections .esriStopsGetDirections.calcite.transparent:hover,
+.esri .simpleDirections .esriStopsGetDirections.calcite.transparent:focus  {
+  color: #00b9f2;
+  background: none;
+}
+.esri.dijitButton.dijitHover.calcite.transparent .dijitButtonText,
+.esri .dijitDropDownButton.dijitHover.calcite.transparent  .dijitButtonText,
+.esri .dijitToggleButton.dijitHover.calcite.transparent .dijitButtonText { color: #00b9f2; }
+.btn.transparent.disabled,
+.esri .dijitButton.calcite.dijitDisabled.transparent,
+.esri .dijitButton.calcite.transparent.disabled,
+.esri .dijitDialog .dijitButton.cancel.disabled,
+.esri .dijitDialog .dijitButton.dijitButtonDisabled.secondary,
+.esri .dijitDialog .dijitButton.dijitButtonDisabled.cancel,
+.esri .dijitDialog .dijitButton.dijitButtonDisabled.calcite.transparent,
+.esri .dijitDialog .btn.calcite.transparent.disabled,
+.esri .dijitDropDownButton.calcite.dijitDisabled.transparent,
+.esri .dijitDropDownButton.calcite.transparent.disabled,
+.esri .dijitToggleButton.calcite.transparent.disabled,
+.esri .dijitToggleButton.calcite.transparent.dijitDisabled,
+.esri .simpleDirections .esriStopsGetDirections.calcite.transparent.disabled {
+  background-color: transparent;
+  color: rgb(0, 122, 194);
+}
+/* Button: Transparent - END */
