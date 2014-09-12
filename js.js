@@ -13,7 +13,9 @@ var item1, item2;
 var displayOptions = {
   numItemsPerPage: 6,
   group: {
-    "group": "67fb524bd2e24c80bf2b972b4ce5aa95"
+    group: "67fb524bd2e24c80bf2b972b4ce5aa95",
+    bgId: null, // will hold the background group id
+    fgId: null  // will hold the foreground group id
   },
   portalUrl: 'http://www.arcgis.com'
 };
@@ -29,6 +31,7 @@ require([
   "dojo/on",
   "dojo/query",
   "dojo/dom-prop",
+  "dojo/io-query",
   "esri/arcgis/Portal",
   "esri/config",
   "esri/lang",
@@ -37,7 +40,7 @@ require([
   "dijit/form/RadioButton",
   "dojox/lang/aspect",
   "dijit/Dialog"
-], function(parser, ready, dom, domAttr, domConstruct, array, registry, on, query, domProp, arcgisPortal, config, esriLang, IdentityManager, ColorPicker, RadioButton, dojoLang, Dialog) {
+], function(parser, ready, dom, domAttr, domConstruct, array, registry, on, query, domProp, ioQuery, arcgisPortal, config, esriLang, IdentityManager, ColorPicker, RadioButton, dojoLang, Dialog) {
 
 
   ready(function() {
@@ -48,6 +51,16 @@ require([
     portalFG = new arcgisPortal.Portal(displayOptions.portalUrl);
     portalBG = new arcgisPortal.Portal(displayOptions.portalUrl);
 
+    // get groups passed by URL parameter if they are set
+    var bgId = ioQuery.queryToObject(window.location.search.slice(1))["bgid"],
+        fgId = ioQuery.queryToObject(window.location.search.slice(1))["fgid"];
+    if(esriLang.isDefined(bgId) && bgId.length > 0) {
+      displayOptions.bgId = bgId;
+    }
+    if(esriLang.isDefined(fgId) && fgId.length > 0) {
+      displayOptions.fgId = fgId;
+    }
+    
     on(portalBG, 'ready', loadPortal);
     on(portalFG, 'ready', loadForegrounds);
     on(dom.byId('next'), "click", getNext);
@@ -88,7 +101,7 @@ require([
 
   function loadPortal() { //loads the thumbnails for the backgrounds
     var params = {
-      q: 'id: 67fb524bd2e24c80bf2b972b4ce5aa95' //insert group id for background images here
+      q: 'id:' + (displayOptions.bgId  || '67fb524bd2e24c80bf2b972b4ce5aa95') //insert group id for background images here
     };
     portalBG.queryGroups(params).then(function(groups) {
       //get group title and thumbnail url
@@ -119,7 +132,7 @@ require([
   function loadForegrounds() { //loads the thumbnails for the foregrounds
     var params = {
       //q: 'title: ' + displayOptions.group.title + ' AND owner:' + displayOptions.group.owner
-      q: 'id: f8836a4c1ca6438a89c5b39dfbd41d42' //insert group id for foreground images here
+      q: 'id:' + (displayOptions.fgId || 'f8836a4c1ca6438a89c5b39dfbd41d42') //insert group id for foreground images here
     };
     portalFG.queryGroups(params).then(function(groups) {
       //get group title and thumbnail url
