@@ -52,15 +52,16 @@ require([
     portalBG = new arcgisPortal.Portal(displayOptions.portalUrl);
 
     // get groups passed by URL parameter if they are set
-    var bgId = ioQuery.queryToObject(window.location.search.slice(1))["bgid"],
-        fgId = ioQuery.queryToObject(window.location.search.slice(1))["fgid"];
+    var queryParams = ioQuery.queryToObject(window.location.search.slice(1)),
+        bgId = queryParams["bgid"],
+        fgId = queryParams["fgid"];
     if(esriLang.isDefined(bgId) && bgId.length > 0) {
       displayOptions.bgId = bgId;
     }
     if(esriLang.isDefined(fgId) && fgId.length > 0) {
       displayOptions.fgId = fgId;
     }
-    
+
     on(portalBG, 'ready', loadPortal);
     on(portalFG, 'ready', loadForegrounds);
     on(dom.byId('next'), "click", getNext);
