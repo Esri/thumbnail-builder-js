@@ -302,7 +302,7 @@ function submitForm() {
     imageFG = null;
   }
 
-  require(["dojo/promise/all","dojo/dom","dojo/dom-attr","dojo/dom-class","dojo/dom-style"], function(all, dom, domAttr, domClass, domStyle) {
+  require(["dojo/promise/all","dojo/dom","dojo/dom-attr","dojo/dom-class","dojo/dom-style", "dojo/on"], function(all, dom, domAttr, domClass, domStyle, on) {
     domAttr.set(dom.byId("submitButton"), "disabled", true);
     domClass.add(dojo.byId("submitButton"), "disabled");
     domStyle.set(dom.byId("spinner"), "display", "");
@@ -328,6 +328,12 @@ function submitForm() {
         handleQueryResults([dataFile1b, dataFile2b]);
       });
     }
+
+    dojo.on(dom.byId('fgForm'), "click", function(){
+      console.log("print");
+      change_jCrop_image(getSelectedFG());
+    });
+
 
     function getSelectedFG() {
       require(["esri/tasks/DataFile"], function(DataFile) {
@@ -372,6 +378,10 @@ function submitForm() {
         }
         handleQueryResults([dataFile1a, dataFile2a]);
       });
+    }
+
+    function change_jCrop_image(newImageUrl){
+      domAttr.set(query(".jcrop-tracker"), "img", newImageUrl);
     }
 
     function handleQueryResults(results) {
