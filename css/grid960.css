@@ -223,6 +223,13 @@
         /*width:85px;*/
         /*right:100px;*/
       }
+
+      #spinner {
+        width: 18px;
+        height: 18px;
+        vertical-align: text-bottom;
+      }
+
       .topAlign {
         vertical-align: top;
       }

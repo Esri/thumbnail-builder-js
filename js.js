@@ -260,7 +260,6 @@ function submitForm() {
   var imageFGfromUser = false;
   var imageBGfromUser = false;
 
-
   if(dojo.byId('backgroundUpload').files.length > 0) {
     imageBGfromUser = true;
     var layerUrl = thumbnailGeneratorURL + "/uploads/upload";
@@ -289,7 +288,11 @@ function submitForm() {
     imageFG = null;
   }
 
-  require(["dojo/promise/all"], function(all) {
+  require(["dojo/promise/all","dojo/dom","dojo/dom-attr","dojo/dom-class","dojo/dom-style"], function(all, dom, domAttr, domClass, domStyle) {
+    domAttr.set(dom.byId("submitButton"), "disabled", true);
+    domClass.add(dojo.byId("submitButton"), "disabled");
+    domStyle.set(dom.byId("spinner"), "display", "");
+
     //var images = [];
     //if (imageBG)
     //	images.push(imageBG);
@@ -391,12 +394,23 @@ function submitForm() {
         params.LRY = dojo.byId("y2").value;
 
         console.log(params);
-        gp.submitJob(params, completeCallback, statusCallback);
+        gp.submitJob(params, completeCallback, statusCallback, statusErrback);
         function statusCallback(jobInfo) {
           console.log(jobInfo.jobStatus);
         }
+        function statusErrback(error) {
+          console.log(error);
+          // re-enable button
+          domAttr.set(dojo.byId("submitButton"), "disabled", false);
+          domClass.remove(dojo.byId("submitButton"), "disabled");
+          domStyle.set(dojo.byId("spinner"), "display", "none");
+        }
 
         function completeCallback(jobInfo) {
+          domAttr.set(dojo.byId("submitButton"), "disabled", false);
+          domClass.remove(dojo.byId("submitButton"), "disabled");
+          domStyle.set(dojo.byId("spinner"), "display", "none");
+
           console.log(jobInfo);
           gp.getResultData(jobInfo.jobId, "OutputImage", function(results) {
             console.log(results);
