@@ -46,6 +46,8 @@
    		border-width: 1em;
    		border-style: solid;
    		margin-bottom: 20px;
+      -webkit-border-radius: 3em;
+      -moz-border-radius: 3em;
       border-radius: 3em;
   	}
 
@@ -54,6 +56,8 @@
    		border-width: 1em;
    		border-style: solid;
    		margin-bottom: 20px;
+      -webkit-border-radius: 3em;
+      -moz-border-radius: 3em;
       border-radius: 3em;
    	}
 
@@ -69,6 +73,8 @@
    		border-color: #eee;
    		border-width: 1em;
    		border-style: solid;
+      -webkit-border-radius: 3em;
+      -moz-border-radius: 3em;
       border-radius: 3em;
    	}
 

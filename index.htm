@@ -12,14 +12,14 @@
   <link rel="stylesheet" href="http://js.arcgis.com/3.10/js/dojo/dijit/themes/claro/claro.css">
   <link rel="stylesheet" href="http://js.arcgis.com/3.10/js/esri/css/esri.css">
   <link rel="stylesheet" href="http://js.arcgis.com/3.10/js/dojo/dojox/widget/ColorPicker/ColorPicker.css"/>
-  <link rel="stylesheet" href="jcrop/css/jquery.Jcrop.css" type="text/css"/>
+  <link rel="stylesheet" href="./Jcrop/css/jquery.Jcrop.css" type="text/css"/>
   <link rel="icon" type="image/png" href="favicon.png">
   <!-- Travel designed by Elliot Verhaeren from the thenounproject.com -->
 
   <script>var dojoConfig = { async: true };</script>
   <script src="http://js.arcgis.com/3.10/"></script>
-  <script src="jcrop/js/jquery.min.js"></script>
-  <script src="jcrop/js/jquery.Jcrop.js"></script>
+  <script src="./Jcrop/js/jquery.min.js"></script>
+  <script src="./Jcrop/js/jquery.Jcrop.js"></script>
   <script src="js.js"></script>
   <script type="text/javascript">
 
@@ -208,15 +208,13 @@
                 <label>Y1 <input type="text" size="4" id="y1" name="y1" /></label>
                 <label>X2 <input type="text" size="4" id="x2" name="x2" /></label>
                 <label>Y2 <input type="text" size="4" id="y2" name="y2" /></label>
-                <!--<label>W <input type="text" size="4" id="w" name="w" /></label>-->
-                <!--<label>H <input type="text" size="4" id="h" name="h" /></label>-->
               </div>
             </td>
           </tr>
         </table>
       </div>
       <div id="submitButtonBar" class="grid_10">
-        <button id="submitButton" class="btn large primary" onclick="submitForm()"><span id="submitLabel">Submit</span>&nbsp;<img id="spinner" style="display:none;" src="css/images/spinner.gif" alt="generating thumbnail"/></button>
+        <button id="submitButton" class="btn large primary"><span id="submitLabel">Submit</span>&nbsp;<img id="spinner" style="display:none;" src="css/images/spinner.gif" alt="generating thumbnail"/></button>
       </div>
     </div>
   </div>
