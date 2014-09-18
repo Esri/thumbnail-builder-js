@@ -80,6 +80,11 @@ require([
     on(dom.byId('prevForegroundButton'), "click", getPreviousForeground);
     on(dom.byId('submitButton'), "click", submitForm);
 
+    // hitch in JCrop preview for modern browsers
+    if(window.FileReader) {
+      on(dom.byId("foregroundUpload"), "change", readCustomForeground);
+    }
+
     var colorPicker = new ColorPicker({}, "colorPicker"); //summon the colorpicker
     //dlgThumbnail.show();
 
@@ -259,6 +264,18 @@ require([
       var params = queryParamsFG;
       params.start = params.start - params.num;
       groupFG.queryItems(params).then(updateGridForForegrounds);
+    }
+  }
+
+  function readCustomForeground(evt) {
+    if(evt && evt.target && evt.target.files && evt.target.files.length > 0) {
+      var reader = new FileReader();
+      reader.onload = function() {
+        query("img.jCropImage").forEach(function(img) {
+          domAttr.set(img, "src", reader.result);
+        });
+      };
+      reader.readAsDataURL(evt.target.files[0]);
     }
   }
 
