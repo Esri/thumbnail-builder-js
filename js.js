@@ -171,6 +171,16 @@ require([
     });
   }
 
+  function enableButton(node) {
+    domClass.remove(node, "disabled");
+    domAttr.set(node, "disabled", false);
+  }
+
+  function disableButton(node) {
+    domClass.add(node, "disabled");
+    domAttr.set(node, "disabled", true);
+  }
+
   function updateGrid(queryResponse) { //for backgrounds
     //update the gallery to get the next page of items
 
@@ -178,8 +188,8 @@ require([
     domConstruct.empty(galleryList);  //empty the gallery to remove existing items
 
     //navigation buttons
-    (queryResponse.results.length < 6) ? esri.hide(dom.byId('next')) : esri.show(dom.byId('next'));
-    (queryResponse.queryParams.start > 1) ? esri.show(dom.byId('prev')) : esri.hide(dom.byId('prev'));
+    (queryResponse.results.length < 6) ? disableButton(dom.byId('next')) : enableButton(dom.byId('next'));
+    (queryResponse.queryParams.start > 1) ? enableButton(dom.byId('prev')) : disableButton(dom.byId('prev'));
     //Build the thumbnails for each item the thumbnail when clicked will display the web map in a template or the web application
     var frag = document.createDocumentFragment();
     array.forEach(queryResponse.results, function(item) {
@@ -207,8 +217,8 @@ require([
     domConstruct.empty(galleryList);  //empty the gallery to remove existing items
 
     //navigation buttons
-    (queryResponse.results.length < 6) ? esri.hide(dom.byId('nextForegroundButton')) : esri.show(dom.byId('nextForegroundButton'));
-    (queryResponse.queryParams.start > 1) ? esri.show(dom.byId('prevForegroundButton')) : esri.hide(dom.byId('prevForegroundButton'));
+    (queryResponse.results.length < 6) ? disableButton(dom.byId('nextForegroundButton')) : enableButton(dom.byId('nextForegroundButton'));
+    (queryResponse.queryParams.start > 1) ? enableButton(dom.byId('prevForegroundButton')) : disableButton(dom.byId('prevForegroundButton'));
 
     //Build the thumbnails for each item the thumbnail when clicked will display the web map in a template or the web application
     var frag = document.createDocumentFragment();
