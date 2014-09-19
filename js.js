@@ -299,8 +299,10 @@ require([
     var promises, uploadResults;
     var imageFGfromUser = false;
     var imageBGfromUser = false;
+    var bgUpload = dom.byId('backgroundUpload'),
+        fgUpload = dom.byId('foregroundUpload');
 
-    if(dom.byId('backgroundUpload') && dom.byId('backgroundUpload').files && dom.byId('backgroundUpload').files.length > 0) {
+    if(bgUpload && bgUpload.files && bgUpload.files.length > 0) {
       imageBGfromUser = true;
       var layerUrl = thumbnailGeneratorURL + "/uploads/upload";
       var layersRequestBG = esri.request({
@@ -314,7 +316,7 @@ require([
       imageBG = null;
     }
 
-    if(dom.byId('foregroundUpload') && dom.byId('foregroundUpload').files && dom.byId('foregroundUpload').files.length > 0) {
+    if(fgUpload && fgUpload.files && fgUpload.files.length > 0) {
       imageFGfromUser = true;
       var layerUrl = thumbnailGeneratorURL + "/uploads/upload";
       var layersRequestFG = esri.request({
