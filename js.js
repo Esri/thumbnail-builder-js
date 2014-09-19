@@ -25,7 +25,9 @@ require([
   "dojo/ready",
   "dojo/dom",
   "dojo/dom-attr",
+  "dojo/dom-class",
   "dojo/dom-construct",
+  "dojo/dom-style",
   "dojo/_base/array",
   "dijit/registry",
   "dojo/on",
@@ -42,7 +44,7 @@ require([
   "dojox/lang/aspect",
   "dijit/Dialog"
 ], function(
-  parser, ready, dom, domAttr, domConstruct, array, registry, on, query, domProp, ioQuery,
+  parser, ready, dom, domAttr, domClass, domConstruct, domStyle, array, registry, on, query, domProp, ioQuery,
   arcgisPortal, config, esriLang, IdentityManager, ColorPicker, RadioButton, dojoLang, aspect, Dialog) {
 
 
@@ -122,7 +124,7 @@ require([
       if(groups.results.length == 1) {
         groupBG = groups.results[0];
         if(groupBG.thumbnailUrl) {
-          dojo.create('img', {
+          domConstruct.create('img', {
             src: groupBG.thumbnailUrl,
             width: 64,
             height: 64,
@@ -172,22 +174,22 @@ require([
   function updateGrid(queryResponse) { //for backgrounds
     //update the gallery to get the next page of items
 
-    var galleryList = dojo.byId('galleryList');
-    dojo.empty(galleryList);  //empty the gallery to remove existing items
+    var galleryList = dom.byId('galleryList');
+    domConstruct.empty(galleryList);  //empty the gallery to remove existing items
 
     //navigation buttons
-    (queryResponse.results.length < 6) ? esri.hide(dojo.byId('next')) : esri.show(dojo.byId('next'));
-    (queryResponse.queryParams.start > 1) ? esri.show(dojo.byId('prev')) : esri.hide(dojo.byId('prev'));
+    (queryResponse.results.length < 6) ? esri.hide(dom.byId('next')) : esri.show(dom.byId('next'));
+    (queryResponse.queryParams.start > 1) ? esri.show(dom.byId('prev')) : esri.hide(dom.byId('prev'));
     //Build the thumbnails for each item the thumbnail when clicked will display the web map in a template or the web application
     var frag = document.createDocumentFragment();
-    dojo.forEach(queryResponse.results, function(item) {
+    array.forEach(queryResponse.results, function(item) {
       if(item.id) {
         var url = (item.type === 'Web Map') ?
           displayOptions.templateUrl + '?webmap=' + item.id + '&theme=' + displayOptions.themeName :
           item.itemDataUrl;
 
-        var li = dojo.create('li', {}, frag);
-        var a = dojo.create('label', {
+        var li = domConstruct.create('li', {}, frag);
+        var a = domConstruct.create('label', {
           //href: url,
           className: "backgroundGrid",
           target: '_blank',
@@ -195,25 +197,25 @@ require([
         }, li);
       }
     });
-    dojo.place(frag, galleryList);
+    domConstruct.place(frag, galleryList);
   }
 
   function updateGridForForegrounds(queryResponse) {
     //update the gallery to get the next page of items
 
-    var galleryList = dojo.byId('galleryListForeground');
-    dojo.empty(galleryList);  //empty the gallery to remove existing items
+    var galleryList = dom.byId('galleryListForeground');
+    domConstruct.empty(galleryList);  //empty the gallery to remove existing items
 
     //navigation buttons
-    (queryResponse.results.length < 6) ? esri.hide(dojo.byId('nextForegroundButton')) : esri.show(dojo.byId('nextForegroundButton'));
-    (queryResponse.queryParams.start > 1) ? esri.show(dojo.byId('prevForegroundButton')) : esri.hide(dojo.byId('prevForegroundButton'));
+    (queryResponse.results.length < 6) ? esri.hide(dom.byId('nextForegroundButton')) : esri.show(dom.byId('nextForegroundButton'));
+    (queryResponse.queryParams.start > 1) ? esri.show(dom.byId('prevForegroundButton')) : esri.hide(dom.byId('prevForegroundButton'));
 
     //Build the thumbnails for each item the thumbnail when clicked will display the web map in a template or the web application
     var frag = document.createDocumentFragment();
-    dojo.forEach(queryResponse.results, function(item) {
+    array.forEach(queryResponse.results, function(item) {
       if(item.id) {
-        var li = dojo.create('li', {}, frag);
-        var a = dojo.create('label', {
+        var li = domConstruct.create('li', {}, frag);
+        var a = domConstruct.create('label', {
           //href: url,
           className: "foregroundGrid",
           target: '_blank',
@@ -221,7 +223,7 @@ require([
         }, li);
       }
     });
-    dojo.place(frag, galleryList);
+    domConstruct.place(frag, galleryList);
 
     // connect fg click events
     query("label.foregroundGrid > div.imageOption > span > input[type='radio']").forEach(function(node) {
@@ -279,6 +281,18 @@ require([
     }
   }
 
+  function enableSubmit() {
+    domAttr.set(dom.byId("submitButton"), "disabled", false);
+    domClass.remove(dom.byId("submitButton"), "disabled");
+    domStyle.set(dom.byId("spinner"), "display", "none");
+  }
+
+  function disableSubmit() {
+    domAttr.set(dom.byId("submitButton"), "disabled", true);
+    domClass.add(dom.byId("submitButton"), "disabled");
+    domStyle.set(dom.byId("spinner"), "display", "");
+  }
+
   function submitForm() {
 
     var imageFG, imageBG;
@@ -286,12 +300,12 @@ require([
     var imageFGfromUser = false;
     var imageBGfromUser = false;
 
-    if(dojo.byId('backgroundUpload').files.length > 0) {
+    if(dom.byId('backgroundUpload') && dom.byId('backgroundUpload').files && dom.byId('backgroundUpload').files.length > 0) {
       imageBGfromUser = true;
       var layerUrl = thumbnailGeneratorURL + "/uploads/upload";
       var layersRequestBG = esri.request({
         url: layerUrl,
-        form: dojo.byId("bgForm"),
+        form: dom.byId("bgForm"),
         handleAs: "json",
         callbackParamName: "callback"
       }, {usePost: true});
@@ -300,12 +314,12 @@ require([
       imageBG = null;
     }
 
-    if(dojo.byId('foregroundUpload').files.length > 0) {
+    if(dom.byId('foregroundUpload') && dom.byId('foregroundUpload').files && dom.byId('foregroundUpload').files.length > 0) {
       imageFGfromUser = true;
       var layerUrl = thumbnailGeneratorURL + "/uploads/upload";
       var layersRequestFG = esri.request({
         url: layerUrl,
-        form: dojo.byId("fgForm"),
+        form: dom.byId("fgForm"),
         handleAs: "json",
         callbackParamName: "callback"
       }, {usePost: true});
@@ -314,10 +328,8 @@ require([
       imageFG = null;
     }
 
-    require(["dojo/promise/all","dojo/dom-class","dojo/dom-style"], function(all, domClass, domStyle) {
-      domAttr.set(dom.byId("submitButton"), "disabled", true);
-      domClass.add(dojo.byId("submitButton"), "disabled");
-      domStyle.set(dom.byId("spinner"), "display", "");
+    require(["dojo/promise/all"], function(all) {
+      disableSubmit();
 
       getSelectedBG();
       getSelectedFG();
@@ -335,7 +347,7 @@ require([
       function getSelectedFG() {
         require(["esri/tasks/DataFile"], function(DataFile) {
           dataFile2b = new DataFile();
-          var radioObj = dojo.byId('fgForm');
+          var radioObj = dom.byId('fgForm');
           var radioLength = radioObj.length;
           for(var i = 0; i < radioLength; i++) {
             if(radioObj[i].checked) {
@@ -349,7 +361,7 @@ require([
       function getSelectedBG() {
         require(["esri/tasks/DataFile"], function(DataFile) {
           dataFile1b = new DataFile();
-          var radioObj = dojo.byId('bgForm');
+          var radioObj = dom.byId('bgForm');
           var radioLength = radioObj.length;
           for(var i = 0; i < radioLength; i++) {
             if(radioObj[i].checked) {
@@ -400,15 +412,15 @@ require([
             params.ForegroundImageItemID = results[1];
           }
 
-          params.ItemText = dojo.byId("thumbText").value;
-          params.SelectedFont = dojo.byId("selectedFont").value;
-          params.FontSize = dojo.byId("fontSize").value;
-          params.Align = dojo.byId("textAlign").value;
-          params.TextColor = dijit.byId("colorPicker").value;
-          params.ULX = dojo.byId("x1").value;
-          params.ULY = dojo.byId("y1").value;
-          params.LRX = dojo.byId("x2").value;
-          params.LRY = dojo.byId("y2").value;
+          params.ItemText = dom.byId("thumbText").value;
+          params.SelectedFont = dom.byId("selectedFont").value;
+          params.FontSize = dom.byId("fontSize").value;
+          params.Align = dom.byId("textAlign").value;
+          params.TextColor = registry.byId("colorPicker").value;
+          params.ULX = dom.byId("x1").value;
+          params.ULY = dom.byId("y1").value;
+          params.LRX = dom.byId("x2").value;
+          params.LRY = dom.byId("y2").value;
 
           console.log(params);
           gp.submitJob(params, completeCallback, statusCallback, statusErrback);
@@ -417,23 +429,18 @@ require([
           }
           function statusErrback(error) {
             console.log(error);
-            // re-enable button
-            domAttr.set(dojo.byId("submitButton"), "disabled", false);
-            domClass.remove(dojo.byId("submitButton"), "disabled");
-            domStyle.set(dojo.byId("spinner"), "display", "none");
+            enableSubmit();
           }
 
           function completeCallback(jobInfo) {
-            domAttr.set(dojo.byId("submitButton"), "disabled", false);
-            domClass.remove(dojo.byId("submitButton"), "disabled");
-            domStyle.set(dojo.byId("spinner"), "display", "none");
+            enableSubmit();
 
             console.log(jobInfo);
             gp.getResultData(jobInfo.jobId, "OutputImage", function(results) {
               console.log(results);
               if(results) {
-                dojo.byId("download").innerHTML = "<a href='" + results.value.url + "' target='_new'>Download image</a>";
-                dojo.byId("info").innerHTML = "<img src='" + results.value.url + "'></img>";
+                domAttr.set(dom.byId("download"), "innerHTML", "<a href='" + results.value.url + "' target='_new'>Download image</a>");
+                domAttr.set(dom.byId("info"), "innerHTML", "<img src='" + results.value.url + "'></img>");
               }
               //dij
               // it.byId('itemTypeSelect').attr("disabled", false);
