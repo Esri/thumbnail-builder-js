@@ -189,7 +189,7 @@ require([
         var li = dojo.create('li', {}, frag);
         var a = dojo.create('label', {
           //href: url,
-          class: "backgroundGrid",
+          className: "backgroundGrid",
           target: '_blank',
           innerHTML: '<div class="imageOption"><img src="' + item.thumbnailUrl + '"/><span id="thumbnailName">' + item.title + '</span><br /><span><input type="radio" name="rdoThumbBG" value="' + item.itemDataUrl + '"/></span></div>'
         }, li);
@@ -215,7 +215,7 @@ require([
         var li = dojo.create('li', {}, frag);
         var a = dojo.create('label', {
           //href: url,
-          class: "foregroundGrid",
+          className: "foregroundGrid",
           target: '_blank',
           innerHTML: '<div class="imageOption"><img src="' + item.thumbnailUrl + '"/><span id="thumbnailName">' + item.title + '</span><br /><span><input type="radio" name="rdoThumbFG" value="' + item.itemDataUrl + '"/> <label for="radioOne"></label></span></div>'
         }, li);
