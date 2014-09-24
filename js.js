@@ -12,12 +12,19 @@ var dataFile1b, dataFile2b;
 var item1, item2;
 var displayOptions = {
   numItemsPerPage: 6,
-  group: {
-    group: "67fb524bd2e24c80bf2b972b4ce5aa95",
-    bgId: null, // will hold the background group id
-    fgId: null  // will hold the foreground group id
-  },
-  portalUrl: 'http://www.arcgis.com'
+  defaultBgId: "67fb524bd2e24c80bf2b972b4ce5aa95",
+  defaultFgId: "f8836a4c1ca6438a89c5b39dfbd41d42",
+  defaultFontSize: 15,
+  itemId: null,     // will hold the item id we should update with the generated image
+  bgId: null,       // will hold the background group id
+  fgId: null,       // will hold the foreground group id
+  text: null,       // text string
+  textAlign: null,  // text alignment option: left, right, center
+  textBB: null,     // text bounding box, comma-delimited string: e.g. x1,y1,x2,y2
+  font: null,       // font family string
+  fontSize: null,   // font size
+  fontColor: null,  // font color hex value - exclude the "#" character as this has meaning in URLs already
+  portalUrl: "http://www.arcgis.com"
 };
 
 require([
@@ -58,29 +65,122 @@ require([
     portalFG = new arcgisPortal.Portal(displayOptions.portalUrl);
     portalBG = new arcgisPortal.Portal(displayOptions.portalUrl);
 
-    // get groups passed by URL parameter if they are set
-    var queryParams = ioQuery.queryToObject(window.location.search.slice(1)),
-        bgId = queryParams["bgid"],
-        fgId = queryParams["fgid"];
-    if(esriLang.isDefined(bgId) && bgId.length > 0) {
-      displayOptions.bgId = bgId;
-    }
-    if(esriLang.isDefined(fgId) && fgId.length > 0) {
-      displayOptions.fgId = fgId;
-    }
-
     // initialize the UI
+    processQueryParameters();
+    fillInitialUIValues();
     init();
   });
 
+  function isSet(str) {
+    // helper method which determines if a string is defined and is not empty
+    return esriLang.isDefined(str) && str.length > 0;
+  }
+
+  function processQueryParameters() {
+//      text: null,       // text string
+//      textAlign: null,  // text alignment option: left, right, center
+//      textBB: null,     // text bounding box, comma-delimited string: e.g. x1,y1,x2,y2
+//      font: null,       // font family string
+//      fontSize: null,   // font size
+//      fontColor: null   // font color hex value
+
+    // get groups passed by URL parameter if they are set
+    var queryParams = ioQuery.queryToObject(window.location.search.slice(1)),
+        itemId = queryParams["itemid"],
+        bgId = queryParams["bgid"],
+        fgId = queryParams["fgid"],
+        text = queryParams["txt"],
+        textAlign = queryParams["txtAlign"],
+        textBounds = queryParams["txtBB"],
+        font = queryParams["font"],
+        fontSize = queryParams["fontSize"],
+        fontColor = queryParams["fontColor"];
+    if(isSet(itemId)) {
+      displayOptions.itemId = itemId;
+    }
+    if(isSet(bgId)) {
+      displayOptions.bgId = bgId;
+    }
+    if(isSet(fgId)) {
+      displayOptions.fgId = fgId;
+    }
+    if(isSet(text)) {
+      displayOptions.text = text;
+    }
+    if(isSet(textAlign)) {
+      displayOptions.textAlign = textAlign;
+    }
+    if(isSet(textBounds)) {
+      displayOptions.textBB = textBounds;
+    }
+    if(isSet(font)) {
+      displayOptions.font = font;
+    }
+    if(isSet(fontSize)) {
+      displayOptions.fontSize = fontSize;
+    }
+    if(isSet(fontColor)) {
+      displayOptions.fontColor = fontColor;
+    }
+  }
+
+  function fillInitialUIValues() {
+    if(!isSet(displayOptions.itemId)) {
+      // hide update item button if no item id is present
+      domStyle.set(dom.byId("update"), "display", "none");
+    }
+    if(isSet(displayOptions.text)) {
+      domAttr.set(dom.byId("thumbText"), "value", displayOptions.text);
+    }
+    if(isSet(displayOptions.textAlign)) {
+      var alignMatches = array.filter(dom.byId("textAlign").options, function(option) {
+        return domAttr.get(option, "value").toLowerCase() === displayOptions.textAlign.toLowerCase();
+      });
+      if(alignMatches.length > 0) {
+        domAttr.set(alignMatches[0], "selected", true);
+      }
+    }
+    if(isSet(displayOptions.textBB)) {
+      var coords = displayOptions.textBB.split(",");
+      if(coords && coords.length === 4) {
+        domAttr.set(dom.byId("x1"), "value", coords[0]);
+        domAttr.set(dom.byId("y1"), "value", coords[1]);
+        domAttr.set(dom.byId("x2"), "value", coords[2]);
+        domAttr.set(dom.byId("y2"), "value", coords[3]);
+      }
+    }
+    if(isSet(displayOptions.font)) {
+      var fontMatches = array.filter(dom.byId("selectedFont").options, function(option) {
+        return domAttr.get(option, "value").toLowerCase() === displayOptions.font.toLowerCase();
+      });
+      if(fontMatches.length > 0) {
+        domAttr.set(fontMatches[0], "selected", true);
+      }
+    }
+    if(isSet(displayOptions.fontSize)) {
+      // ensure we fall back to default if input fontSize is bad (e.g. not an int)
+      try {
+        var fs = parseInt(displayOptions.fontSize);
+        if(isNaN(fs)) {
+          domAttr.set(dom.byId("fontSize"), "value", displayOptions.defaultFontSize);
+        } else {
+          domAttr.set(dom.byId("fontSize"), "value", fs);
+        }
+      } catch(e) {
+        domAttr.set(dom.byId("fontSize"), "value", displayOptions.defaultFontSize);
+      }
+    }
+  }
+
   function init() {
-    on(portalBG, 'ready', loadPortal);
-    on(portalFG, 'ready', loadForegrounds);
-    on(dom.byId('next'), "click", getNext);
-    on(dom.byId('prev'), "click", getPrevious);
-    on(dom.byId('nextForegroundButton'), "click", getNextForeground);
-    on(dom.byId('prevForegroundButton'), "click", getPreviousForeground);
-    on(dom.byId('submitButton'), "click", submitForm);
+    on(portalBG, "ready", loadPortal);
+    on(portalFG, "ready", loadForegrounds);
+    on(dom.byId("next"), "click", getNext);
+    on(dom.byId("prev"), "click", getPrevious);
+    on(dom.byId("nextForegroundButton"), "click", getNextForeground);
+    on(dom.byId("prevForegroundButton"), "click", getPreviousForeground);
+    on(dom.byId("submitButton"), "click", submitForm);
+    on(dom.byId("updateItemBtn"), "click", updateItem);
 
     // hitch in JCrop preview for modern browsers
     if(window.FileReader) {
@@ -88,6 +188,10 @@ require([
     }
 
     var colorPicker = new ColorPicker({}, "colorPicker"); //summon the colorpicker
+    colorPicker.startup();
+    if(esriLang.isDefined(displayOptions.fontColor)) {
+      colorPicker.set("value", displayOptions.fontColor);
+    }
     //dlgThumbnail.show();
 
     on(dom.byId("backgroundUpload"), "change", function() { //uncheck the radio buttons when an image is uploaded
@@ -117,26 +221,26 @@ require([
 
   function loadPortal() { //loads the thumbnails for the backgrounds
     var params = {
-      q: 'id:' + (displayOptions.bgId  || '67fb524bd2e24c80bf2b972b4ce5aa95') //insert group id for background images here
+      q: "id:" + (displayOptions.bgId  || displayOptions.defaultBgId) //insert group id for background images here
     };
     portalBG.queryGroups(params).then(function(groups) {
       //get group title and thumbnail url
       if(groups.results.length == 1) {
         groupBG = groups.results[0];
         if(groupBG.thumbnailUrl) {
-          domConstruct.create('img', {
+          domConstruct.create("img", {
             src: groupBG.thumbnailUrl,
             width: 64,
             height: 64,
             alt: groupBG.title
-          }, dom.byId('groupThumbnail'));
+          }, dom.byId("groupThumbnail"));
         }
 
-        dom.byId('groupTitle').innerHTML = "Thumbnail Maker";
+        dom.byId("groupTitle").innerHTML = "Thumbnail Maker";
 
         //Retrieve the web maps and applications from the group and display
         var params = {
-          q: ' type: Image',
+          q: " type: Image",
           num: displayOptions.numItemsPerPage
         };
         groupBG.queryItems(params).then(updateGrid);
@@ -146,24 +250,24 @@ require([
 
   function loadForegrounds() { //loads the thumbnails for the foregrounds
     var params = {
-      q: 'id:' + (displayOptions.fgId || 'f8836a4c1ca6438a89c5b39dfbd41d42') //insert group id for foreground images here
+      q: "id:" + (displayOptions.fgId || displayOptions.defaultFgId) //insert group id for foreground images here
     };
     portalFG.queryGroups(params).then(function(groups) {
       //get group title and thumbnail url
       if(groups.results.length == 1) {
         groupFG = groups.results[0];
         if(groupFG.thumbnailUrl) {
-          domConstruct.create('img', {
+          domConstruct.create("img", {
             src: groupFG.thumbnailUrl,
             width: 64,
             height: 64,
             alt: groupFG.title
-          }, dom.byId('groupThumbnailForegrounds'));
+          }, dom.byId("groupThumbnailForegrounds"));
         }
 
         //Retrieve the web maps and applications from the group and display
         var params = {
-          q: ' type: Image',
+          q: " type: Image",
           num: displayOptions.numItemsPerPage
         };
         groupFG.queryItems(params).then(updateGridForForegrounds);
@@ -184,26 +288,26 @@ require([
   function updateGrid(queryResponse) { //for backgrounds
     //update the gallery to get the next page of items
 
-    var galleryList = dom.byId('galleryList');
+    var galleryList = dom.byId("galleryList");
     domConstruct.empty(galleryList);  //empty the gallery to remove existing items
 
     //navigation buttons
-    (queryResponse.results.length < 6) ? disableButton(dom.byId('next')) : enableButton(dom.byId('next'));
-    (queryResponse.queryParams.start > 1) ? enableButton(dom.byId('prev')) : disableButton(dom.byId('prev'));
+    (queryResponse.results.length < 6) ? disableButton(dom.byId("next")) : enableButton(dom.byId("next"));
+    (queryResponse.queryParams.start > 1) ? enableButton(dom.byId("prev")) : disableButton(dom.byId("prev"));
     //Build the thumbnails for each item the thumbnail when clicked will display the web map in a template or the web application
     var frag = document.createDocumentFragment();
     array.forEach(queryResponse.results, function(item) {
       if(item.id) {
-        var url = (item.type === 'Web Map') ?
-          displayOptions.templateUrl + '?webmap=' + item.id + '&theme=' + displayOptions.themeName :
+        var url = (item.type === "Web Map") ?
+          displayOptions.templateUrl + "?webmap=" + item.id + "&theme=" + displayOptions.themeName :
           item.itemDataUrl;
 
-        var li = domConstruct.create('li', {}, frag);
-        var a = domConstruct.create('label', {
+        var li = domConstruct.create("li", {}, frag);
+        var a = domConstruct.create("label", {
           //href: url,
           className: "backgroundGrid",
-          target: '_blank',
-          innerHTML: '<div class="imageOption"><img src="' + item.thumbnailUrl + '"/><span id="thumbnailName">' + item.title + '</span><br /><span><input type="radio" name="rdoThumbBG" value="' + item.itemDataUrl + '"/></span></div>'
+          target: "_blank",
+          innerHTML: "<div class=\"imageOption\"><img src=\"" + item.thumbnailUrl + "\"/><span id=\"thumbnailName\">" + item.title + "</span><br /><span><input type=\"radio\" name=\"rdoThumbBG\" value=\"" + item.itemDataUrl + "\"/></span></div>"
         }, li);
       }
     });
@@ -213,23 +317,23 @@ require([
   function updateGridForForegrounds(queryResponse) {
     //update the gallery to get the next page of items
 
-    var galleryList = dom.byId('galleryListForeground');
+    var galleryList = dom.byId("galleryListForeground");
     domConstruct.empty(galleryList);  //empty the gallery to remove existing items
 
     //navigation buttons
-    (queryResponse.results.length < 6) ? disableButton(dom.byId('nextForegroundButton')) : enableButton(dom.byId('nextForegroundButton'));
-    (queryResponse.queryParams.start > 1) ? enableButton(dom.byId('prevForegroundButton')) : disableButton(dom.byId('prevForegroundButton'));
+    (queryResponse.results.length < 6) ? disableButton(dom.byId("nextForegroundButton")) : enableButton(dom.byId("nextForegroundButton"));
+    (queryResponse.queryParams.start > 1) ? enableButton(dom.byId("prevForegroundButton")) : disableButton(dom.byId("prevForegroundButton"));
 
     //Build the thumbnails for each item the thumbnail when clicked will display the web map in a template or the web application
     var frag = document.createDocumentFragment();
     array.forEach(queryResponse.results, function(item) {
       if(item.id) {
-        var li = domConstruct.create('li', {}, frag);
-        var a = domConstruct.create('label', {
+        var li = domConstruct.create("li", {}, frag);
+        var a = domConstruct.create("label", {
           //href: url,
           className: "foregroundGrid",
-          target: '_blank',
-          innerHTML: '<div class="imageOption"><img src="' + item.thumbnailUrl + '"/><span id="thumbnailName">' + item.title + '</span><br /><span><input type="radio" name="rdoThumbFG" value="' + item.itemDataUrl + '"/> <label for="radioOne"></label></span></div>'
+          target: "_blank",
+          innerHTML: "<div class=\"imageOption\"><img src=\"" + item.thumbnailUrl + "\"/><span id=\"thumbnailName\">" + item.title + "</span><br /><span><input type=\"radio\" name=\"rdoThumbFG\" value=\"" + item.itemDataUrl + "\"/> <label for=\"radioOne\"></label></span></div>"
         }, li);
       }
     });
@@ -303,14 +407,18 @@ require([
     domStyle.set(dom.byId("spinner"), "display", "");
   }
 
+  function updateItem() {
+    // TODO
+  }
+
   function submitForm() {
 
     var imageFG, imageBG;
     var promises, uploadResults;
     var imageFGfromUser = false;
     var imageBGfromUser = false;
-    var bgUpload = dom.byId('backgroundUpload'),
-        fgUpload = dom.byId('foregroundUpload');
+    var bgUpload = dom.byId("backgroundUpload"),
+        fgUpload = dom.byId("foregroundUpload");
 
     if(bgUpload && bgUpload.files && bgUpload.files.length > 0) {
       imageBGfromUser = true;
@@ -359,7 +467,7 @@ require([
       function getSelectedFG() {
         require(["esri/tasks/DataFile"], function(DataFile) {
           dataFile2b = new DataFile();
-          var radioObj = dom.byId('fgForm');
+          var radioObj = dom.byId("fgForm");
           var radioLength = radioObj.length;
           for(var i = 0; i < radioLength; i++) {
             if(radioObj[i].checked) {
@@ -373,7 +481,7 @@ require([
       function getSelectedBG() {
         require(["esri/tasks/DataFile"], function(DataFile) {
           dataFile1b = new DataFile();
-          var radioObj = dom.byId('bgForm');
+          var radioObj = dom.byId("bgForm");
           var radioLength = radioObj.length;
           for(var i = 0; i < radioLength; i++) {
             if(radioObj[i].checked) {
@@ -451,14 +559,10 @@ require([
             gp.getResultData(jobInfo.jobId, "OutputImage", function(results) {
               console.log(results);
               if(results) {
-                domAttr.set(dom.byId("download"), "innerHTML", "<a href='" + results.value.url + "' target='_new'>Download image</a>");
-                domAttr.set(dom.byId("info"), "innerHTML", "<img src='" + results.value.url + "'></img>");
+                domAttr.set(dom.byId("download"), "innerHTML", "<a href=\"" + results.value.url + "\" target=\"_new\">Download image</a>");
+                domAttr.set(dom.byId("info"), "innerHTML", "<img src=\"" + results.value.url + "\"></img>");
               }
-              //dij
-              // it.byId('itemTypeSelect').attr("disabled", false);
-              //dijit.byId('ISOSelect').attr("disabled", false)
-              //dijit.byId('thumbnailText').attr("disabled", false)
-              //dijit.byId("submitbtn").attr("disabled", false);
+
               dlgThumbnail.show();
             });
           }

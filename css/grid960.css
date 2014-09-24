@@ -231,6 +231,10 @@ ul.gallery li div.active {
   color: #777;
 }
 
+#update {
+  text-align: center;
+}
+
 hr {
   height: 5px;
   border: 0;
