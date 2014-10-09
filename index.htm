@@ -9,15 +9,15 @@
 
   <link rel="stylesheet" href="css/grid960.css">
   <link rel="stylesheet" href="css/calcite.css">
-  <link rel="stylesheet" href="//js.arcgis.com/3.10compact/js/dojo/dijit/themes/claro/claro.css">
-  <link rel="stylesheet" href="//js.arcgis.com/3.10compact/js/esri/css/esri.css">
-  <link rel="stylesheet" href="//js.arcgis.com/3.10compact/js/dojo/dojox/widget/ColorPicker/ColorPicker.css"/>
+  <link rel="stylesheet" href="//js.arcgis.com/3.11compact/dijit/themes/claro/claro.css">
+  <link rel="stylesheet" href="//js.arcgis.com/3.11compact/esri/css/esri.css">
+  <link rel="stylesheet" href="//js.arcgis.com/3.11compact/dojox/widget/ColorPicker/ColorPicker.css"/>
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.12/css/jquery.Jcrop.min.css" type="text/css" />
   <link rel="icon" type="image/png" href="favicon.png">
   <!-- Travel designed by Elliot Verhaeren from the thenounproject.com -->
 
   <script>var dojoConfig = { async: true };</script>
-  <script src="//js.arcgis.com/3.10compact/"></script>
+  <script src="//js.arcgis.com/3.11compact/"></script>
   <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.12/js/jquery.Jcrop.min.js"></script>
   <script src="js.js"></script>
@@ -71,8 +71,7 @@
         </div>
       </div>
     </div>
-  </div>
-</div>
+
 <div id='mainContent'>
   <div class='container_16'>
     <div class="grid_3">
@@ -139,43 +138,47 @@
             <td>Font:</td>
             <td>
               <select name="font" id="selectedFont">
-                <option value="arial.ttf">Arial</option>
-                <option value="arialbd.ttf">Arial Bold</option>
-                <option value="arialbi.ttf">Arial Bold Italic</option>
-                <option value="ariali.ttf">Arial Italic</option>
-                <option value="arialn.ttf">Arial Narrow</option>
-                <option value="arialnb.ttf">Arial Narrow Bold</option>
-                <option value="arialnbi.ttf">Arial Narrow Bold Italic</option>
-                <option value="arialni.ttf">Arial Narrow Italic</option>
-                <option value="ariblk.ttf">Arial Black</option>
-                <option value="DejaVuSans.ttf">DejaVu Sans</option>
-                <option value="DejaVuSans-Bold.ttf">DejaVu Sans Bold</option>
-                <option value="DejaVuSans-BoldOblique.ttf">DejaVu Sans Bold Oblique</option>
-                <option value="DejaVuSans-ExtraLight.ttf">DejaVu Sans Extra Light</option>
-                <option value="DejaVuSans-Oblique.ttf">DejaVu Sans Oblique</option>
-                <option value="DejaVuSansCondensed-Bold.ttf">DejaVu Sans Condensed Bold</option>
-                <option value="DejaVuSansCondensed-BoldOblique.ttf">DejaVu Sans Condensed Bold Oblique</option>
-                <option value="DejaVuSansCondensed-Oblique.ttf">DejaVu Sans Condensed Oblique</option>
-                <option value="DejaVuSansCondensed.ttf">DejaVu Sans Condensed</option>
-                <option value="DejaVuSansMono-Bold.ttf">DejaVu Sans Mono Bold</option>
-                <option value="DejaVuSansMono-BoldOblique.ttf">DejaVu Sans Mono Bold Oblique</option>
-                <option value="DejaVuSansMono-Oblique.ttf">DejaVu Sans Mono Oblique</option>
-                <option value="DejaVuSansMono.ttf" selected>DejaVu Sans Mono</option>
-                <option value="DejaVuSerif-Bold.ttf">DejaVu Serif Bold</option>
-                <option value="DejaVuSerif-BoldItalic.ttf">DejaVu Serif Bold Italic</option>
-                <option value="DejaVuSerif-Italic.ttf">DejaVu Serif Italic</option>
-                <option value="DejaVuSerif.ttf">DejaVu Serif</option>
-                <option value="DejaVuSerifCondensed-Bold.ttf">DejaVu Serif Condensed Bold</option>
-                <option value="DejaVuSerifCondensed-BoldItalic.ttf">DejaVu Serif Condensed Bold Italic</option>
-                <option value="DejaVuSerifCondensed-Italic.ttf">DejaVu Serif Condensed Italic</option>
-                <option value="DejaVuSerifCondensed.ttf">DejaVu Serif Condensed</option>
+                <optgroup label="Arial">
+                    <option value="arial.ttf">Arial</option>
+                    <option selected="selected" value="arialbd.ttf">Arial Bold</option>
+                    <option value="arialbi.ttf">Arial Bold Italic</option>
+                    <option value="ariali.ttf">Arial Italic</option>
+                    <option value="arialn.ttf">Arial Narrow</option>
+                    <option value="arialnb.ttf">Arial Narrow Bold</option>
+                    <option value="arialnbi.ttf">Arial Narrow Bold Italic</option>
+                    <option value="arialni.ttf">Arial Narrow Italic</option>
+                    <option value="ariblk.ttf">Arial Black</option>
+                </optgroup>
+                <optgroup label="DejaVu">
+                    <option value="DejaVuSans.ttf">DejaVu Sans</option>
+                    <option value="DejaVuSans-Bold.ttf">DejaVu Sans Bold</option>
+                    <option value="DejaVuSans-BoldOblique.ttf">DejaVu Sans Bold Oblique</option>
+                    <option value="DejaVuSans-ExtraLight.ttf">DejaVu Sans Extra Light</option>
+                    <option value="DejaVuSans-Oblique.ttf">DejaVu Sans Oblique</option>
+                    <option value="DejaVuSansCondensed-Bold.ttf">DejaVu Sans Condensed Bold</option>
+                    <option value="DejaVuSansCondensed-BoldOblique.ttf">DejaVu Sans Condensed Bold Oblique</option>
+                    <option value="DejaVuSansCondensed-Oblique.ttf">DejaVu Sans Condensed Oblique</option>
+                    <option value="DejaVuSansCondensed.ttf">DejaVu Sans Condensed</option>
+                    <option value="DejaVuSansMono-Bold.ttf">DejaVu Sans Mono Bold</option>
+                    <option value="DejaVuSansMono-BoldOblique.ttf">DejaVu Sans Mono Bold Oblique</option>
+                    <option value="DejaVuSansMono-Oblique.ttf">DejaVu Sans Mono Oblique</option>
+                    <option value="DejaVuSansMono.ttf">DejaVu Sans Mono</option>
+                    <option value="DejaVuSerif-Bold.ttf">DejaVu Serif Bold</option>
+                    <option value="DejaVuSerif-BoldItalic.ttf">DejaVu Serif Bold Italic</option>
+                    <option value="DejaVuSerif-Italic.ttf">DejaVu Serif Italic</option>
+                    <option value="DejaVuSerif.ttf">DejaVu Serif</option>
+                    <option value="DejaVuSerifCondensed-Bold.ttf">DejaVu Serif Condensed Bold</option>
+                    <option value="DejaVuSerifCondensed-BoldItalic.ttf">DejaVu Serif Condensed Bold Italic</option>
+                    <option value="DejaVuSerifCondensed-Italic.ttf">DejaVu Serif Condensed Italic</option>
+                    <option value="DejaVuSerifCondensed.ttf">DejaVu Serif Condensed</option>
+                </optgroup>
               </select>
             </td>
           </tr>
           <tr>
             <td>Font Size:</td>
             <td>
-              <input type="text" size="1" id="fontSize" value="15">
+              <input type="number" size="1" id="fontSize" value="10" min="10" max="20">
             </td>
           </tr>
           <tr>

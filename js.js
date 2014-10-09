@@ -1,3 +1,4 @@
+/*global require*/
 var portalFG;
 var portalBG;
 var groupFG;
@@ -86,15 +87,15 @@ require([
 
     // get groups passed by URL parameter if they are set
     var queryParams = ioQuery.queryToObject(window.location.search.slice(1)),
-        itemId = queryParams["itemid"],
-        bgId = queryParams["bgid"],
-        fgId = queryParams["fgid"],
-        text = queryParams["txt"],
-        textAlign = queryParams["txtAlign"],
-        textBounds = queryParams["txtBB"],
-        font = queryParams["font"],
-        fontSize = queryParams["fontSize"],
-        fontColor = queryParams["fontColor"];
+        itemId = queryParams.itemid,
+        bgId = queryParams.bgid,
+        fgId = queryParams.fgid,
+        text = queryParams.txt,
+        textAlign = queryParams.txtAlign,
+        textBounds = queryParams.txtBB,
+        font = queryParams.font,
+        fontSize = queryParams.fontSize,
+        fontColor = queryParams.fontColor;
     if(isSet(itemId)) {
       displayOptions.itemId = itemId;
     }
@@ -225,7 +226,7 @@ require([
     };
     portalBG.queryGroups(params).then(function(groups) {
       //get group title and thumbnail url
-      if(groups.results.length == 1) {
+      if(groups.results.length === 1) {
         groupBG = groups.results[0];
         if(groupBG.thumbnailUrl) {
           domConstruct.create("img", {
@@ -254,7 +255,7 @@ require([
     };
     portalFG.queryGroups(params).then(function(groups) {
       //get group title and thumbnail url
-      if(groups.results.length == 1) {
+      if(groups.results.length === 1) {
         groupFG = groups.results[0];
         if(groupFG.thumbnailUrl) {
           domConstruct.create("img", {
