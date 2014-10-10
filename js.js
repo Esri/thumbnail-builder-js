@@ -17,16 +17,20 @@ require([
   "esri/config",
   "esri/lang",
   "esri/IdentityManager",
-  "dojox/widget/ColorPicker", //adding color picker from dojo to replace jQuery spectrum
   "dijit/form/RadioButton",
   "dojo/_base/lang",
   "dojox/lang/aspect",
   "dijit/Dialog",
   "esri/config",
-  "esri/request"
+  "esri/request",
+  "dojo/promise/all",
+  "esri/tasks/DataFile",
+  "esri/tasks/Geoprocessor",
+  "dojox/widget/ColorPicker" //adding color picker from dojo to replace jQuery spectrum
 ], function (
   parser, ready, dom, domAttr, domClass, domConstruct, domStyle, array, registry, on, query, domProp, ioQuery,
-  arcgisPortal, config, esriLang, IdentityManager, ColorPicker, RadioButton, dojoLang, aspect, Dialog, esriConfig, esriRequest) {
+  arcgisPortal, config, esriLang, IdentityManager, RadioButton, dojoLang, aspect, Dialog,
+  esriConfig, esriRequest, all, DataFile, Geoprocessor, ColorPicker) {
 
 	var portalFG;
 	var portalBG;
@@ -451,129 +455,127 @@ require([
 			imageFG = null;
 		}
 
-		require(["dojo/promise/all"], function (all) {
-			disableSubmit();
+		disableSubmit();
 
+		getSelectedBG();
+		getSelectedFG();
+		if (imageBG || imageFG) {
+			promises = new all([imageBG, imageFG]);
+			promises.then(handleUploadsIfNecessary);
+		} else {
 			getSelectedBG();
 			getSelectedFG();
-			if (imageBG || imageFG) {
-				promises = new all([imageBG, imageFG]);
-				promises.then(handleUploadsIfNecessary);
+			handleQueryResults([dataFile1b, dataFile2b]);
+		}
+
+		function getSelectedFG() {
+			dataFile2b = new DataFile();
+			var radioObj = dom.byId("fgForm");
+			var radioLength = radioObj.length;
+			for (var i = 0; i < radioLength; i++) {
+				if (radioObj[i].checked) {
+					dataFile2b.url = radioObj[i].value;
+					return dataFile2b;
+				}
+			}
+		}
+
+		function getSelectedBG() {
+			dataFile1b = new DataFile();
+			var radioObj = dom.byId("bgForm");
+			var radioLength = radioObj.length;
+			for (var i = 0; i < radioLength; i++) {
+				if (radioObj[i].checked) {
+					dataFile1b.url = radioObj[i].value;
+				}
+			}
+		}
+
+		function handleUploadsIfNecessary(results) {
+			var dataFile1a = new DataFile();
+			var dataFile2a = new DataFile();
+			if (results[0]) {
+				dataFile1a.itemID = results[0].item.itemID;
 			} else {
-				require(["esri/tasks/DataFile"], function (DataFile) {
-					getSelectedBG();
-					getSelectedFG();
-					handleQueryResults([dataFile1b, dataFile2b]);
+				dataFile1a.url = dataFile1b.url;
+			}
+			if (results[1]) {
+				dataFile2a.itemID = results[1].item.itemID;
+			} else {
+				dataFile2a.url = dataFile2b.url;
+			}
+			handleQueryResults([dataFile1a, dataFile2a]);
+		}
+
+		function handleQueryResults(results) {
+			//console.log(results);
+			//uploadResults = results;
+			var gp = new Geoprocessor(thumbnailGeneratorURL + "/" + encodeURI("Generate Thumbnail for ArcGIS Online or Portal for ArcGIS Items"));
+			//require(["esri/tasks/DataFile"], function(DataFile) {
+			//var dataFile1 = new DataFile();
+			//var dataFile2 = new DataFile();
+			//dataFile1.itemID = uploadResults[0].item.itemID;
+			//dataFile2.itemID = uploadResults[1].item.itemID;
+			var params = {
+				"ItemText": "The rain in spain falls mainly in the plains",
+				"FontSize": "15",
+				"TextColor": "#FF0000",
+				"Align": "Left",
+				"SelectedFont": "DejaVuSansMono-Bold.ttf",
+				"ULX": "0",
+				"ULY": "90",
+				"LRX": "165",
+				"LRY": "133"
+			};
+			if (results[0].url) {
+				params.BackgroundImage = results[0];
+			} else {
+				params.BackgroundImageItemID = results[0];
+			}
+
+			if (results[1].url) {
+				params.ForegroundImage = results[1];
+			} else {
+				params.ForegroundImageItemID = results[1];
+			}
+
+			params.ItemText = dom.byId("thumbText").value;
+			params.SelectedFont = dom.byId("selectedFont").value;
+			params.FontSize = dom.byId("fontSize").value;
+			params.Align = dom.byId("textAlign").value;
+			params.TextColor = registry.byId("colorPicker").value;
+			params.ULX = dom.byId("x1").value;
+			params.ULY = dom.byId("y1").value;
+			params.LRX = dom.byId("x2").value;
+			params.LRY = dom.byId("y2").value;
+
+			console.log(params);
+			gp.submitJob(params, completeCallback, statusCallback, statusErrback);
+			function statusCallback(jobInfo) {
+				console.log(jobInfo.jobStatus);
+			}
+			function statusErrback(error) {
+				console.log(error);
+				enableSubmit();
+			}
+
+			function completeCallback(jobInfo) {
+				enableSubmit();
+
+				console.log(jobInfo);
+				gp.getResultData(jobInfo.jobId, "OutputImage", function (results) {
+					console.log(results);
+					if (results) {
+						domAttr.set(dom.byId("download"), "innerHTML", "<a href=\"" + results.value.url + "\" target=\"_new\">Download image</a>");
+						domAttr.set(dom.byId("info"), "innerHTML", "<img src=\"" + results.value.url + "\"></img>");
+					}
+
+					dlgThumbnail.show();
 				});
 			}
 
-			function getSelectedFG() {
-				require(["esri/tasks/DataFile"], function (DataFile) {
-					dataFile2b = new DataFile();
-					var radioObj = dom.byId("fgForm");
-					var radioLength = radioObj.length;
-					for (var i = 0; i < radioLength; i++) {
-						if (radioObj[i].checked) {
-							dataFile2b.url = radioObj[i].value;
-							return dataFile2b;
-						}
-					}
-				});
-			}
-
-			function getSelectedBG() {
-				require(["esri/tasks/DataFile"], function (DataFile) {
-					dataFile1b = new DataFile();
-					var radioObj = dom.byId("bgForm");
-					var radioLength = radioObj.length;
-					for (var i = 0; i < radioLength; i++) {
-						if (radioObj[i].checked) {
-							dataFile1b.url = radioObj[i].value;
-						}
-					}
-				});
-			}
-
-			function handleUploadsIfNecessary(results) {
-				require(["esri/tasks/DataFile"], function (DataFile) {
-					var dataFile1a = new DataFile();
-					var dataFile2a = new DataFile();
-					if (results[0]) {
-						dataFile1a.itemID = results[0].item.itemID;
-					} else {
-						dataFile1a.url = dataFile1b.url;
-					}
-					if (results[1]) {
-						dataFile2a.itemID = results[1].item.itemID;
-					} else {
-						dataFile2a.url = dataFile2b.url;
-					}
-					handleQueryResults([dataFile1a, dataFile2a]);
-				});
-			}
-
-			function handleQueryResults(results) {
-				//console.log(results);
-				//uploadResults = results;
-				require(["esri/tasks/Geoprocessor"], function (Geoprocessor) {
-					var gp = new Geoprocessor(thumbnailGeneratorURL + "/Generate%20Thumbnail%20for%20ArcGIS%20Online%20or%20Portal%20for%20ArcGIS%20Items");
-					//require(["esri/tasks/DataFile"], function(DataFile) {
-					//var dataFile1 = new DataFile();
-					//var dataFile2 = new DataFile();
-					//dataFile1.itemID = uploadResults[0].item.itemID;
-					//dataFile2.itemID = uploadResults[1].item.itemID;
-					var params = { "ItemText": "The rain in spain falls mainly in the plains", "FontSize": "15", "TextColor": "#FF0000", "Align": "Left", "SelectedFont": "DejaVuSansMono-Bold.ttf", "ULX": "0", "ULY": "90", "LRX": "165", "LRY": "133" };
-					if (results[0].url) {
-						params.BackgroundImage = results[0];
-					} else {
-						params.BackgroundImageItemID = results[0];
-					}
-
-					if (results[1].url) {
-						params.ForegroundImage = results[1];
-					} else {
-						params.ForegroundImageItemID = results[1];
-					}
-
-					params.ItemText = dom.byId("thumbText").value;
-					params.SelectedFont = dom.byId("selectedFont").value;
-					params.FontSize = dom.byId("fontSize").value;
-					params.Align = dom.byId("textAlign").value;
-					params.TextColor = registry.byId("colorPicker").value;
-					params.ULX = dom.byId("x1").value;
-					params.ULY = dom.byId("y1").value;
-					params.LRX = dom.byId("x2").value;
-					params.LRY = dom.byId("y2").value;
-
-					console.log(params);
-					gp.submitJob(params, completeCallback, statusCallback, statusErrback);
-					function statusCallback(jobInfo) {
-						console.log(jobInfo.jobStatus);
-					}
-					function statusErrback(error) {
-						console.log(error);
-						enableSubmit();
-					}
-
-					function completeCallback(jobInfo) {
-						enableSubmit();
-
-						console.log(jobInfo);
-						gp.getResultData(jobInfo.jobId, "OutputImage", function (results) {
-							console.log(results);
-							if (results) {
-								domAttr.set(dom.byId("download"), "innerHTML", "<a href=\"" + results.value.url + "\" target=\"_new\">Download image</a>");
-								domAttr.set(dom.byId("info"), "innerHTML", "<img src=\"" + results.value.url + "\"></img>");
-							}
-
-							dlgThumbnail.show();
-						});
-					}
-
-					//});
-				});
-			}
-		});
+			//});
+		}
 	}
 });
 
@@ -604,7 +606,7 @@ jQuery(function ($) {
 		jcrop_api = this;
 	});
 
-	$('#coords').on('change', 'input', function (e) {
+	$('#coords').on('change', 'input', function (/*e*/) {
 		var x1 = $('#x1').val(),
 			x2 = $('#x2').val(),
 			y1 = $('#y1').val(),
