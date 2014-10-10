@@ -21,10 +21,12 @@ require([
   "dijit/form/RadioButton",
   "dojo/_base/lang",
   "dojox/lang/aspect",
-  "dijit/Dialog"
+  "dijit/Dialog",
+  "esri/config",
+  "esri/request"
 ], function (
   parser, ready, dom, domAttr, domClass, domConstruct, domStyle, array, registry, on, query, domProp, ioQuery,
-  arcgisPortal, config, esriLang, IdentityManager, ColorPicker, RadioButton, dojoLang, aspect, Dialog) {
+  arcgisPortal, config, esriLang, IdentityManager, ColorPicker, RadioButton, dojoLang, aspect, Dialog, esriConfig, esriRequest) {
 
 	var portalFG;
 	var portalBG;
@@ -37,7 +39,6 @@ require([
 	var thumbnailGeneratorURL = "http://nwdemo1.esri.com/arcgis/rest/services/GP/GenerateThumb/GPServer";
 	var dataFile1b, dataFile2b;
 
-	var item1, item2;
 	var displayOptions = {
 		numItemsPerPage: 6,
 		defaultBgId: "67fb524bd2e24c80bf2b972b4ce5aa95",
@@ -299,12 +300,12 @@ require([
 		var frag = document.createDocumentFragment();
 		array.forEach(queryResponse.results, function (item) {
 			if (item.id) {
-				var url = (item.type === "Web Map") ?
-				  displayOptions.templateUrl + "?webmap=" + item.id + "&theme=" + displayOptions.themeName :
-				  item.itemDataUrl;
+				////var url = (item.type === "Web Map") ?
+				////  displayOptions.templateUrl + "?webmap=" + item.id + "&theme=" + displayOptions.themeName :
+				////  item.itemDataUrl;
 
 				var li = domConstruct.create("li", {}, frag);
-				var a = domConstruct.create("label", {
+				domConstruct.create("label", {
 					//href: url,
 					className: "backgroundGrid",
 					target: "_blank",
@@ -330,7 +331,7 @@ require([
 		array.forEach(queryResponse.results, function (item) {
 			if (item.id) {
 				var li = domConstruct.create("li", {}, frag);
-				var a = domConstruct.create("label", {
+				domConstruct.create("label", {
 					//href: url,
 					className: "foregroundGrid",
 					target: "_blank",
@@ -425,7 +426,7 @@ require([
 		if (bgUpload && bgUpload.files && bgUpload.files.length > 0) {
 			imageBGfromUser = true;
 			layerUrl = thumbnailGeneratorURL + "/uploads/upload";
-			var layersRequestBG = esri.request({
+			var layersRequestBG = esriRequest({
 				url: layerUrl,
 				form: dom.byId("bgForm"),
 				handleAs: "json",
@@ -439,7 +440,7 @@ require([
 		if (fgUpload && fgUpload.files && fgUpload.files.length > 0) {
 			imageFGfromUser = true;
 			layerUrl = thumbnailGeneratorURL + "/uploads/upload";
-			var layersRequestFG = esri.request({
+			var layersRequestFG = esriRequest({
 				url: layerUrl,
 				form: dom.byId("fgForm"),
 				handleAs: "json",
@@ -574,4 +575,40 @@ require([
 			}
 		});
 	}
+});
+
+jQuery(function ($) {
+	// Simple event handler, called from onChange and onSelect
+	// event handlers, as per the Jcrop invocation above
+	function showCoords(c) {
+		$('#x1').val(c.x);
+		$('#y1').val(c.y);
+		$('#x2').val(c.x2);
+		$('#y2').val(c.y2);
+		$('#w').val(c.w);
+		$('#h').val(c.h);
+	}
+
+	function clearCoords() {
+		$('#coords input').val('');
+	}
+
+	var jcrop_api;
+
+
+	$('#target').Jcrop({
+		onChange: showCoords,
+		onSelect: showCoords,
+		onRelease: clearCoords
+	}, function () {
+		jcrop_api = this;
+	});
+
+	$('#coords').on('change', 'input', function (e) {
+		var x1 = $('#x1').val(),
+			x2 = $('#x2').val(),
+			y1 = $('#y1').val(),
+			y2 = $('#y2').val();
+		jcrop_api.setSelect([x1, y1, x2, y2]);
+	});
 });
