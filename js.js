@@ -25,12 +25,11 @@ require([
   "esri/request",
   "dojo/promise/all",
   "esri/tasks/DataFile",
-  "esri/tasks/Geoprocessor",
-  "dojox/widget/ColorPicker" //adding color picker from dojo to replace jQuery spectrum
+  "esri/tasks/Geoprocessor"
 ], function (
   parser, ready, dom, domAttr, domClass, domConstruct, domStyle, array, registry, on, query, domProp, ioQuery,
   arcgisPortal, config, esriLang, IdentityManager, RadioButton, dojoLang, aspect, Dialog,
-  esriConfig, esriRequest, all, DataFile, Geoprocessor, ColorPicker) {
+  esriConfig, esriRequest, all, DataFile, Geoprocessor) {
 
 	var portalFG;
 	var portalBG;
@@ -133,13 +132,13 @@ require([
 	function fillInitialUIValues() {
 		if (!isSet(displayOptions.itemId)) {
 			// hide update item button if no item id is present
-			domStyle.set(dom.byId("update"), "display", "none");
+			domStyle.set(document.getElementById("update"), "display", "none");
 		}
 		if (isSet(displayOptions.text)) {
-			domAttr.set(dom.byId("thumbText"), "value", displayOptions.text);
+			domAttr.set(document.getElementById("thumbText"), "value", displayOptions.text);
 		}
 		if (isSet(displayOptions.textAlign)) {
-			var alignMatches = array.filter(dom.byId("textAlign").options, function (option) {
+			var alignMatches = array.filter(document.getElementById("textAlign").options, function (option) {
 				return domAttr.get(option, "value").toLowerCase() === displayOptions.textAlign.toLowerCase();
 			});
 			if (alignMatches.length > 0) {
@@ -149,14 +148,14 @@ require([
 		if (isSet(displayOptions.textBB)) {
 			var coords = displayOptions.textBB.split(",");
 			if (coords && coords.length === 4) {
-				domAttr.set(dom.byId("x1"), "value", coords[0]);
-				domAttr.set(dom.byId("y1"), "value", coords[1]);
-				domAttr.set(dom.byId("x2"), "value", coords[2]);
-				domAttr.set(dom.byId("y2"), "value", coords[3]);
+				domAttr.set(document.getElementById("x1"), "value", coords[0]);
+				domAttr.set(document.getElementById("y1"), "value", coords[1]);
+				domAttr.set(document.getElementById("x2"), "value", coords[2]);
+				domAttr.set(document.getElementById("y2"), "value", coords[3]);
 			}
 		}
 		if (isSet(displayOptions.font)) {
-			var fontMatches = array.filter(dom.byId("selectedFont").options, function (option) {
+			var fontMatches = array.filter(document.getElementById("selectedFont").options, function (option) {
 				return domAttr.get(option, "value").toLowerCase() === displayOptions.font.toLowerCase();
 			});
 			if (fontMatches.length > 0) {
@@ -168,12 +167,12 @@ require([
 			try {
 				var fs = parseInt(displayOptions.fontSize);
 				if (isNaN(fs)) {
-					domAttr.set(dom.byId("fontSize"), "value", displayOptions.defaultFontSize);
+					domAttr.set(document.getElementById("fontSize"), "value", displayOptions.defaultFontSize);
 				} else {
-					domAttr.set(dom.byId("fontSize"), "value", fs);
+					domAttr.set(document.getElementById("fontSize"), "value", fs);
 				}
 			} catch (e) {
-				domAttr.set(dom.byId("fontSize"), "value", displayOptions.defaultFontSize);
+				domAttr.set(document.getElementById("fontSize"), "value", displayOptions.defaultFontSize);
 			}
 		}
 	}
@@ -181,29 +180,30 @@ require([
 	function init() {
 		on(portalBG, "ready", loadPortal);
 		on(portalFG, "ready", loadForegrounds);
-		on(dom.byId("next"), "click", getNext);
-		on(dom.byId("prev"), "click", getPrevious);
-		on(dom.byId("nextForegroundButton"), "click", getNextForeground);
-		on(dom.byId("prevForegroundButton"), "click", getPreviousForeground);
-		on(dom.byId("submitButton"), "click", submitForm);
-		on(dom.byId("updateItemBtn"), "click", updateItem);
+		on(document.getElementById("next"), "click", getNext);
+		on(document.getElementById("prev"), "click", getPrevious);
+		on(document.getElementById("nextForegroundButton"), "click", getNextForeground);
+		on(document.getElementById("prevForegroundButton"), "click", getPreviousForeground);
+		on(document.getElementById("submitButton"), "click", submitForm);
+		on(document.getElementById("updateItemBtn"), "click", updateItem);
 
 		// hitch in JCrop preview for modern browsers
 		if (window.FileReader) {
-			on(dom.byId("foregroundUpload"), "change", readCustomForeground);
+			//on(document.getElementById("foregroundUpload"), "change", readCustomForeground);
+			document.getElementById("foregroundUpload").addEventListener("change", readCustomForeground);
 		}
 
-		var colorPicker = new ColorPicker({}, "colorPicker"); //summon the colorpicker
-		colorPicker.startup();
+		var colorPicker = document.getElementById("colorPicker");
+
 		if (esriLang.isDefined(displayOptions.fontColor)) {
-			colorPicker.set("value", displayOptions.fontColor);
+			colorPicker.value = "#" + displayOptions.fontColor;
 		}
 		//dlgThumbnail.show();
 
-		on(dom.byId("backgroundUpload"), "change", function () { //uncheck the radio buttons when an image is uploaded
+		on(document.getElementById("backgroundUpload"), "change", function () { //uncheck the radio buttons when an image is uploaded
 			query(".backgroundGrid").query("input[type=radio]").attr("checked", false);
 		});
-		on(dom.byId("foregroundUpload"), "change", function () {
+		on(document.getElementById("foregroundUpload"), "change", function () {
 			query(".foregroundGrid").query("input[type=radio]").attr("checked", false);
 		});
 
@@ -239,10 +239,10 @@ require([
 						width: 64,
 						height: 64,
 						alt: groupBG.title
-					}, dom.byId("groupThumbnail"));
+					}, document.getElementById("groupThumbnail"));
 				}
 
-				dom.byId("groupTitle").innerHTML = "Thumbnail Maker";
+				document.getElementById("groupTitle").innerHTML = "Thumbnail Maker";
 
 				//Retrieve the web maps and applications from the group and display
 				var params = {
@@ -268,7 +268,7 @@ require([
 						width: 64,
 						height: 64,
 						alt: groupFG.title
-					}, dom.byId("groupThumbnailForegrounds"));
+					}, document.getElementById("groupThumbnailForegrounds"));
 				}
 
 				//Retrieve the web maps and applications from the group and display
@@ -294,12 +294,12 @@ require([
 	function updateGrid(queryResponse) { //for backgrounds
 		//update the gallery to get the next page of items
 
-		var galleryList = dom.byId("galleryList");
+		var galleryList = document.getElementById("galleryList");
 		domConstruct.empty(galleryList);  //empty the gallery to remove existing items
 
 		//navigation buttons
-		(queryResponse.results.length < 6) ? disableButton(dom.byId("next")) : enableButton(dom.byId("next"));
-		(queryResponse.queryParams.start > 1) ? enableButton(dom.byId("prev")) : disableButton(dom.byId("prev"));
+		(queryResponse.results.length < 6) ? disableButton(document.getElementById("next")) : enableButton(document.getElementById("next"));
+		(queryResponse.queryParams.start > 1) ? enableButton(document.getElementById("prev")) : disableButton(document.getElementById("prev"));
 		//Build the thumbnails for each item the thumbnail when clicked will display the web map in a template or the web application
 		var frag = document.createDocumentFragment();
 		array.forEach(queryResponse.results, function (item) {
@@ -323,12 +323,12 @@ require([
 	function updateGridForForegrounds(queryResponse) {
 		//update the gallery to get the next page of items
 
-		var galleryList = dom.byId("galleryListForeground");
+		var galleryList = document.getElementById("galleryListForeground");
 		domConstruct.empty(galleryList);  //empty the gallery to remove existing items
 
 		//navigation buttons
-		(queryResponse.results.length < 6) ? disableButton(dom.byId("nextForegroundButton")) : enableButton(dom.byId("nextForegroundButton"));
-		(queryResponse.queryParams.start > 1) ? enableButton(dom.byId("prevForegroundButton")) : disableButton(dom.byId("prevForegroundButton"));
+		(queryResponse.results.length < 6) ? disableButton(document.getElementById("nextForegroundButton")) : enableButton(document.getElementById("nextForegroundButton"));
+		(queryResponse.queryParams.start > 1) ? enableButton(document.getElementById("prevForegroundButton")) : disableButton(document.getElementById("prevForegroundButton"));
 
 		//Build the thumbnails for each item the thumbnail when clicked will display the web map in a template or the web application
 		var frag = document.createDocumentFragment();
@@ -402,15 +402,15 @@ require([
 	}
 
 	function enableSubmit() {
-		domAttr.set(dom.byId("submitButton"), "disabled", false);
-		domClass.remove(dom.byId("submitButton"), "disabled");
-		domStyle.set(dom.byId("spinner"), "display", "none");
+		domAttr.set(document.getElementById("submitButton"), "disabled", false);
+		domClass.remove(document.getElementById("submitButton"), "disabled");
+		domStyle.set(document.getElementById("spinner"), "display", "none");
 	}
 
 	function disableSubmit() {
-		domAttr.set(dom.byId("submitButton"), "disabled", true);
-		domClass.add(dom.byId("submitButton"), "disabled");
-		domStyle.set(dom.byId("spinner"), "display", "");
+		domAttr.set(document.getElementById("submitButton"), "disabled", true);
+		domClass.add(document.getElementById("submitButton"), "disabled");
+		domStyle.set(document.getElementById("spinner"), "display", "");
 	}
 
 	function updateItem() {
@@ -420,11 +420,12 @@ require([
 	function submitForm() {
 
 		var imageFG, imageBG;
-		var promises, uploadResults;
+		var promises;
+		////var uploadResults;
 		var imageFGfromUser = false;
 		var imageBGfromUser = false;
-		var bgUpload = dom.byId("backgroundUpload"),
-			fgUpload = dom.byId("foregroundUpload");
+		var bgUpload = document.getElementById("backgroundUpload"),
+			fgUpload = document.getElementById("foregroundUpload");
 		var layerUrl;
 
 		if (bgUpload && bgUpload.files && bgUpload.files.length > 0) {
@@ -432,7 +433,7 @@ require([
 			layerUrl = thumbnailGeneratorURL + "/uploads/upload";
 			var layersRequestBG = esriRequest({
 				url: layerUrl,
-				form: dom.byId("bgForm"),
+				form: document.getElementById("bgForm"),
 				handleAs: "json",
 				callbackParamName: "callback"
 			}, { usePost: true });
@@ -446,7 +447,7 @@ require([
 			layerUrl = thumbnailGeneratorURL + "/uploads/upload";
 			var layersRequestFG = esriRequest({
 				url: layerUrl,
-				form: dom.byId("fgForm"),
+				form: document.getElementById("fgForm"),
 				handleAs: "json",
 				callbackParamName: "callback"
 			}, { usePost: true });
@@ -470,7 +471,7 @@ require([
 
 		function getSelectedFG() {
 			dataFile2b = new DataFile();
-			var radioObj = dom.byId("fgForm");
+			var radioObj = document.getElementById("fgForm");
 			var radioLength = radioObj.length;
 			for (var i = 0; i < radioLength; i++) {
 				if (radioObj[i].checked) {
@@ -482,7 +483,7 @@ require([
 
 		function getSelectedBG() {
 			dataFile1b = new DataFile();
-			var radioObj = dom.byId("bgForm");
+			var radioObj = document.getElementById("bgForm");
 			var radioLength = radioObj.length;
 			for (var i = 0; i < radioLength; i++) {
 				if (radioObj[i].checked) {
@@ -539,15 +540,15 @@ require([
 				params.ForegroundImageItemID = results[1];
 			}
 
-			params.ItemText = dom.byId("thumbText").value;
-			params.SelectedFont = dom.byId("selectedFont").value;
-			params.FontSize = dom.byId("fontSize").value;
-			params.Align = dom.byId("textAlign").value;
-			params.TextColor = registry.byId("colorPicker").value;
-			params.ULX = dom.byId("x1").value;
-			params.ULY = dom.byId("y1").value;
-			params.LRX = dom.byId("x2").value;
-			params.LRY = dom.byId("y2").value;
+			params.ItemText = document.getElementById("thumbText").value;
+			params.SelectedFont = document.getElementById("selectedFont").value;
+			params.FontSize = document.getElementById("fontSize").value;
+			params.Align = document.getElementById("textAlign").value;
+			params.TextColor = document.getElementById("colorPicker").value; // registry.byId("colorPicker").value;
+			params.ULX = document.getElementById("x1").value;
+			params.ULY = document.getElementById("y1").value;
+			params.LRX = document.getElementById("x2").value;
+			params.LRY = document.getElementById("y2").value;
 
 			console.log(params);
 			gp.submitJob(params, completeCallback, statusCallback, statusErrback);
@@ -566,8 +567,8 @@ require([
 				gp.getResultData(jobInfo.jobId, "OutputImage", function (results) {
 					console.log(results);
 					if (results) {
-						domAttr.set(dom.byId("download"), "innerHTML", "<a href=\"" + results.value.url + "\" target=\"_new\">Download image</a>");
-						domAttr.set(dom.byId("info"), "innerHTML", "<img src=\"" + results.value.url + "\"></img>");
+						domAttr.set(document.getElementById("download"), "innerHTML", "<a href=\"" + results.value.url + "\" target=\"_new\">Download image</a>");
+						domAttr.set(document.getElementById("info"), "innerHTML", "<img src=\"" + results.value.url + "\"></img>");
 					}
 
 					dlgThumbnail.show();

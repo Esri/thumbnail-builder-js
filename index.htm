@@ -31,162 +31,162 @@
       </div>
     </div>
 
-<div id='mainContent'>
-  <div class='container_16'>
-    <div class="grid_3">
-      <div id='sidebar'>&nbsp;</div>
-      <div id="preview">&nbsp;</div>
-    </div>
-    <div class="grid_13">
-      <div id="backgroundForm">
-        <div class="sectionTitle">Select a background image or upload your own.</div>
-        <form id="bgForm" method="post" enctype="multipart/form-data">
-          <input type="hidden" name="f" value="json"/>
-          <div id="backgroundNextPrev">
-            <button id='prev' class="btn small secondary">&#9668; Previous</button>
-            <button id='next' class="btn small secondary">Next &#9658;</button>
-          </div>
-          <ul id='galleryList' class='gallery'>
-            <!-- This fills with the background thumbnail options when the javascript runs --></ul>
-          <div class="fileUpload">
-            <table>
-              <tr>
-                <td class="firstColumn">Upload your own 200x133px image:</td>
-                <td class="lastColumn"><input id="backgroundUpload" title="Upload your own image" accept="image/*"
-                                              type="file" name="file"></td>
-              </tr>
-            </table>
-          </div>
-        </form>
-      </div>
-      <div id='foregroundForm'>
-        <div class="sectionTitle">Select a foreground image or upload your own.</div>
-        <form id="fgForm" method="post" enctype="multipart/form-data">
-          <input type="hidden" name="f" value="json"/>
-
-          <div id="foregroundNextPrev">
-            <button id='prevForegroundButton' class="btn small secondary">&#9668; Previous</button>
-            <button id='nextForegroundButton' class="btn small secondary">Next &#9658;</button>
-          </div>
-          <ul id='galleryListForeground' class='gallery'>
-            <!-- This fills with the foreground thumbnail options when the javascript runs --></ul>
-          <div class="fileUpload">
-            <table>
-              <tr>
-                <td class="firstColumn">
-                  Upload your own image (200 x 133px):
-                </td>
-                <td class="lastColumn">
-                  <input id="foregroundUpload" title="Upload your own image" type="file" name="file"
-                         accept="image/png,image/gif"><br/>
-                  <span class="guidanceNote">This must be a transparency-enabled .png or .gif.</span>
-                </td>
-              </tr>
-            </table>
-          </div>
-        </form>
-      </div>
-      <div id="finalForm">
-        <div class="sectionTitle">Define your text content, style, and placement.</div>
-        <table>
-          <tr>
-            <td>Text on the image:</td>
-            <td><input type="text" name="text_on_image" id="thumbText"></td>
-          </tr>
-          <tr>
-            <td>Font:</td>
-            <td>
-              <select name="font" id="selectedFont">
-                <optgroup label="Arial">
-                    <option value="arial.ttf">Arial</option>
-                    <option selected="selected" value="arialbd.ttf">Arial Bold</option>
-                    <option value="arialbi.ttf">Arial Bold Italic</option>
-                    <option value="ariali.ttf">Arial Italic</option>
-                    <option value="arialn.ttf">Arial Narrow</option>
-                    <option value="arialnb.ttf">Arial Narrow Bold</option>
-                    <option value="arialnbi.ttf">Arial Narrow Bold Italic</option>
-                    <option value="arialni.ttf">Arial Narrow Italic</option>
-                    <option value="ariblk.ttf">Arial Black</option>
-                </optgroup>
-                <optgroup label="DejaVu">
-                    <option value="DejaVuSans.ttf">DejaVu Sans</option>
-                    <option value="DejaVuSans-Bold.ttf">DejaVu Sans Bold</option>
-                    <option value="DejaVuSans-BoldOblique.ttf">DejaVu Sans Bold Oblique</option>
-                    <option value="DejaVuSans-ExtraLight.ttf">DejaVu Sans Extra Light</option>
-                    <option value="DejaVuSans-Oblique.ttf">DejaVu Sans Oblique</option>
-                    <option value="DejaVuSansCondensed-Bold.ttf">DejaVu Sans Condensed Bold</option>
-                    <option value="DejaVuSansCondensed-BoldOblique.ttf">DejaVu Sans Condensed Bold Oblique</option>
-                    <option value="DejaVuSansCondensed-Oblique.ttf">DejaVu Sans Condensed Oblique</option>
-                    <option value="DejaVuSansCondensed.ttf">DejaVu Sans Condensed</option>
-                    <option value="DejaVuSansMono-Bold.ttf">DejaVu Sans Mono Bold</option>
-                    <option value="DejaVuSansMono-BoldOblique.ttf">DejaVu Sans Mono Bold Oblique</option>
-                    <option value="DejaVuSansMono-Oblique.ttf">DejaVu Sans Mono Oblique</option>
-                    <option value="DejaVuSansMono.ttf">DejaVu Sans Mono</option>
-                    <option value="DejaVuSerif-Bold.ttf">DejaVu Serif Bold</option>
-                    <option value="DejaVuSerif-BoldItalic.ttf">DejaVu Serif Bold Italic</option>
-                    <option value="DejaVuSerif-Italic.ttf">DejaVu Serif Italic</option>
-                    <option value="DejaVuSerif.ttf">DejaVu Serif</option>
-                    <option value="DejaVuSerifCondensed-Bold.ttf">DejaVu Serif Condensed Bold</option>
-                    <option value="DejaVuSerifCondensed-BoldItalic.ttf">DejaVu Serif Condensed Bold Italic</option>
-                    <option value="DejaVuSerifCondensed-Italic.ttf">DejaVu Serif Condensed Italic</option>
-                    <option value="DejaVuSerifCondensed.ttf">DejaVu Serif Condensed</option>
-                </optgroup>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <td>Font Size:</td>
-            <td>
-              <input type="number" size="1" id="fontSize" value="10" min="10" max="20">
-            </td>
-          </tr>
-          <tr>
-            <td class="topAlign">Font Color:</td>
-            <td>
-              <input type="color" id="colorPicker">
-            </td>
-          </tr>
-          <tr>
-            <td>Alignment:</td>
-            <td>
-              <select name="alignment" id="textAlign">
-                <option value="Left">Left</option>
-                <option value="Right">Right</option>
-                <option value="Center">Center</option>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <td class="topAlign">
-              Bounding Box:<br/>
-              <span class="guidanceNote">(drag a box on the image)</span>
-            </td>
-            <td>
-              <img class="jCropImage" src="http://www.arcgis.com/sharing/rest/content/items/78a48e5c90a7485a96b59e6cdbcc7289/info/thumbnail/WSDOTOMC_GreenPdf.png" id="target" alt="[Jcrop Example]" />
-              <!-- This is the image we're attaching Jcrop to -->
-              <div class="inline-labels">
-                <label>X1 <input type="text" size="4" id="x1" name="x1" /></label>
-                <label>Y1 <input type="text" size="4" id="y1" name="y1" /></label>
-                <label>X2 <input type="text" size="4" id="x2" name="x2" /></label>
-                <label>Y2 <input type="text" size="4" id="y2" name="y2" /></label>
+    <div id='mainContent'>
+      <div class='container_16'>
+        <div class="grid_3">
+          <div id='sidebar'>&nbsp;</div>
+          <div id="preview">&nbsp;</div>
+        </div>
+        <div class="grid_13">
+          <div id="backgroundForm">
+            <div class="sectionTitle">Select a background image or upload your own.</div>
+            <form id="bgForm" method="post" enctype="multipart/form-data">
+              <input type="hidden" name="f" value="json"/>
+              <div id="backgroundNextPrev">
+                <button id='prev' class="btn small secondary">&#9668; Previous</button>
+                <button id='next' class="btn small secondary">Next &#9658;</button>
               </div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div id="submitButtonBar" class="grid_13">
-        <button id="submitButton" class="btn large primary"><span id="submitLabel">Submit</span>&nbsp;<img id="spinner" style="display:none;" src="css/images/spinner.gif" alt="generating thumbnail"/></button>
+              <ul id='galleryList' class='gallery'>
+                <!-- This fills with the background thumbnail options when the javascript runs --></ul>
+              <div class="fileUpload">
+                <table>
+                  <tr>
+                    <td class="firstColumn">Upload your own 200x133px image:</td>
+                    <td class="lastColumn"><input id="backgroundUpload" title="Upload your own image" accept="image/*"
+                                                  type="file" name="file"></td>
+                  </tr>
+                </table>
+              </div>
+            </form>
+          </div>
+          <div id='foregroundForm'>
+            <div class="sectionTitle">Select a foreground image or upload your own.</div>
+            <form id="fgForm" method="post" enctype="multipart/form-data">
+              <input type="hidden" name="f" value="json"/>
+
+              <div id="foregroundNextPrev">
+                <button id='prevForegroundButton' class="btn small secondary">&#9668; Previous</button>
+                <button id='nextForegroundButton' class="btn small secondary">Next &#9658;</button>
+              </div>
+              <ul id='galleryListForeground' class='gallery'>
+                <!-- This fills with the foreground thumbnail options when the javascript runs --></ul>
+              <div class="fileUpload">
+                <table>
+                  <tr>
+                    <td class="firstColumn">
+                      Upload your own image (200 x 133px):
+                    </td>
+                    <td class="lastColumn">
+                      <input id="foregroundUpload" title="Upload your own image" type="file" name="file"
+                             accept="image/png,image/gif"><br/>
+                      <span class="guidanceNote">This must be a transparency-enabled .png or .gif.</span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </form>
+          </div>
+          <div id="finalForm">
+            <div class="sectionTitle">Define your text content, style, and placement.</div>
+            <table>
+              <tr>
+                <td>Text on the image:</td>
+                <td><input type="text" name="text_on_image" id="thumbText"></td>
+              </tr>
+              <tr>
+                <td>Font:</td>
+                <td>
+                  <select name="font" id="selectedFont">
+                    <optgroup label="Arial">
+                        <option value="arial.ttf">Arial</option>
+                        <option selected="selected" value="arialbd.ttf">Arial Bold</option>
+                        <option value="arialbi.ttf">Arial Bold Italic</option>
+                        <option value="ariali.ttf">Arial Italic</option>
+                        <option value="arialn.ttf">Arial Narrow</option>
+                        <option value="arialnb.ttf">Arial Narrow Bold</option>
+                        <option value="arialnbi.ttf">Arial Narrow Bold Italic</option>
+                        <option value="arialni.ttf">Arial Narrow Italic</option>
+                        <option value="ariblk.ttf">Arial Black</option>
+                    </optgroup>
+                    <optgroup label="DejaVu">
+                        <option value="DejaVuSans.ttf">DejaVu Sans</option>
+                        <option value="DejaVuSans-Bold.ttf">DejaVu Sans Bold</option>
+                        <option value="DejaVuSans-BoldOblique.ttf">DejaVu Sans Bold Oblique</option>
+                        <option value="DejaVuSans-ExtraLight.ttf">DejaVu Sans Extra Light</option>
+                        <option value="DejaVuSans-Oblique.ttf">DejaVu Sans Oblique</option>
+                        <option value="DejaVuSansCondensed-Bold.ttf">DejaVu Sans Condensed Bold</option>
+                        <option value="DejaVuSansCondensed-BoldOblique.ttf">DejaVu Sans Condensed Bold Oblique</option>
+                        <option value="DejaVuSansCondensed-Oblique.ttf">DejaVu Sans Condensed Oblique</option>
+                        <option value="DejaVuSansCondensed.ttf">DejaVu Sans Condensed</option>
+                        <option value="DejaVuSansMono-Bold.ttf">DejaVu Sans Mono Bold</option>
+                        <option value="DejaVuSansMono-BoldOblique.ttf">DejaVu Sans Mono Bold Oblique</option>
+                        <option value="DejaVuSansMono-Oblique.ttf">DejaVu Sans Mono Oblique</option>
+                        <option value="DejaVuSansMono.ttf">DejaVu Sans Mono</option>
+                        <option value="DejaVuSerif-Bold.ttf">DejaVu Serif Bold</option>
+                        <option value="DejaVuSerif-BoldItalic.ttf">DejaVu Serif Bold Italic</option>
+                        <option value="DejaVuSerif-Italic.ttf">DejaVu Serif Italic</option>
+                        <option value="DejaVuSerif.ttf">DejaVu Serif</option>
+                        <option value="DejaVuSerifCondensed-Bold.ttf">DejaVu Serif Condensed Bold</option>
+                        <option value="DejaVuSerifCondensed-BoldItalic.ttf">DejaVu Serif Condensed Bold Italic</option>
+                        <option value="DejaVuSerifCondensed-Italic.ttf">DejaVu Serif Condensed Italic</option>
+                        <option value="DejaVuSerifCondensed.ttf">DejaVu Serif Condensed</option>
+                    </optgroup>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>Font Size:</td>
+                <td>
+                  <input type="number" size="1" id="fontSize" value="10" min="10" max="20">
+                </td>
+              </tr>
+              <tr>
+                <td class="topAlign">Font Color:</td>
+                <td>
+                  <input type="color" id="colorPicker">
+                </td>
+              </tr>
+              <tr>
+                <td>Alignment:</td>
+                <td>
+                  <select name="alignment" id="textAlign">
+                    <option value="Left">Left</option>
+                    <option value="Right">Right</option>
+                    <option value="Center">Center</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td class="topAlign">
+                  Bounding Box:<br/>
+                  <span class="guidanceNote">(drag a box on the image)</span>
+                </td>
+                <td>
+                  <img class="jCropImage" src="http://www.arcgis.com/sharing/rest/content/items/78a48e5c90a7485a96b59e6cdbcc7289/info/thumbnail/WSDOTOMC_GreenPdf.png" id="target" alt="[Jcrop Example]" />
+                  <!-- This is the image we're attaching Jcrop to -->
+                  <div class="inline-labels">
+                    <label>X1 <input type="text" size="4" id="x1" name="x1" /></label>
+                    <label>Y1 <input type="text" size="4" id="y1" name="y1" /></label>
+                    <label>X2 <input type="text" size="4" id="x2" name="x2" /></label>
+                    <label>Y2 <input type="text" size="4" id="y2" name="y2" /></label>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div id="submitButtonBar" class="grid_13">
+            <button id="submitButton" class="btn large primary"><span id="submitLabel">Submit</span>&nbsp;<img id="spinner" style="display:none;" src="css/images/spinner.gif" alt="generating thumbnail"/></button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-<div data-dojo-type="dijit/Dialog" data-dojo-id="dlgThumbnail" title="Here's Your Thumbnail">
-  <div id="info"></div>
-  <br/>
+    <div data-dojo-type="dijit/Dialog" data-dojo-id="dlgThumbnail" title="Here's Your Thumbnail">
+      <div id="info"></div>
+      <br/>
 
-  <div id="download"></div>
-  <div id="update"><br/><button type="button" id="updateItemBtn" class="btn small secondary">Update Item</button></div>
-</div>
+      <div id="download"></div>
+      <div id="update"><br/><button type="button" id="updateItemBtn" class="btn small secondary">Update Item</button></div>
+    </div>
     <script>var dojoConfig = { async: true };</script>
     <script src="//js.arcgis.com/3.11compact/"></script>
     <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
