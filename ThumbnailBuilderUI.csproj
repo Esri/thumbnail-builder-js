@@ -43,6 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="css\calcite.css" />
+    <Content Include="css\custom.css" />
     <Content Include="css\grid960.css" />
     <Content Include="css\images\ago_sprite.png" />
     <Content Include="css\images\spinner.gif" />
