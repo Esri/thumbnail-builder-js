@@ -578,6 +578,61 @@ require([
 			//});
 		}
 	}
+
+	// Setup preview button
+
+	(function () {
+		var previewButton = document.getElementById("previewButton");
+
+		function getSelectedImage(id) {
+			var fgRadio = document.getElementById(id).querySelector("input[type='radio']:checked");
+			var img;
+			if (fgRadio) {
+				img = fgRadio.parentElement.parentElement.querySelector("img");
+			} else {
+				img = null;
+			}
+			return img;
+		}
+
+		function buildPreview() {
+
+			// TODO: Handle user-uploaded files.
+			////var bgUpload = document.getElementById("backgroundUpload");
+			////var fgUpload = document.getElementById("foregroundUpload");
+
+
+			//var bgFile;
+
+			//if (bgUpload && bgUpload.files && bgUpload.files.length) {
+			//	bgFile = bgUpload.files[0];
+			//	console.log(bgFile);
+			//}
+
+			var fgImg = getSelectedImage("fgForm");
+			var bgImg = getSelectedImage("bgForm");
+			console.log("FG radio", [fgImg, bgImg]);
+
+			var canvas, ctx;
+
+
+			if (fgImg && bgImg) {
+				canvas = document.getElementById("previewCanvas");
+				ctx = canvas.getContext("2d");
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				ctx.drawImage(bgImg, 0, 0);
+				ctx.drawImage(fgImg, 0, 0);
+				ctx.save();
+			}
+
+			// TODO: Add text
+
+		}
+
+		previewButton.onclick = buildPreview;
+
+
+	}());
 });
 
 jQuery(function ($) {
