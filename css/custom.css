@@ -4,6 +4,10 @@
   height: 50px;
 }
 
+#previewCanvas {
+	border: 1px dotted black;
+}
+
 h1 {
   font-family: "Helvetica", sans-serif;
   font-weight: bold;
@@ -13,10 +17,9 @@ h1 {
 }
 
 ul.gallery div {
-  z-index: 49;
-  display: none;
-  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, .25);
-  -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, .25);
+	z-index: 49;
+	display: none;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, .25);
 }
 
 div.tooltip {
@@ -41,23 +44,9 @@ div.tooltip {
   font-size: 1.25em;
 }
 
-#backgroundForm {
-  border-color: #eee;
-  border-width: 1em;
-  border-style: solid;
+#backgroundForm, #foregroundForm {
+  border: 1em solid #eee;
   margin-bottom: 20px;
-  -webkit-border-radius: 3em;
-  -moz-border-radius: 3em;
-  border-radius: 3em;
-}
-
-#foregroundForm {
-  border-color: #eee;
-  border-width: 1em;
-  border-style: solid;
-  margin-bottom: 20px;
-  -webkit-border-radius: 3em;
-  -moz-border-radius: 3em;
   border-radius: 3em;
 }
 
@@ -70,11 +59,7 @@ table {
   font-family: "Helvetica", sans-serif;
   color: #777;
   margin-top: 00%;
-  border-color: #eee;
-  border-width: 1em;
-  border-style: solid;
-  -webkit-border-radius: 3em;
-  -moz-border-radius: 3em;
+  border: 1em solid #eee;
   border-radius: 3em;
 }
 
@@ -136,22 +121,21 @@ div.fileUpload {
 }
 
 ul.gallery div {
-  background: #f3f3f3;
-  position: relative;
-  display: inline;
-  float: left;
-  margin: 0 0 27px 15px;
-  padding: 10px 10px 25px;
-  text-align: center;
-  font-family: "Helvetica", sans-serif;
-  text-decoration: none;
-  color: #333;
-  font-size: 10px;
-  height: 145px;
-  width: 165px;
-  overflow: hidden;
-  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, .25);
-  -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, .25);
+	background: #f3f3f3;
+	position: relative;
+	display: inline;
+	float: left;
+	margin: 0 0 27px 15px;
+	padding: 10px 10px 25px;
+	text-align: center;
+	font-family: "Helvetica", sans-serif;
+	text-decoration: none;
+	color: #333;
+	font-size: 10px;
+	height: 145px;
+	width: 165px;
+	overflow: hidden;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, .25);
 }
 
 ul.gallery img {
@@ -166,32 +150,27 @@ ul.gallery img {
 }
 
 ul.gallery li div:hover {
-  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
-  -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
-  z-index: 5;
-  background: #ffa;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
+	z-index: 5;
+	background: #ffa;
 }
 
 ul.gallery li div:active {
-  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
-  -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
-  z-index: 5;
-  background: #ff5;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
+	z-index: 5;
+	background: #ff5;
 }
 
 ul.gallery li div.active {
-  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
-  -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
-  z-index: 5;
-  background: #ff5;
-
+	box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
+	z-index: 5;
+	background: #ff5;
 }
 
 .clicked {
-  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
-  -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
-  z-index: 5;
-  background: #ff4;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
+	z-index: 5;
+	background: #ff4;
 }
 
 #backgroundNextPrev {
@@ -247,20 +226,17 @@ hr {
 /*}*/
 
 button, .button:visited {
-  font-size: 13px;
-  background: #222 url(../images/overlay.png) repeat-x;
-  display: inline-block;
-  padding: 5px 10px 6px;
-  color: #fff;
-  text-decoration: none;
-  -moz-border-radius: 6px 6px 6px 6px;
-  -webkit-border-radius: 6px 6px 6px 6px;
-  border-radius: 6px 6px 6px 6px;
-  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
-  text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.25);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-  cursor: pointer;
+	font-size: 13px;
+	background: #222 url(../images/overlay.png) repeat-x;
+	display: inline-block;
+	padding: 5px 10px 6px;
+	color: #fff;
+	text-decoration: none;
+	border-radius: 6px 6px 6px 6px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+	text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.25);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+	cursor: pointer;
 }
 
 .large.button, .large.button:visited {
@@ -285,39 +261,33 @@ button, .button:visited {
 
 /*Navigation button styling options*/
 .leftbutton, .leftbutton:visited {
-  font-size: 13px;
-  background: #222 url(../images/overlay.png) repeat-x;
-  display: inline-block;
-  padding: 5px 10px 6px;
-  color: #fff;
-  text-decoration: none;
-  -moz-border-radius: 6px 6px 6px 6px;
-  -webkit-border-radius: 6px 6px 6px 6px;
-  border-radius: 6px 6px 6px 6px;
-  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
-  text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.25);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-  cursor: pointer;
-  margin: auto;
+	font-size: 13px;
+	background: #222 url(../images/overlay.png) repeat-x;
+	display: inline-block;
+	padding: 5px 10px 6px;
+	color: #fff;
+	text-decoration: none;
+	border-radius: 6px 6px 6px 6px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+	text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.25);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+	cursor: pointer;
+	margin: auto;
 }
 
 .rightbutton, .rightbutton:visited {
-  font-size: 70%;
-  background: #222 url(../images/overlay.png) repeat-x;
-  display: inline-block;
-  padding: 5px 10px 6px;
-  color: #fff;
-  text-decoration: none;
-  -moz-border-radius: 6px 6px 6px 6px;
-  -webkit-border-radius: 6px 6px 6px 6px;
-  border-radius: 6px 6px 6px 6px;
-  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
-  text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.25);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-  cursor: pointer;
-  margin: auto;
+	font-size: 70%;
+	background: #222 url(../images/overlay.png) repeat-x;
+	display: inline-block;
+	padding: 5px 10px 6px;
+	color: #fff;
+	text-decoration: none;
+	border-radius: 6px 6px 6px 6px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+	text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.25);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+	cursor: pointer;
+	margin: auto;
 }
 
 .small.leftbutton, .small.leftbutton:visited {

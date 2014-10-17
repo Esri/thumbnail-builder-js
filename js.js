@@ -621,6 +621,13 @@ require([
 			var fgImg = getSelectedImage("fgForm");
 			var bgImg = getSelectedImage("bgForm");
 
+			var xmin, ymin, xmax, ymax;
+
+			xmin = Number(document.getElementById("x1").value);
+			ymin = Number(document.getElementById("y1").value);
+			xmax = Number(document.getElementById("x2").value);
+			ymax = Number(document.getElementById("y2").value);
+
 
 			//ctx.clearRect(0, 0, 200, 133);
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -634,13 +641,13 @@ require([
 
 			var textOnImage = document.getElementById("thumbText").value || document.getElementById("thumbText").placeholder;
 
-			ctx.font = [document.getElementById("fontSize").value + "pt ", "'", document.getElementById("selectedFont").value, "'"].join("");
-
+			ctx.font = [document.getElementById("fontSize").value + "pt ", "'", document.getElementById("selectedFont").value, "'", "sans-serif"].join("");
 			ctx.fillStyle = document.getElementById("colorPicker").value;
 			ctx.textAlign = document.getElementById("textAlign").value;
+			ctx.textBaseline = "top";
 
 			// Add text
-			ctx.fillText(textOnImage, Number(document.getElementById("x1").value), Number(document.getElementById("y1").value));
+			ctx.fillText(textOnImage, xmin, ymin, xmax-xmin);
 
 			// TODO: Fix text position.
 			ctx.save();
@@ -675,7 +682,8 @@ jQuery(function ($) {
 	$('#target').Jcrop({
 		onChange: showCoords,
 		onSelect: showCoords,
-		onRelease: clearCoords
+		onRelease: clearCoords,
+		setSelect: [$('#x1').val(), $('#y1').val(), $('#x2').val(), $('#y2').val()]
 	}, function () {
 		jcrop_api = this;
 	});

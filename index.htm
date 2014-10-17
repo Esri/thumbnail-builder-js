@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en-us">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <!--The viewport meta tag is used to improve the presentation and behavior
@@ -165,10 +165,10 @@
                   <img class="jCropImage" src="http://www.arcgis.com/sharing/rest/content/items/78a48e5c90a7485a96b59e6cdbcc7289/info/thumbnail/WSDOTOMC_GreenPdf.png" id="target" alt="[Jcrop Example]" />
                   <!-- This is the image we're attaching Jcrop to -->
                   <div class="inline-labels">
-                    <label>X1 <input type="text" size="4" id="x1" name="x1" /></label>
-                    <label>Y1 <input type="text" size="4" id="y1" name="y1" /></label>
-                    <label>X2 <input type="text" size="4" id="x2" name="x2" /></label>
-                    <label>Y2 <input type="text" size="4" id="y2" name="y2" /></label>
+                    <label>X1 <input type="number" id="x1" name="x1" min="0" value="0" /></label>
+                    <label>Y1 <input type="number" id="y1" name="y1" min="0" value="94" /></label>
+                    <label>X2 <input type="number" id="x2" name="x2" min="0" value="200" /></label>
+                    <label>Y2 <input type="number" id="y2" name="y2" min="0" value="133" /></label>
                   </div>
                 </td>
               </tr>
@@ -190,7 +190,7 @@
       <div id="update"><br/><button type="button" id="updateItemBtn" class="btn small secondary">Update Item</button></div>
     </div>
     <script>var dojoConfig = { async: true };</script>
-    <script src="//js.arcgis.com/3.11compact/"></script>
+    <script src="//js.arcgis.com/3.11compact/init.js"></script>
     <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.12/js/jquery.Jcrop.min.js"></script>
     <script src="js.js"></script>
