@@ -583,7 +583,16 @@ require([
 
 	(function () {
 		var previewButton = document.getElementById("previewButton");
+		var canvas, ctx;
 
+		canvas = document.getElementById("previewCanvas");
+		ctx = canvas.getContext("2d");
+
+		/**
+		 * Gets the image element associated with the checked radio button inside of the specified element.
+		 * @param {string} id - The id attribute of an element that contains radio buttons.
+		 * @returns {(HTMLImageElement|null)}
+		 */
 		function getSelectedImage(id) {
 			var fgRadio = document.getElementById(id).querySelector("input[type='radio']:checked");
 			var img;
@@ -611,21 +620,30 @@ require([
 
 			var fgImg = getSelectedImage("fgForm");
 			var bgImg = getSelectedImage("bgForm");
-			console.log("FG radio", [fgImg, bgImg]);
-
-			var canvas, ctx;
 
 
-			if (fgImg && bgImg) {
-				canvas = document.getElementById("previewCanvas");
-				ctx = canvas.getContext("2d");
-				ctx.clearRect(0, 0, canvas.width, canvas.height);
+			//ctx.clearRect(0, 0, 200, 133);
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+			if (bgImg) {
 				ctx.drawImage(bgImg, 0, 0);
+			}
+			if (fgImg) {
 				ctx.drawImage(fgImg, 0, 0);
-				ctx.save();
 			}
 
-			// TODO: Add text
+			var textOnImage = document.getElementById("thumbText").value || document.getElementById("thumbText").placeholder;
+
+			ctx.font = [document.getElementById("fontSize").value + "pt ", "'", document.getElementById("selectedFont").value, "'"].join("");
+
+			ctx.fillStyle = document.getElementById("colorPicker").value;
+			ctx.textAlign = document.getElementById("textAlign").value;
+
+			// Add text
+			ctx.fillText(textOnImage, Number(document.getElementById("x1").value), Number(document.getElementById("y1").value));
+
+			// TODO: Fix text position.
+			ctx.save();
 
 		}
 
