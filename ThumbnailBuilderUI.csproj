@@ -51,6 +51,7 @@
     <Content Include="index.htm" />
     <Content Include="js.js" />
     <Content Include="License.txt" />
+    <Content Include="Scripts\ImageChooser.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="README.md" />

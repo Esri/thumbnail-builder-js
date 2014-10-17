@@ -1,6 +1,5 @@
 /*global require*/
 require([
-  "dojo/parser",
   "dojo/ready",
   "dojo/dom",
   "dojo/dom-attr",
@@ -17,16 +16,16 @@ require([
   "esri/config",
   "esri/lang",
   "esri/IdentityManager",
-  "dijit/form/RadioButton",
   "dojo/_base/lang",
   "dojox/lang/aspect",
   "esri/config",
   "esri/request",
-  "dojo/promise/all"
+  "dojo/promise/all",
+  "ImageChooser"
 ], function (
-  parser, ready, dom, domAttr, domClass, domConstruct, domStyle, array, registry, on, query, domProp, ioQuery,
-  arcgisPortal, config, esriLang, IdentityManager, RadioButton, dojoLang, aspect,
-  esriConfig, esriRequest, all) {
+  ready, dom, domAttr, domClass, domConstruct, domStyle, array, registry, on, query, domProp, ioQuery,
+  arcgisPortal, config, esriLang, IdentityManager, dojoLang, aspect,
+  esriConfig, esriRequest, all, ImageChooser) {
 
 	var portalFG;
 	var portalBG;
@@ -54,10 +53,10 @@ require([
 		portalUrl: "http://www.arcgis.com"
 	};
 
+	var imageChooser;
+
 
 	ready(function () {
-		parser.parse();
-
 		// set config properties and globals
 		esriConfig.defaults.io.proxyUrl = "/proxy/proxy.ashx";
 		esriConfig.defaults.io.alwaysUseProxy = false;
@@ -169,6 +168,8 @@ require([
 	}
 
 	function init() {
+		imageChooser = new ImageChooser(document.getElementById("bgImageChooser"));
+
 		on(portalBG, "ready", loadPortal);
 		on(portalFG, "ready", loadForegrounds);
 		on(document.getElementById("next"), "click", getNext);
@@ -283,6 +284,8 @@ require([
 	function updateGrid(queryResponse) { //for backgrounds
 		//update the gallery to get the next page of items
 
+		var items = [];
+
 		var galleryList = document.getElementById("galleryList");
 		domConstruct.empty(galleryList);  //empty the gallery to remove existing items
 
@@ -304,13 +307,18 @@ require([
 					target: "_blank",
 					innerHTML: "<div class='imageOption'><img src='" + item.thumbnailUrl + "'/><span id='thumbnailName'>" + item.title + "</span><br /><span><input type='radio' name='rdoThumbBG' value='" + item.itemDataUrl + "'/></span></div>"
 				}, li);
+				items.push(item);
 			}
 		});
 		domConstruct.place(frag, galleryList);
+
+		imageChooser.addImages(items);
 	}
 
 	function updateGridForForegrounds(queryResponse) {
 		//update the gallery to get the next page of items
+
+		
 
 		var galleryList = document.getElementById("galleryListForeground");
 		domConstruct.empty(galleryList);  //empty the gallery to remove existing items
@@ -330,6 +338,7 @@ require([
 					target: "_blank",
 					innerHTML: "<div class='imageOption'><img src='" + item.thumbnailUrl + "'/><span id='thumbnailName'>" + item.title + "</span><br /><span><input type='radio' name='rdoThumbFG' value='" + item.itemDataUrl + "'/> <label for='radioOne'></label></span></div>"
 				}, li);
+				
 			}
 		});
 		domConstruct.place(frag, galleryList);
@@ -344,6 +353,8 @@ require([
 				}
 			});
 		});
+
+		
 	}
 
 	function getNext(evt) {
@@ -483,7 +494,7 @@ require([
 	}());
 });
 
-jQuery(function ($) {
+(function ($) {
 	// Simple event handler, called from onChange and onSelect
 	// event handlers, as per the Jcrop invocation above
 	function showCoords(c) {
@@ -518,4 +529,4 @@ jQuery(function ($) {
 			y2 = $('#y2').val();
 		jcrop_api.setSelect([x1, y1, x2, y2]);
 	});
-});
+}(jQuery));

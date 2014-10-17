@@ -1,5 +1,18 @@
 /*Custom app css*/
 
+.image-chooser li {
+	list-style: none;
+	display: inline-block;
+}
+
+.image-chooser li > label > img {
+	display: block;
+}
+
+.image-chooser img {
+	vertical-align: middle;
+}
+
 #header {
   height: 50px;
 }

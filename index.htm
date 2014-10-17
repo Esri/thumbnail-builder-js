@@ -39,6 +39,9 @@
 			</div>
 			<div class="grid_13">
 				<div id="backgroundForm">
+					<div id="bgImageChooser">
+
+					</div>
 					<div class="sectionTitle">Select a background image or upload your own.</div>
 					<form id="bgForm" method="post" enctype="multipart/form-data">
 						<input type="hidden" name="f" value="json" />
@@ -175,7 +178,21 @@
 			</div>
 		</div>
 	</div>
-	<script>var dojoConfig = { async: true };</script>
+	<script>
+		(function (root) {
+			var dojoConfig = {
+				async: true,
+				packages: [
+					{
+						name: "ImageChooser",
+						location: root + "Scripts",
+						main: "ImageChooser"
+					}
+				]
+			};
+			window.dojoConfig = dojoConfig;
+		}([location.origin, location.pathname.replace(/[^\/]+$/, "")].join("")));
+	</script>
 	<script src="//js.arcgis.com/3.11compact/init.js"></script>
 	<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.12/js/jquery.Jcrop.min.js"></script>
