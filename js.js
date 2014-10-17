@@ -20,16 +20,13 @@ require([
   "dijit/form/RadioButton",
   "dojo/_base/lang",
   "dojox/lang/aspect",
-  "dijit/Dialog",
   "esri/config",
   "esri/request",
-  "dojo/promise/all",
-  "esri/tasks/DataFile",
-  "esri/tasks/Geoprocessor"
+  "dojo/promise/all"
 ], function (
   parser, ready, dom, domAttr, domClass, domConstruct, domStyle, array, registry, on, query, domProp, ioQuery,
-  arcgisPortal, config, esriLang, IdentityManager, RadioButton, dojoLang, aspect, Dialog,
-  esriConfig, esriRequest, all, DataFile, Geoprocessor) {
+  arcgisPortal, config, esriLang, IdentityManager, RadioButton, dojoLang, aspect,
+  esriConfig, esriRequest, all) {
 
 	var portalFG;
 	var portalBG;
@@ -39,8 +36,6 @@ require([
 	var queryParamsFG;
 	var nextQueryParamsBG;
 	var queryParamsBG;
-	var thumbnailGeneratorURL = "http://nwdemo1.esri.com/arcgis/rest/services/GP/GenerateThumb/GPServer";
-	var dataFile1b, dataFile2b;
 
 	var displayOptions = {
 		numItemsPerPage: 6,
@@ -130,10 +125,6 @@ require([
 	}
 
 	function fillInitialUIValues() {
-		if (!isSet(displayOptions.itemId)) {
-			// hide update item button if no item id is present
-			domStyle.set(document.getElementById("update"), "display", "none");
-		}
 		if (isSet(displayOptions.text)) {
 			domAttr.set(document.getElementById("thumbText"), "value", displayOptions.text);
 		}
@@ -184,8 +175,6 @@ require([
 		on(document.getElementById("prev"), "click", getPrevious);
 		on(document.getElementById("nextForegroundButton"), "click", getNextForeground);
 		on(document.getElementById("prevForegroundButton"), "click", getPreviousForeground);
-		on(document.getElementById("submitButton"), "click", submitForm);
-		on(document.getElementById("updateItemBtn"), "click", updateItem);
 
 		// hitch in JCrop preview for modern browsers
 		if (window.FileReader) {
@@ -313,7 +302,7 @@ require([
 					//href: url,
 					className: "backgroundGrid",
 					target: "_blank",
-					innerHTML: "<div class=\"imageOption\"><img src=\"" + item.thumbnailUrl + "\"/><span id=\"thumbnailName\">" + item.title + "</span><br /><span><input type=\"radio\" name=\"rdoThumbBG\" value=\"" + item.itemDataUrl + "\"/></span></div>"
+					innerHTML: "<div class='imageOption'><img src='" + item.thumbnailUrl + "'/><span id='thumbnailName'>" + item.title + "</span><br /><span><input type='radio' name='rdoThumbBG' value='" + item.itemDataUrl + "'/></span></div>"
 				}, li);
 			}
 		});
@@ -339,7 +328,7 @@ require([
 					//href: url,
 					className: "foregroundGrid",
 					target: "_blank",
-					innerHTML: "<div class=\"imageOption\"><img src=\"" + item.thumbnailUrl + "\"/><span id=\"thumbnailName\">" + item.title + "</span><br /><span><input type=\"radio\" name=\"rdoThumbFG\" value=\"" + item.itemDataUrl + "\"/> <label for=\"radioOne\"></label></span></div>"
+					innerHTML: "<div class='imageOption'><img src='" + item.thumbnailUrl + "'/><span id='thumbnailName'>" + item.title + "</span><br /><span><input type='radio' name='rdoThumbFG' value='" + item.itemDataUrl + "'/> <label for='radioOne'></label></span></div>"
 				}, li);
 			}
 		});
@@ -401,183 +390,18 @@ require([
 		}
 	}
 
-	function enableSubmit() {
-		domAttr.set(document.getElementById("submitButton"), "disabled", false);
-		domClass.remove(document.getElementById("submitButton"), "disabled");
-		domStyle.set(document.getElementById("spinner"), "display", "none");
-	}
+	////function enableSubmit() {
+	////	domAttr.set(document.getElementById("submitButton"), "disabled", false);
+	////	domClass.remove(document.getElementById("submitButton"), "disabled");
+	////	domStyle.set(document.getElementById("spinner"), "display", "none");
+	////}
 
-	function disableSubmit() {
-		domAttr.set(document.getElementById("submitButton"), "disabled", true);
-		domClass.add(document.getElementById("submitButton"), "disabled");
-		domStyle.set(document.getElementById("spinner"), "display", "");
-	}
+	////function disableSubmit() {
+	////	domAttr.set(document.getElementById("submitButton"), "disabled", true);
+	////	domClass.add(document.getElementById("submitButton"), "disabled");
+	////	domStyle.set(document.getElementById("spinner"), "display", "");
+	////}
 
-	function updateItem() {
-		// TODO
-	}
-
-	function submitForm() {
-
-		var imageFG, imageBG;
-		var promises;
-		////var uploadResults;
-		var imageFGfromUser = false;
-		var imageBGfromUser = false;
-		var bgUpload = document.getElementById("backgroundUpload"),
-			fgUpload = document.getElementById("foregroundUpload");
-		var layerUrl;
-
-		if (bgUpload && bgUpload.files && bgUpload.files.length > 0) {
-			imageBGfromUser = true;
-			layerUrl = thumbnailGeneratorURL + "/uploads/upload";
-			var layersRequestBG = esriRequest({
-				url: layerUrl,
-				form: document.getElementById("bgForm"),
-				handleAs: "json",
-				callbackParamName: "callback"
-			}, { usePost: true });
-			imageBG = layersRequestBG;
-		} else {
-			imageBG = null;
-		}
-
-		if (fgUpload && fgUpload.files && fgUpload.files.length > 0) {
-			imageFGfromUser = true;
-			layerUrl = thumbnailGeneratorURL + "/uploads/upload";
-			var layersRequestFG = esriRequest({
-				url: layerUrl,
-				form: document.getElementById("fgForm"),
-				handleAs: "json",
-				callbackParamName: "callback"
-			}, { usePost: true });
-			imageFG = layersRequestFG;
-		} else {
-			imageFG = null;
-		}
-
-		disableSubmit();
-
-		getSelectedBG();
-		getSelectedFG();
-		if (imageBG || imageFG) {
-			promises = new all([imageBG, imageFG]);
-			promises.then(handleUploadsIfNecessary);
-		} else {
-			getSelectedBG();
-			getSelectedFG();
-			handleQueryResults([dataFile1b, dataFile2b]);
-		}
-
-		function getSelectedFG() {
-			dataFile2b = new DataFile();
-			var radioObj = document.getElementById("fgForm");
-			var radioLength = radioObj.length;
-			for (var i = 0; i < radioLength; i++) {
-				if (radioObj[i].checked) {
-					dataFile2b.url = radioObj[i].value;
-					return dataFile2b;
-				}
-			}
-		}
-
-		function getSelectedBG() {
-			dataFile1b = new DataFile();
-			var radioObj = document.getElementById("bgForm");
-			var radioLength = radioObj.length;
-			for (var i = 0; i < radioLength; i++) {
-				if (radioObj[i].checked) {
-					dataFile1b.url = radioObj[i].value;
-				}
-			}
-		}
-
-		function handleUploadsIfNecessary(results) {
-			var dataFile1a = new DataFile();
-			var dataFile2a = new DataFile();
-			if (results[0]) {
-				dataFile1a.itemID = results[0].item.itemID;
-			} else {
-				dataFile1a.url = dataFile1b.url;
-			}
-			if (results[1]) {
-				dataFile2a.itemID = results[1].item.itemID;
-			} else {
-				dataFile2a.url = dataFile2b.url;
-			}
-			handleQueryResults([dataFile1a, dataFile2a]);
-		}
-
-		function handleQueryResults(results) {
-			//console.log(results);
-			//uploadResults = results;
-			var gp = new Geoprocessor(thumbnailGeneratorURL + "/" + encodeURI("Generate Thumbnail for ArcGIS Online or Portal for ArcGIS Items"));
-			//require(["esri/tasks/DataFile"], function(DataFile) {
-			//var dataFile1 = new DataFile();
-			//var dataFile2 = new DataFile();
-			//dataFile1.itemID = uploadResults[0].item.itemID;
-			//dataFile2.itemID = uploadResults[1].item.itemID;
-			var params = {
-				"ItemText": "The rain in spain falls mainly in the plains",
-				"FontSize": "15",
-				"TextColor": "#FF0000",
-				"Align": "Left",
-				"SelectedFont": "DejaVuSansMono-Bold.ttf",
-				"ULX": "0",
-				"ULY": "90",
-				"LRX": "165",
-				"LRY": "133"
-			};
-			if (results[0].url) {
-				params.BackgroundImage = results[0];
-			} else {
-				params.BackgroundImageItemID = results[0];
-			}
-
-			if (results[1].url) {
-				params.ForegroundImage = results[1];
-			} else {
-				params.ForegroundImageItemID = results[1];
-			}
-
-			params.ItemText = document.getElementById("thumbText").value;
-			params.SelectedFont = document.getElementById("selectedFont").value;
-			params.FontSize = document.getElementById("fontSize").value;
-			params.Align = document.getElementById("textAlign").value;
-			params.TextColor = document.getElementById("colorPicker").value; // registry.byId("colorPicker").value;
-			params.ULX = document.getElementById("x1").value;
-			params.ULY = document.getElementById("y1").value;
-			params.LRX = document.getElementById("x2").value;
-			params.LRY = document.getElementById("y2").value;
-
-			console.log(params);
-			gp.submitJob(params, completeCallback, statusCallback, statusErrback);
-			function statusCallback(jobInfo) {
-				console.log(jobInfo.jobStatus);
-			}
-			function statusErrback(error) {
-				console.log(error);
-				enableSubmit();
-			}
-
-			function completeCallback(jobInfo) {
-				enableSubmit();
-
-				console.log(jobInfo);
-				gp.getResultData(jobInfo.jobId, "OutputImage", function (results) {
-					console.log(results);
-					if (results) {
-						domAttr.set(document.getElementById("download"), "innerHTML", "<a href=\"" + results.value.url + "\" target=\"_new\">Download image</a>");
-						domAttr.set(document.getElementById("info"), "innerHTML", "<img src=\"" + results.value.url + "\"></img>");
-					}
-
-					dlgThumbnail.show();
-				});
-			}
-
-			//});
-		}
-	}
 
 	// Setup preview button
 
@@ -641,7 +465,7 @@ require([
 
 			var textOnImage = document.getElementById("thumbText").value || document.getElementById("thumbText").placeholder;
 
-			ctx.font = [document.getElementById("fontSize").value + "pt ", "'", document.getElementById("selectedFont").value, "'", "sans-serif"].join("");
+			ctx.font = [document.getElementById("fontSize").value + "pt ", document.getElementById("selectedFont").value].join("");
 			ctx.fillStyle = document.getElementById("colorPicker").value;
 			ctx.textAlign = document.getElementById("textAlign").value;
 			ctx.textBaseline = "top";
@@ -649,7 +473,6 @@ require([
 			// Add text
 			ctx.fillText(textOnImage, xmin, ymin, xmax-xmin);
 
-			// TODO: Fix text position.
 			ctx.save();
 
 		}
