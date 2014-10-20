@@ -1,5 +1,10 @@
 /*Custom app css*/
 
+.image-chooser {
+	max-height: 300px;
+	overflow: auto;
+}
+
 .image-chooser li {
 	list-style: none;
 	display: inline-block;

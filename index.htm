@@ -39,16 +39,10 @@
 			</div>
 			<div class="grid_13">
 				<div id="backgroundForm">
-					<div id="bgImageChooser">
-
-					</div>
 					<div class="sectionTitle">Select a background image or upload your own.</div>
+					<div id="bgImageChooser"></div>
 					<form id="bgForm" method="post" enctype="multipart/form-data">
 						<input type="hidden" name="f" value="json" />
-						<div id="backgroundNextPrev">
-							<button id='prev' class="btn small secondary">&#9668; Previous</button>
-							<button id='next' class="btn small secondary">Next &#9658;</button>
-						</div>
 						<ul id='galleryList' class='gallery'>
 							<!-- This fills with the background thumbnail options when the javascript runs -->
 						</ul>
@@ -68,15 +62,9 @@
 				<div id='foregroundForm'>
 					<div class="sectionTitle">Select a foreground image or upload your own.</div>
 					<form id="fgForm" method="post" enctype="multipart/form-data">
+						<div id="fgImageChooser"></div>
 						<input type="hidden" name="f" value="json" />
 
-						<div id="foregroundNextPrev">
-							<button id='prevForegroundButton' class="btn small secondary">&#9668; Previous</button>
-							<button id='nextForegroundButton' class="btn small secondary">Next &#9658;</button>
-						</div>
-						<ul id='galleryListForeground' class='gallery'>
-							<!-- This fills with the foreground thumbnail options when the javascript runs -->
-						</ul>
 						<div class="fileUpload">
 							<table>
 								<tr>
@@ -105,28 +93,25 @@
 							<td>
 								<select name="font" id="selectedFont">
 									<optgroup label="sans-serif">
-										<option value="Arial, Arial, Helvetica, sans-serif">Arial, Arial, Helvetica, sans-serif</option>
-										<option value="Arial Black, Arial Black, Gadget, sans-serif" selected="selected">Arial Black, Arial Black, Gadget, sans-serif</option>
-										<option value="Impact, Impact, Charcoal, sans-serif">Impact, Impact, Charcoal, sans-serif</option>
-										<option value="Lucida Sans Unicode, Lucida Grande, sans-serif">Lucida Sans Unicode, Lucida Grande, sans-serif</option>
-										<option value="Trebuchet MS, Trebuchet MS, sans-serif">Trebuchet MS, Trebuchet MS, sans-serif</option>
-										<option value="Verdana, Verdana, Geneva, sans-serif">Verdana, Verdana, Geneva, sans-serif</option>
-										<option value="MS Sans Serif, Geneva, sans-serif">MS Sans Serif, Geneva, sans-serif</option>
-										<option value="Tahoma, Geneva, sans-serif">Tahoma, Geneva, sans-serif</option>
+										<option value="Arial, Helvetica, sans-serif">Arial, Helvetica</option>
+										<option value="'Arial Black', Gadget, sans-serif" selected="selected">Arial Black, Gadget</option>
+										<option value="Impact, Charcoal, sans-serif">Impact, Charcoal</option>
+										<option value="'Lucida Sans Unicode', 'Lucida Grande', sans-serif">Lucida Sans Unicode, Lucida Grande</option>
+										<option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
+										<option value="Verdana, Geneva, sans-serif">Verdana, Geneva</option>
+										<option value="'MS Sans Serif', Geneva, sans-serif">MS Sans Serif, Geneva</option>
+										<option value="Tahoma, Geneva, sans-serif">Tahoma, Geneva</option>
 									</optgroup>
 									<optgroup label="serif">
-										<option value="Palatino Linotype, Book Antiqua, Palatino, serif">Palatino Linotype, Book Antiqua, Palatino, serif</option>
-										<option value="Georgia, Georgia, serif">Georgia, Georgia, serif</option>
+										<option value="'Palatino Linotype', 'Book Antiqua', Palatino, serif">Palatino Linotype, Book Antiqua, Palatino</option>
+										<option value="Georgia, serif">Georgia, Georgia</option>
 
-										<option value="Times New Roman, Times New Roman, Times, serif">Times New Roman, Times New Roman, Times, serif</option>
-										<option value="MS Serif, New York, serif">MS Serif, New York, serif</option>
+										<option value="'Times New Roman'', Times, serif">Times New Roman, Times New Roman, Times</option>
+										<option value="MS Serif, New York, serif">MS Serif, New York</option>
 									</optgroup>
 									<optgroup label="monospace">
-										<option value="Courier New, Courier New, monospace">Courier New, Courier New, monospace</option>
-										<option value="Lucida Console, Monaco, monospace">Lucida Console, Monaco, monospace</option>
-									</optgroup>
-									<optgroup label="cursive">
-										<option value="Comic Sans MS, Comic Sans MS, cursive">Comic Sans MS, Comic Sans MS, cursive</option>
+										<option value="'Courier New', monospace">Courier New</option>
+										<option value="'Lucida Console', Monaco, monospace">Lucida Console, Monaco</option>
 									</optgroup>
 								</select>
 							</td>

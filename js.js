@@ -53,7 +53,7 @@ require([
 		portalUrl: "http://www.arcgis.com"
 	};
 
-	var imageChooser;
+	var bgImageChooser, fgImageChooser;
 
 
 	ready(function () {
@@ -168,18 +168,14 @@ require([
 	}
 
 	function init() {
-		imageChooser = new ImageChooser(document.getElementById("bgImageChooser"), "bg-image");
+		bgImageChooser = new ImageChooser(document.getElementById("bgImageChooser"), "bg-image");
+		fgImageChooser = new ImageChooser(document.getElementById("fgImageChooser"), "fg-image");
 
-		on(portalBG, "ready", loadPortal);
+		on(portalBG, "ready", loadBackgrounds);
 		on(portalFG, "ready", loadForegrounds);
-		on(document.getElementById("next"), "click", getNext);
-		on(document.getElementById("prev"), "click", getPrevious);
-		on(document.getElementById("nextForegroundButton"), "click", getNextForeground);
-		on(document.getElementById("prevForegroundButton"), "click", getPreviousForeground);
 
 		// hitch in JCrop preview for modern browsers
 		if (window.FileReader) {
-			//on(document.getElementById("foregroundUpload"), "change", readCustomForeground);
 			document.getElementById("foregroundUpload").addEventListener("change", readCustomForeground);
 		}
 
@@ -188,13 +184,20 @@ require([
 		if (esriLang.isDefined(displayOptions.fontColor)) {
 			colorPicker.value = "#" + displayOptions.fontColor;
 		}
-		//dlgThumbnail.show();
 
-		on(document.getElementById("backgroundUpload"), "change", function () { //uncheck the radio buttons when an image is uploaded
-			query(".backgroundGrid").query("input[type=radio]").attr("checked", false);
+		//uncheck the radio buttons when an image is uploaded
+		document.getElementById("backgroundUpload").addEventListener("change", function () {
+			var rb = document.getElementById("bgImageChooser").querySelector("input[type=radio]:checked");
+			if (rb) {
+				rb.checked = false;
+			}
 		});
-		on(document.getElementById("foregroundUpload"), "change", function () {
-			query(".foregroundGrid").query("input[type=radio]").attr("checked", false);
+
+		document.getElementById("foregroundUpload").addEventListener("change", function () {
+			var rb = document.getElementById("fgImageChooser").querySelector("input[type=radio]:checked");
+			if (rb) {
+				rb.checked = false;
+			}
 		});
 
 		aspect.advise(portalFG, "queryItems", {
@@ -215,7 +218,7 @@ require([
 		});
 	}
 
-	function loadPortal() { //loads the thumbnails for the backgrounds
+	function loadBackgrounds() { //loads the thumbnails for the backgrounds
 		var params = {
 			q: "id:" + (displayOptions.bgId || displayOptions.defaultBgId) //insert group id for background images here
 		};
@@ -237,9 +240,9 @@ require([
 				//Retrieve the web maps and applications from the group and display
 				var params = {
 					q: " type: Image",
-					num: displayOptions.numItemsPerPage
+					num: 100 //displayOptions.numItemsPerPage
 				};
-				groupBG.queryItems(params).then(updateGrid);
+				groupBG.queryItems(params).then(updateGridForBackgrounds);
 			}
 		});
 	}
@@ -249,6 +252,7 @@ require([
 			q: "id:" + (displayOptions.fgId || displayOptions.defaultFgId) //insert group id for foreground images here
 		};
 		portalFG.queryGroups(params).then(function (groups) {
+			var params;
 			//get group title and thumbnail url
 			if (groups.results.length === 1) {
 				groupFG = groups.results[0];
@@ -262,86 +266,44 @@ require([
 				}
 
 				//Retrieve the web maps and applications from the group and display
-				var params = {
+				params = {
 					q: " type: Image",
-					num: displayOptions.numItemsPerPage
+					num: 100
 				};
 				groupFG.queryItems(params).then(updateGridForForegrounds);
 			}
 		});
 	}
 
-	function enableButton(node) {
-		domClass.remove(node, "disabled");
-		domAttr.set(node, "disabled", false);
-	}
-
-	function disableButton(node) {
-		domClass.add(node, "disabled");
-		domAttr.set(node, "disabled", true);
-	}
-
-	function updateGrid(queryResponse) { //for backgrounds
+	function updateGridForBackgrounds(queryResponse) { //for backgrounds
 		//update the gallery to get the next page of items
 
 		var items = [];
 
-		var galleryList = document.getElementById("galleryList");
-		domConstruct.empty(galleryList);  //empty the gallery to remove existing items
-
-		//navigation buttons
-		(queryResponse.results.length < 6) ? disableButton(document.getElementById("next")) : enableButton(document.getElementById("next"));
-		(queryResponse.queryParams.start > 1) ? enableButton(document.getElementById("prev")) : disableButton(document.getElementById("prev"));
 		//Build the thumbnails for each item the thumbnail when clicked will display the web map in a template or the web application
-		var frag = document.createDocumentFragment();
-		array.forEach(queryResponse.results, function (item) {
+		queryResponse.results.forEach(function (item) {
 			if (item.id) {
-				////var url = (item.type === "Web Map") ?
-				////  displayOptions.templateUrl + "?webmap=" + item.id + "&theme=" + displayOptions.themeName :
-				////  item.itemDataUrl;
-
-				var li = domConstruct.create("li", {}, frag);
-				domConstruct.create("label", {
-					//href: url,
-					className: "backgroundGrid",
-					target: "_blank",
-					innerHTML: "<div class='imageOption'><img src='" + item.thumbnailUrl + "'/><span id='thumbnailName'>" + item.title + "</span><br /><span><input type='radio' name='rdoThumbBG' value='" + item.itemDataUrl + "'/></span></div>"
-				}, li);
 				items.push(item);
 			}
 		});
-		domConstruct.place(frag, galleryList);
 
-		imageChooser.addImages(items);
+		bgImageChooser.addImages(items);
 	}
 
 	function updateGridForForegrounds(queryResponse) {
 		//update the gallery to get the next page of items
 
-		
 
-		var galleryList = document.getElementById("galleryListForeground");
-		domConstruct.empty(galleryList);  //empty the gallery to remove existing items
-
-		//navigation buttons
-		(queryResponse.results.length < 6) ? disableButton(document.getElementById("nextForegroundButton")) : enableButton(document.getElementById("nextForegroundButton"));
-		(queryResponse.queryParams.start > 1) ? enableButton(document.getElementById("prevForegroundButton")) : disableButton(document.getElementById("prevForegroundButton"));
+		var items = [];
 
 		//Build the thumbnails for each item the thumbnail when clicked will display the web map in a template or the web application
-		var frag = document.createDocumentFragment();
-		array.forEach(queryResponse.results, function (item) {
+		queryResponse.results.forEach(function (item) {
 			if (item.id) {
-				var li = domConstruct.create("li", {}, frag);
-				domConstruct.create("label", {
-					//href: url,
-					className: "foregroundGrid",
-					target: "_blank",
-					innerHTML: "<div class='imageOption'><img src='" + item.thumbnailUrl + "'/><span id='thumbnailName'>" + item.title + "</span><br /><span><input type='radio' name='rdoThumbFG' value='" + item.itemDataUrl + "'/> <label for='radioOne'></label></span></div>"
-				}, li);
-				
+				items.push(item);
 			}
 		});
-		domConstruct.place(frag, galleryList);
+
+		fgImageChooser.addImages(items);
 
 		// connect fg click events
 		query("label.foregroundGrid > div.imageOption > span > input[type='radio']").forEach(function (node) {
@@ -353,41 +315,8 @@ require([
 				}
 			});
 		});
-
-		
 	}
 
-	function getNext(evt) {
-		evt.preventDefault(); // don't submit form
-		if (nextQueryParamsBG.start > -1) {
-			groupBG.queryItems(nextQueryParamsBG).then(updateGrid);
-		}
-	}
-
-	function getPrevious(evt) {
-		evt.preventDefault(); // don't submit form
-		if (nextQueryParamsBG.start !== 1) { //we aren't at the beginning keep querying.
-			var params = queryParamsBG;
-			params.start = params.start - params.num;
-			groupBG.queryItems(params).then(updateGrid);
-		}
-	}
-
-	function getNextForeground(evt) {
-		evt.preventDefault(); // don't submit form
-		if (nextQueryParamsFG.start > -1) {
-			groupFG.queryItems(nextQueryParamsFG).then(updateGridForForegrounds);
-		}
-	}
-
-	function getPreviousForeground(evt) {
-		evt.preventDefault(); // don't submit form
-		if (nextQueryParamsFG.start !== 1) { //we aren't at the beginning keep querying.
-			var params = queryParamsFG;
-			params.start = params.start - params.num;
-			groupFG.queryItems(params).then(updateGridForForegrounds);
-		}
-	}
 
 	function readCustomForeground(evt) {
 		if (evt && evt.target && evt.target.files && evt.target.files.length > 0) {
@@ -401,18 +330,22 @@ require([
 		}
 	}
 
-	////function enableSubmit() {
-	////	domAttr.set(document.getElementById("submitButton"), "disabled", false);
-	////	domClass.remove(document.getElementById("submitButton"), "disabled");
-	////	domStyle.set(document.getElementById("spinner"), "display", "none");
-	////}
+	// Style the font select options to use the specified fonts.
+	// This allows the user to see what the font will look like.
+	// Note that some browsers will override this setting with
+	// their own user agent stylesheet.
+	(function () {
+		var fontSelect = document.getElementById("selectedFont");
+		var selects = fontSelect.querySelectorAll("option");
+		var i, l, select;
 
-	////function disableSubmit() {
-	////	domAttr.set(document.getElementById("submitButton"), "disabled", true);
-	////	domClass.add(document.getElementById("submitButton"), "disabled");
-	////	domStyle.set(document.getElementById("spinner"), "display", "");
-	////}
-
+		if (selects && selects.length) {
+			for (i = 0, l = selects.length; i < l; i++) {
+				select = selects[i];
+				select.style.fontFamily = select.value;
+			}
+		}
+	}());
 
 	// Setup preview button
 
@@ -422,22 +355,6 @@ require([
 
 		canvas = document.getElementById("previewCanvas");
 		ctx = canvas.getContext("2d");
-
-		/**
-		 * Gets the image element associated with the checked radio button inside of the specified element.
-		 * @param {string} id - The id attribute of an element that contains radio buttons.
-		 * @returns {(HTMLImageElement|null)}
-		 */
-		function getSelectedImage(id) {
-			var fgRadio = document.getElementById(id).querySelector("input[type='radio']:checked");
-			var img;
-			if (fgRadio) {
-				img = fgRadio.parentElement.parentElement.querySelector("img");
-			} else {
-				img = null;
-			}
-			return img;
-		}
 
 		function buildPreview() {
 
@@ -453,8 +370,8 @@ require([
 			//	console.log(bgFile);
 			//}
 
-			var fgImg = getSelectedImage("fgForm");
-			var bgImg = getSelectedImage("bgForm");
+			var fgImg = fgImageChooser.getSelectedImage();
+			var bgImg = bgImageChooser.getSelectedImage();
 
 			var xmin, ymin, xmax, ymax;
 
