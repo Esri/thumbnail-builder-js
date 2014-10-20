@@ -30,6 +30,38 @@ define(function () {
 		this.list = document.createElement("ul");
 		this.rootNode.appendChild(this.list);
 		this.formName = formName;
+
+		// Add file input
+		var fileInput = document.createElement("input");
+		fileInput.type = "file";
+		fileInput.accept = "image/*";
+		fileInput.name = "bg-file";
+		this.fileInput = fileInput;
+		this.rootNode.appendChild(fileInput);
+
+		var self = this;
+
+		// When the user adds a file, add it to the list of files.
+		fileInput.addEventListener("change", function (e) {
+			var target = e.target, file, reader, li;
+			if (target.files.length) {
+				file = target.files[0];
+				
+				reader = new FileReader();
+
+				reader.onloadend = function () {
+					li = self.addImage({
+						thumbnailUrl: reader.result,
+						title: file.name
+					});
+					li.scrollIntoView(false);
+					li.querySelector("input[type=radio]").checked = true;
+
+				};
+
+				reader.readAsDataURL(file);
+			}
+		});
 	}
 
 	/**
@@ -58,14 +90,18 @@ define(function () {
 		radio.type = "radio";
 		radio.value = item.thumbnailUrl;
 		radio.name = this.formName;
-		radio.setAttribute("data-agol-id", item.id);
+		if (item.id) {
+			radio.setAttribute("data-agol-id", item.id);
+		}
 		label.appendChild(radio);
-		label.appendChild(document.createTextNode(item.title));
+		if (item.title) {
+			label.appendChild(document.createTextNode(item.title));
+		}
 
 
 		img = document.createElement("img");
 		img.src = item.thumbnailUrl;
-		img.title = item.title;
+		img.title = item.title || "Image";
 		label.appendChild(img);
 
 
@@ -75,18 +111,20 @@ define(function () {
 	/**
 	 * Adds a single image to the image chooser.
 	 * If you are adding multiple images, use the addImages function instead.
-	 * @property {string} url
+	 * @param {string} url
+	 * 
 	 */
 	ImageChooser.prototype.addImage = function (item) {
 		var li = this._createListItem(item);
 		if (li) {
 			this.list.appendChild(li);
 		}
+		return li;
 	};
 
 	/**
 	 * Adds multiple images to the image chooser.
-	 * @property {string[]} urls
+	 * @param {string[]} urls
 	 */
 	ImageChooser.prototype.addImages = function (items) {
 		var frag, li, self = this;

@@ -1,6 +1,6 @@
 /*Custom app css*/
 
-.image-chooser {
+.image-chooser ul {
 	max-height: 300px;
 	overflow: auto;
 }

@@ -173,31 +173,11 @@ require([
 		on(portalBG, "ready", loadBackgrounds);
 		on(portalFG, "ready", loadForegrounds);
 
-		// hitch in JCrop preview for modern browsers
-		if (window.FileReader) {
-			document.getElementById("foregroundUpload").addEventListener("change", readCustomForeground);
-		}
-
 		var colorPicker = document.getElementById("colorPicker");
 
 		if (esriLang.isDefined(displayOptions.fontColor)) {
 			colorPicker.value = "#" + displayOptions.fontColor;
 		}
-
-		//uncheck the radio buttons when an image is uploaded
-		document.getElementById("backgroundUpload").addEventListener("change", function () {
-			var rb = document.getElementById("bgImageChooser").querySelector("input[type=radio]:checked");
-			if (rb) {
-				rb.checked = false;
-			}
-		});
-
-		document.getElementById("foregroundUpload").addEventListener("change", function () {
-			var rb = document.getElementById("fgImageChooser").querySelector("input[type=radio]:checked");
-			if (rb) {
-				rb.checked = false;
-			}
-		});
 
 		aspect.advise(portalFG, "queryItems", {
 			afterReturning: function (queryItemsPromise) {
@@ -317,18 +297,6 @@ require([
 		
 	}
 
-
-	function readCustomForeground(evt) {
-		if (evt && evt.target && evt.target.files && evt.target.files.length > 0) {
-			var reader = new FileReader();
-			reader.onload = function () {
-				query("img.jCropImage").forEach(function (img) {
-					domAttr.set(img, "src", reader.result);
-				});
-			};
-			reader.readAsDataURL(evt.target.files[0]);
-		}
-	}
 
 	// Style the font select options to use the specified fonts.
 	// This allows the user to see what the font will look like.

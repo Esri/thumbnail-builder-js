@@ -41,45 +41,10 @@
 				<div id="backgroundForm">
 					<div class="sectionTitle">Select a background image or upload your own.</div>
 					<div id="bgImageChooser"></div>
-					<form id="bgForm" method="post" enctype="multipart/form-data">
-						<input type="hidden" name="f" value="json" />
-						<ul id='galleryList' class='gallery'>
-							<!-- This fills with the background thumbnail options when the javascript runs -->
-						</ul>
-						<div class="fileUpload">
-							<table>
-								<tr>
-									<td class="firstColumn">Upload your own 200x133px image:</td>
-									<td class="lastColumn">
-										<input id="backgroundUpload" title="Upload your own image" accept="image/*"
-											   type="file" name="file">
-									</td>
-								</tr>
-							</table>
-						</div>
-					</form>
 				</div>
 				<div id='foregroundForm'>
 					<div class="sectionTitle">Select a foreground image or upload your own.</div>
-					<form id="fgForm" method="post" enctype="multipart/form-data">
-						<div id="fgImageChooser"></div>
-						<input type="hidden" name="f" value="json" />
-
-						<div class="fileUpload">
-							<table>
-								<tr>
-									<td class="firstColumn">
-										Upload your own image (200 x 133px):
-									</td>
-									<td class="lastColumn">
-										<input id="foregroundUpload" title="Upload your own image" type="file" name="file"
-											   accept="image/png,image/gif"><br />
-										<span class="guidanceNote">This must be a transparency-enabled .png or .gif.</span>
-									</td>
-								</tr>
-							</table>
-						</div>
-					</form>
+					<div id="fgImageChooser"></div>
 				</div>
 				<div id="finalForm">
 					<div class="sectionTitle">Define your text content, style, and placement.</div>
