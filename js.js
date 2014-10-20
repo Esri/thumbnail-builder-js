@@ -55,7 +55,6 @@ require([
 
 	var bgImageChooser, fgImageChooser;
 
-
 	ready(function () {
 		// set config properties and globals
 		esriConfig.defaults.io.proxyUrl = "/proxy/proxy.ashx";
@@ -315,6 +314,7 @@ require([
 				}
 			});
 		});
+		
 	}
 
 

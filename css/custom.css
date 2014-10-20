@@ -267,7 +267,7 @@ button, .button:visited {
   background-color: #a0a0a0;
 }
 
-.gray.button:hover, {
+.gray.button:hover {
   background-color: #444;
 }
 
