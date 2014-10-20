@@ -41,6 +41,7 @@ define(function () {
 		radio.type = "radio";
 		radio.value = item.thumbnailUrl;
 		radio.name = this.formName;
+		radio.setAttribute("data-agol-id", item.id);
 		label.appendChild(radio);
 		label.appendChild(document.createTextNode(item.title));
 
@@ -81,6 +82,11 @@ define(function () {
 			this.list.appendChild(frag);
 		}
 	};
+
+	ImageChooser.prototype.getSelectedImage = function () {
+		var checkedRB = this.list.querySelector("input:checked");
+		return checkedRB ? checkedRB.parentNode.querySelector("img") : null;
+	}
 
 	return ImageChooser;
 });

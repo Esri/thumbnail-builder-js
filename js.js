@@ -53,7 +53,7 @@ require([
 		portalUrl: "http://www.arcgis.com"
 	};
 
-	var imageChooser;
+	var bgImageChooser;
 
 
 	ready(function () {
@@ -168,12 +168,10 @@ require([
 	}
 
 	function init() {
-		imageChooser = new ImageChooser(document.getElementById("bgImageChooser"), "bg-image");
+		bgImageChooser = new ImageChooser(document.getElementById("bgImageChooser"), "bg-image");
 
 		on(portalBG, "ready", loadPortal);
 		on(portalFG, "ready", loadForegrounds);
-		on(document.getElementById("next"), "click", getNext);
-		on(document.getElementById("prev"), "click", getPrevious);
 		on(document.getElementById("nextForegroundButton"), "click", getNextForeground);
 		on(document.getElementById("prevForegroundButton"), "click", getPreviousForeground);
 
@@ -237,7 +235,7 @@ require([
 				//Retrieve the web maps and applications from the group and display
 				var params = {
 					q: " type: Image",
-					num: displayOptions.numItemsPerPage
+					num: 100 //displayOptions.numItemsPerPage
 				};
 				groupBG.queryItems(params).then(updateGrid);
 			}
@@ -286,33 +284,14 @@ require([
 
 		var items = [];
 
-		var galleryList = document.getElementById("galleryList");
-		domConstruct.empty(galleryList);  //empty the gallery to remove existing items
-
-		//navigation buttons
-		(queryResponse.results.length < 6) ? disableButton(document.getElementById("next")) : enableButton(document.getElementById("next"));
-		(queryResponse.queryParams.start > 1) ? enableButton(document.getElementById("prev")) : disableButton(document.getElementById("prev"));
 		//Build the thumbnails for each item the thumbnail when clicked will display the web map in a template or the web application
-		var frag = document.createDocumentFragment();
-		array.forEach(queryResponse.results, function (item) {
+		queryResponse.results.forEach(function (item) {
 			if (item.id) {
-				////var url = (item.type === "Web Map") ?
-				////  displayOptions.templateUrl + "?webmap=" + item.id + "&theme=" + displayOptions.themeName :
-				////  item.itemDataUrl;
-
-				var li = domConstruct.create("li", {}, frag);
-				domConstruct.create("label", {
-					//href: url,
-					className: "backgroundGrid",
-					target: "_blank",
-					innerHTML: "<div class='imageOption'><img src='" + item.thumbnailUrl + "'/><span id='thumbnailName'>" + item.title + "</span><br /><span><input type='radio' name='rdoThumbBG' value='" + item.itemDataUrl + "'/></span></div>"
-				}, li);
 				items.push(item);
 			}
 		});
-		domConstruct.place(frag, galleryList);
 
-		imageChooser.addImages(items);
+		bgImageChooser.addImages(items);
 	}
 
 	function updateGridForForegrounds(queryResponse) {
@@ -357,22 +336,6 @@ require([
 		
 	}
 
-	function getNext(evt) {
-		evt.preventDefault(); // don't submit form
-		if (nextQueryParamsBG.start > -1) {
-			groupBG.queryItems(nextQueryParamsBG).then(updateGrid);
-		}
-	}
-
-	function getPrevious(evt) {
-		evt.preventDefault(); // don't submit form
-		if (nextQueryParamsBG.start !== 1) { //we aren't at the beginning keep querying.
-			var params = queryParamsBG;
-			params.start = params.start - params.num;
-			groupBG.queryItems(params).then(updateGrid);
-		}
-	}
-
 	function getNextForeground(evt) {
 		evt.preventDefault(); // don't submit form
 		if (nextQueryParamsFG.start > -1) {
@@ -400,19 +363,6 @@ require([
 			reader.readAsDataURL(evt.target.files[0]);
 		}
 	}
-
-	////function enableSubmit() {
-	////	domAttr.set(document.getElementById("submitButton"), "disabled", false);
-	////	domClass.remove(document.getElementById("submitButton"), "disabled");
-	////	domStyle.set(document.getElementById("spinner"), "display", "none");
-	////}
-
-	////function disableSubmit() {
-	////	domAttr.set(document.getElementById("submitButton"), "disabled", true);
-	////	domClass.add(document.getElementById("submitButton"), "disabled");
-	////	domStyle.set(document.getElementById("spinner"), "display", "");
-	////}
-
 
 	// Setup preview button
 
@@ -454,7 +404,7 @@ require([
 			//}
 
 			var fgImg = getSelectedImage("fgForm");
-			var bgImg = getSelectedImage("bgForm");
+			var bgImg = bgImageChooser.getSelectedImage();
 
 			var xmin, ymin, xmax, ymax;
 
