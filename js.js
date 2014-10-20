@@ -168,7 +168,7 @@ require([
 	}
 
 	function init() {
-		imageChooser = new ImageChooser(document.getElementById("bgImageChooser"));
+		imageChooser = new ImageChooser(document.getElementById("bgImageChooser"), "bg-image");
 
 		on(portalBG, "ready", loadPortal);
 		on(portalFG, "ready", loadForegrounds);

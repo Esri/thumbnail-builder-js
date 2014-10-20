@@ -3,16 +3,20 @@ define(function () {
 	/**
 	 * A class that constructs and manages a list of image choices.
 	 * @param {HTMLElement} root
-	 * @param {esri/arcgis/Portal} portal
+	 * @param {string} formName - The value that will be given to the "name" attributes of the radio buttons.
 	 */
-	function ImageChooser(root) {
+	function ImageChooser(root, formName) {
 		if (!root) {
 			throw new TypeError("No root element provided");
+		}
+		if (!formName) {
+			throw new TypeError("No formName was provided.");
 		}
 		this.rootNode = root;
 		this.rootNode.classList.add("image-chooser");
 		this.list = document.createElement("ul");
 		this.rootNode.appendChild(this.list);
+		this.formName = formName;
 	}
 
 	ImageChooser.prototype._createListItem = function (item) {
@@ -36,6 +40,7 @@ define(function () {
 		radio = document.createElement("input");
 		radio.type = "radio";
 		radio.value = item.thumbnailUrl;
+		radio.name = this.formName;
 		label.appendChild(radio);
 		label.appendChild(document.createTextNode(item.title));
 
