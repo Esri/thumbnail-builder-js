@@ -41,7 +41,7 @@ define(function () {
 
 		var self = this;
 
-		// When the user adds a file, add it to the list of files.
+		// When the user adds a file, add it to the list of image choices.
 		fileInput.addEventListener("change", function (e) {
 			var target = e.target, file, reader, li;
 			if (target.files.length) {
@@ -54,9 +54,9 @@ define(function () {
 						thumbnailUrl: reader.result,
 						title: file.name
 					});
+					li.classList.add("custom");
 					li.scrollIntoView(false);
 					li.querySelector("input[type=radio]").checked = true;
-
 				};
 
 				reader.readAsDataURL(file);
