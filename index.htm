@@ -38,92 +38,94 @@
 				<div id="preview">&nbsp;</div>
 			</div>
 			<div class="grid_13">
-				<div id="backgroundForm">
-					<div class="sectionTitle">Select a background image or upload your own.</div>
-					<div id="bgImageChooser"></div>
-				</div>
-				<div id='foregroundForm'>
-					<div class="sectionTitle">Select a foreground image or upload your own.</div>
-					<div id="fgImageChooser"></div>
-				</div>
-				<div id="finalForm">
-					<div class="sectionTitle">Define your text content, style, and placement.</div>
-					<table>
-						<tr>
-							<td>Text on the image:</td>
-							<td><input type="text" name="text_on_image" id="thumbText" placeholder="Your title here"></td>
-						</tr>
-						<tr>
-							<td>Font:</td>
-							<td>
-								<select name="font" id="selectedFont">
-									<optgroup label="sans-serif">
-										<option value="Arial, Helvetica, sans-serif">Arial, Helvetica</option>
-										<option value="'Arial Black', Gadget, sans-serif" selected="selected">Arial Black, Gadget</option>
-										<option value="Impact, Charcoal, sans-serif">Impact, Charcoal</option>
-										<option value="'Lucida Sans Unicode', 'Lucida Grande', sans-serif">Lucida Sans Unicode, Lucida Grande</option>
-										<option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
-										<option value="Verdana, Geneva, sans-serif">Verdana, Geneva</option>
-										<option value="'MS Sans Serif', Geneva, sans-serif">MS Sans Serif, Geneva</option>
-										<option value="Tahoma, Geneva, sans-serif">Tahoma, Geneva</option>
-									</optgroup>
-									<optgroup label="serif">
-										<option value="'Palatino Linotype', 'Book Antiqua', Palatino, serif">Palatino Linotype, Book Antiqua, Palatino</option>
-										<option value="Georgia, serif">Georgia, Georgia</option>
+				<form action="#" method="get" id="thumbnailForm">
+					<div id="backgroundForm">
+						<div class="sectionTitle">Select a background image or upload your own.</div>
+						<div id="bgImageChooser"></div>
+					</div>
+					<div id='foregroundForm'>
+						<div class="sectionTitle">Select a foreground image or upload your own.</div>
+						<div id="fgImageChooser"></div>
+					</div>
+					<div id="finalForm">
+						<div class="sectionTitle">Define your text content, style, and placement.</div>
+						<table>
+							<tr>
+								<td>Text on the image:</td>
+								<td><input type="text" name="text_on_image" id="thumbText" placeholder="Your title here"></td>
+							</tr>
+							<tr>
+								<td>Font:</td>
+								<td>
+									<select name="font" id="selectedFont">
+										<optgroup label="sans-serif">
+											<option value="Arial, Helvetica, sans-serif">Arial, Helvetica</option>
+											<option value="'Arial Black', Gadget, sans-serif" selected="selected">Arial Black, Gadget</option>
+											<option value="Impact, Charcoal, sans-serif">Impact, Charcoal</option>
+											<option value="'Lucida Sans Unicode', 'Lucida Grande', sans-serif">Lucida Sans Unicode, Lucida Grande</option>
+											<option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
+											<option value="Verdana, Geneva, sans-serif">Verdana, Geneva</option>
+											<option value="'MS Sans Serif', Geneva, sans-serif">MS Sans Serif, Geneva</option>
+											<option value="Tahoma, Geneva, sans-serif">Tahoma, Geneva</option>
+										</optgroup>
+										<optgroup label="serif">
+											<option value="'Palatino Linotype', 'Book Antiqua', Palatino, serif">Palatino Linotype, Book Antiqua, Palatino</option>
+											<option value="Georgia, serif">Georgia, Georgia</option>
 
-										<option value="'Times New Roman'', Times, serif">Times New Roman, Times New Roman, Times</option>
-										<option value="MS Serif, New York, serif">MS Serif, New York</option>
-									</optgroup>
-									<optgroup label="monospace">
-										<option value="'Courier New', monospace">Courier New</option>
-										<option value="'Lucida Console', Monaco, monospace">Lucida Console, Monaco</option>
-									</optgroup>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<td>Font Size:</td>
-							<td>
-								<input type="number" size="1" id="fontSize" value="10" min="10" max="20">
-							</td>
-						</tr>
-						<tr>
-							<td class="topAlign">Font Color:</td>
-							<td>
-								<input type="color" id="colorPicker">
-							</td>
-						</tr>
-						<tr>
-							<td>Alignment:</td>
-							<td>
-								<select name="alignment" id="textAlign">
-									<option value="left">Left</option>
-									<option value="right">Right</option>
-									<option value="center">Center</option>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<td class="topAlign">
-								Bounding Box:<br />
-								<span class="guidanceNote">(drag a box on the image)</span>
-							</td>
-							<td>
-								<img class="jCropImage" src="http://www.arcgis.com/sharing/rest/content/items/78a48e5c90a7485a96b59e6cdbcc7289/info/thumbnail/WSDOTOMC_GreenPdf.png" id="target" alt="[Jcrop Example]" />
-								<!-- This is the image we're attaching Jcrop to -->
-								<div class="inline-labels">
-									<label>X1 <input type="number" id="x1" name="x1" min="0" value="0" /></label>
-									<label>Y1 <input type="number" id="y1" name="y1" min="0" value="94" /></label>
-									<label>X2 <input type="number" id="x2" name="x2" min="0" value="200" /></label>
-									<label>Y2 <input type="number" id="y2" name="y2" min="0" value="133" /></label>
-								</div>
-							</td>
-						</tr>
-					</table>
-				</div>
-				<div id="submitButtonBar" class="grid_13">
-					<button id="previewButton" class="btn large secondary">Preview</button>
-				</div>
+											<option value="'Times New Roman'', Times, serif">Times New Roman, Times New Roman, Times</option>
+											<option value="MS Serif, New York, serif">MS Serif, New York</option>
+										</optgroup>
+										<optgroup label="monospace">
+											<option value="'Courier New', monospace">Courier New</option>
+											<option value="'Lucida Console', Monaco, monospace">Lucida Console, Monaco</option>
+										</optgroup>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>Font Size:</td>
+								<td>
+									<input type="number" size="1" id="fontSize" value="10" min="10" max="20">
+								</td>
+							</tr>
+							<tr>
+								<td class="topAlign">Font Color:</td>
+								<td>
+									<input type="color" id="colorPicker">
+								</td>
+							</tr>
+							<tr>
+								<td>Alignment:</td>
+								<td>
+									<select name="alignment" id="textAlign">
+										<option value="left">Left</option>
+										<option value="right">Right</option>
+										<option value="center">Center</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td class="topAlign">
+									Bounding Box:<br />
+									<span class="guidanceNote">(drag a box on the image)</span>
+								</td>
+								<td>
+									<img class="jCropImage" src="http://www.arcgis.com/sharing/rest/content/items/78a48e5c90a7485a96b59e6cdbcc7289/info/thumbnail/WSDOTOMC_GreenPdf.png" id="target" alt="[Jcrop Example]" />
+									<!-- This is the image we're attaching Jcrop to -->
+									<div class="inline-labels">
+										<label>X1 <input type="number" id="x1" name="x1" min="0" value="0" /></label>
+										<label>Y1 <input type="number" id="y1" name="y1" min="0" value="94" /></label>
+										<label>X2 <input type="number" id="x2" name="x2" min="0" value="200" /></label>
+										<label>Y2 <input type="number" id="y2" name="y2" min="0" value="133" /></label>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div id="submitButtonBar" class="grid_13">
+						<button id="previewButton" class="btn large secondary" type="submit">Build Thumbnail</button>
+					</div>
+				</form>
 				<canvas id="previewCanvas" width="200" height="133"></canvas>
 			</div>
 		</div>

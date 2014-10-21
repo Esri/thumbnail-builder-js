@@ -16,6 +16,11 @@
 
 .image-chooser img {
 	vertical-align: middle;
+	border: 1px dashed gray;
+}
+
+.image-chooser input[type=file] {
+	padding-left: 3em;
 }
 
 #header {

@@ -318,7 +318,7 @@ require([
 	// Setup preview button
 
 	(function () {
-		var previewButton = document.getElementById("previewButton");
+		var form = document.getElementById("thumbnailForm");
 		var canvas, ctx;
 
 		canvas = document.getElementById("previewCanvas");
@@ -371,9 +371,12 @@ require([
 
 			ctx.save();
 
+			// Don't actually submit the form.
+			return false;
+
 		}
 
-		previewButton.onclick = buildPreview;
+		form.onsubmit = buildPreview;
 
 
 	}());
