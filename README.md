@@ -7,11 +7,22 @@ This tool allows user to create thumbnails for ArcGIS Online items by merging a 
 
 ### Basic Usage
 
-TODO
+The web application will query groups within ArcGIS Online to populate the foreground and background image galleries.  There are a number of URL parameters in the application.
+
+  bgid - The groupID for the gallery of background images
+  fgid - The groupID for the gallery of foreground images
+  txt - The text to place on the thumbnail
+  textAlign - The alignment of the text withing the bounding box (left, right or center)
+  txtBB - The bounding box in pixels for the text
+  font - The font to use for the text
+  fontSize - The font size to attempt to use (in points)
+  fontColor - The color to use for the font (hex value RGB)
+  
+  e.g. 1: http://nwdemo1.esri.com/ThumbnailBuilder/?fgid=f8836a4c1ca6438a89c5b39dfbd41d42&bgid=67fb524bd2e24c80bf2b972b4ce5aa95&txt=This%20is%20a%20test&txtAlign=Center&txtBB=5,96,163,130&font=DejaVu%20Sans%20Mono%20Bold&fontColor=29682c&fontSize=25
 
 ### Server Component
 
-TODO
+https://github.com/sirws/ThumbnailBuilderServer
 
 ### Installing Locally
 
