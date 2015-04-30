@@ -1,4 +1,4 @@
-# thumbnailbuilder-js
+# thumbnail-builder-js
 
 This tool allows user to create thumbnails for ArcGIS Online items by merging a background and foreground image and some text.
 
