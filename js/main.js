@@ -355,7 +355,30 @@ require([
       on(node, "click", function(evt) {
         if(evt && evt.target && evt.target.value) {
           query("img.jCropImage").forEach(function(img) {
-            domAttr.set(img, "src", evt.target.value);
+            $("#preview_image").html('');
+            $('#x1').val("");
+            $('#x2').val("");
+            $('#y1').val("");
+            $('#y2').val("");
+            $("#preview_image").prepend("<img id='target' class='jCropImage'></img>");
+            $('#target').attr("src", evt.target.value);
+            var jcrop_api;
+
+            $('#target').Jcrop({
+              onChange: showCoords,
+              onSelect: showCoords,
+              onRelease: clearCoords
+            }, function() {
+              jcrop_api = this;
+            });
+
+            $('#coords').on('change', 'input', function(e) {
+              var x1 = $('#x1').val(),
+              x2 = $('#x2').val(),
+              y1 = $('#y1').val(),
+              y2 = $('#y2').val();
+              jcrop_api.setSelect([x1, y1, x2, y2]);
+            });
           });
         }
       });
