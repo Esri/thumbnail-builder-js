@@ -303,7 +303,7 @@ require([
     domConstruct.empty(galleryList);  //empty the gallery to remove existing items
 
     //navigation buttons
-    (queryResponse.results.length < 6) ? disableButton(dom.byId("next")) : enableButton(dom.byId("next"));
+    (queryResponse.results.length <= displayOptions.numItemsPerPage) ? disableButton(dom.byId("next")) : enableButton(dom.byId("next"));
     (queryResponse.queryParams.start > 1) ? enableButton(dom.byId("prev")) : disableButton(dom.byId("prev"));
     //Build the thumbnails for each item the thumbnail when clicked will display the web map in a template or the web application
     var frag = document.createDocumentFragment();
